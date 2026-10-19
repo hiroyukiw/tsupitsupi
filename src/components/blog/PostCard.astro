@@ -2,8 +2,8 @@
 import type { ContentEntry, InferCollectionData } from "emdash";
 import { Image } from "emdash/ui";
 import Byline from "./Byline.astro";
-import { formatDate } from "../utils/locale";
-import { formatReadingTime, getReadingTime } from "../utils/reading-time";
+import { formatDate } from "../../utils/locale";
+import { formatReadingTime, getReadingTime } from "../../utils/reading-time";
 
 interface Props {
 	post: ContentEntry<InferCollectionData<"posts">>;

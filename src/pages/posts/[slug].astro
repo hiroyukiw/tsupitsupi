@@ -10,8 +10,8 @@ import {
 import { Image, PortableText, WidgetArea } from "emdash/ui";
 import { Comments, CommentForm } from "emdash/ui/comments";
 import Base from "../../layouts/Base.astro";
-import Byline from "../../components/Byline.astro";
-import PostCard from "../../components/PostCard.astro";
+import Byline from "../../components/blog/Byline.astro";
+import PostCard from "../../components/blog/PostCard.astro";
 import { formatDate } from "../../utils/locale";
 import { getReadingTime } from "../../utils/reading-time";
 import { resolveBlogSiteIdentity } from "../../utils/site-identity";
@@ -174,7 +174,7 @@ const hasHeadings = (post.data.content ?? []).some(
 									</time>
 								)
 							}
-							<span>{readingTime} min read</span>
+							<span>{readingTime}分で読めます</span>
 						</p>
 					</div>
 				</div>

@@ -44,7 +44,9 @@ This template ships with `.mcp.json`, `.cursor/mcp.json`, and `.vscode/mcp.json`
 
 ## This Template
 
-A blog with posts, pages, categories, tags, full-text search, and RSS. Designed for personal writing, technical writing, indie newsletters, and anything where the writing is the product. Neutral editorial aesthetic: a framed layout with hairline rails, white cards on an off-white canvas, Inter with JetBrains Mono labels, and real article structure with bylines and reading time.
+This is the ツピツピ (tsupitsupi) theme, built from the EmDash blog template. See `CLAUDE.md` for theme-specific rules (Japanese-first, core/blog component split, free-plan only).
+
+A blog with posts, pages, categories, tags, full-text search, and RSS. Designed for personal writing, technical writing, indie newsletters, and anything where the writing is the product. Neutral editorial aesthetic: a framed layout with hairline rails, white cards on an off-white canvas, Noto Sans JP with JetBrains Mono labels, and real article structure with bylines and reading time.
 
 ## Pages
 
@@ -74,7 +76,7 @@ The palette is neutral: an off-white canvas (`--color-bg`), white surfaces (`--c
 
 Every page sits in a frame: two hairline rails run the full height of the page, and each full-width section (`.band`) is ruled off with a hairline that meets the rails at a small crosshair. Cards are white with a 1px ring and a soft shadow, and their images are inset so the corners stay concentric (`--radius-xl` card = `--radius-lg` image + `--card-padding`).
 
-Type is **Inter** on `--font-body` for everything, with weight and size carrying the hierarchy. **JetBrains Mono** on `--font-mono` sets code and the small uppercase labels (`.eyebrow`) used for section names and meta. Page titles use `--font-size-display` with tight tracking; the home intro pairs the site title with the tagline as a muted second line.
+Type is **Noto Sans JP** on `--font-body` for everything, with weight and size carrying the hierarchy. **JetBrains Mono** on `--font-mono` sets code and the small uppercase labels (`.eyebrow`) used for section names and meta. Page titles use `--font-size-display` with tight tracking; the home intro pairs the site title with the tagline as a muted second line.
 
 The article layout is the standout feature: a meta rail (authors, date, reading time), a 680px body column, and a rail with the table of contents and sidebar widgets. Below 1100px it collapses to one column, the table of contents is hidden, and the widgets move under the article. Don't flatten it on desktop -- the layout signals "this is something to read".
 
@@ -86,7 +88,7 @@ Colours are defined with `light-dark(<light>, <dark>)`, so each token carries bo
 
 Webfonts are configured in `astro.config.mjs` under `fonts:`. To swap the body face, change the `name:` for the entry bound to `cssVariable: "--font-body"`. Good alternatives: Geist, IBM Plex Sans, Söhne (if you have a licence), Public Sans. If you want a serif-bodied blog, swap to a humanist serif like Source Serif, Crimson Pro, or Lora -- but then also raise `--font-size-base` to `1.0625rem` for readability. To give headings their own face (or use a system font) without touching the font pipeline, override `--font-heading` or `--font-body` in `theme.css`.
 
-`Base.astro` defines the shared building blocks every page uses: `.frame` (content width, aligned with the rails), `.band` and `.section` (full-width sections), `.intro`, `.eyebrow`, `.chip`, `.btn`, and `.post-grid`. Posts render through `src/components/PostCard.astro` (`card`, `feature`, and `row` variants) and bylines through `src/components/Byline.astro`.
+`Base.astro` defines the shared building blocks every page uses: `.frame` (content width, aligned with the rails), `.band` and `.section` (full-width sections), `.intro`, `.eyebrow`, `.chip`, `.btn`, and `.post-grid`. Posts render through `src/components/blog/PostCard.astro` (`card`, `feature`, and `row` variants) and bylines through `src/components/blog/Byline.astro`.
 
 CSS variables worth knowing (see `tokens.css` for the full list):
 
@@ -106,7 +108,7 @@ CSS variables worth knowing (see `tokens.css` for the full list):
 ## What not to do
 
 - Don't add a second accent colour or coloured section backgrounds. If the site needs a colour, it goes in `--color-brand`.
-- Don't replace Inter with a display sans (Bebas, Anton, etc.). Headings rely on weight and size, not novelty faces.
+- Don't replace Noto Sans JP with a display sans (Bebas, Anton, etc.). Headings rely on weight and size, not novelty faces.
 - Don't break the frame: new sections should be `.band` elements with their content in a `.frame`, so the rails and rules line up.
 - Don't collapse the article rails on desktop -- they're part of the reading experience.
 - Don't use stock blog copy ("Welcome to my blog", "Stay tuned for more"). Write a real tagline that says what this blog is about.

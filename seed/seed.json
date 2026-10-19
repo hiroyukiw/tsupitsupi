@@ -2,13 +2,13 @@
 	"$schema": "https://emdashcms.com/seed.schema.json",
 	"version": "1",
 	"meta": {
-		"name": "Blog Starter",
-		"description": "A blog with posts and pages",
-		"author": "EmDash"
+		"name": "ツピツピ",
+		"description": "EmDash 用ブログテーマ「ツピツピ」",
+		"author": "ツピツピ"
 	},
 	"settings": {
-		"title": "My Blog",
-		"tagline": "Thoughts on building for the web"
+		"title": "ツピツピ",
+		"tagline": "言葉を届けるブログテーマ"
 	},
 	"collections": [
 		{

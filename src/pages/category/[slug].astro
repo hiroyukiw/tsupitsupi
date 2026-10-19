@@ -6,8 +6,8 @@ import {
 	decodeSlug,
 } from "emdash";
 import Base from "../../layouts/Base.astro";
-import PostCard from "../../components/PostCard.astro";
-import Pagination from "../../components/Pagination.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+import Pagination from "../../components/core/Pagination.astro";
 
 const slug = decodeSlug(Astro.params.slug);
 const termsResult = await getTaxonomyTermsWithCacheHint("category", {

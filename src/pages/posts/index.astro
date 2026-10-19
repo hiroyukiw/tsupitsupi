@@ -1,8 +1,8 @@
 ---
 import { getEmDashCollection, getTermsForEntries } from "emdash";
 import Base from "../../layouts/Base.astro";
-import PostCard from "../../components/PostCard.astro";
-import Pagination from "../../components/Pagination.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+import Pagination from "../../components/core/Pagination.astro";
 
 // Sort in the database rather than in JS — lets the DB use its index on
 // published_at and avoids a full-table scan on the client.

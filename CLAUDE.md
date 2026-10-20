@@ -46,6 +46,11 @@ EmDash の基本ルール・コマンド・スキルは @AGENTS.md を参照し�
 - 読了時間は日本語を1分500文字で計算する（`src/utils/reading-time.ts`）。
 - 画面の文言（ボタン、見出し、aria-label、EmDash 部品の labels）は日本語で書く。
 
+## バージョン
+
+- 番号は `package.json` の `version`。機能追加は 2つめ、修正は 3つめ、移行が必要な変更は 1つめを上げる
+- リリースするときは `CHANGELOG.md` に日付と変更点を日本語で書き、`package.json` を合わせ、マージ後のコミットに `v1.2.3` 形式のタグと GitHub のリリースを付ける
+
 ## 作業の確認
 
 ```bash

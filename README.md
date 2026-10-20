@@ -54,6 +54,24 @@ Cloudflare Web Analytics（無料、Cookie なし）に対応しています。C
 
 ランキング・比較表・広告枠などの収益化ブロックも、今後このテーマに無料で追加していきます。
 
+## バージョンと更新
+
+バージョンは「1.2.3」のような3つの数字で表します。
+
+- 1つめ（1.x.x）: 大きな作り直し。更新のときに作業や移行が必要になる変更
+- 2つめ（x.2.x）: 機能の追加。そのまま更新して大丈夫な変更
+- 3つめ（x.x.3）: 不具合の修正や小さな調整
+
+各バージョンの変更点は [CHANGELOG.md](CHANGELOG.md) に、公開したバージョンは GitHub の [Releases](https://github.com/hiroyukiw/tsupitsupi/releases) にまとめています。
+
+ツピツピで作ったサイトに新しいバージョンを取り込むときは、取り込みたいバージョンを指定してマージします。
+
+```bash
+git remote add theme https://github.com/hiroyukiw/tsupitsupi   # 初回だけ
+git fetch theme --tags
+git merge v1.1.0
+```
+
 ## フォルダ構成
 
 ```

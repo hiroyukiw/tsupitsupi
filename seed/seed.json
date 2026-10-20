@@ -1862,6 +1862,34 @@
 							]
 						},
 						{
+							"_type": "tsupitsupi-box",
+							"_key": "kbox1",
+							"style": "point",
+							"title": "",
+							"text": "大事なことを枠で囲んで目立たせます。本文の「/」から「ボックス」を選ぶと入れられます。"
+						},
+						{
+							"_type": "tsupitsupi-box",
+							"_key": "kbox2",
+							"style": "caution",
+							"title": "",
+							"text": "種類は ポイント・注意・警告・メモ・良い点・悪い点 の6つです。"
+						},
+						{
+							"_type": "tsupitsupi-balloon",
+							"_key": "kbal1",
+							"name": "読者",
+							"position": "left",
+							"text": "吹き出しはどうやって入れるの？"
+						},
+						{
+							"_type": "tsupitsupi-balloon",
+							"_key": "kbal2",
+							"name": "ツピツピ",
+							"position": "right",
+							"text": "本文で「/」を押して「吹き出し」を選びます。アイコン画像はメディアから選べます。"
+						},
+						{
 							"_type": "block",
 							"_key": "k121",
 							"style": "h3",

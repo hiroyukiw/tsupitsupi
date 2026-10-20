@@ -1,0 +1,93 @@
+---
+/** 記事内ブロック「吹き出し」。アイコンと名前を付けて会話風に見せる */
+const node = Astro.props.node ?? {};
+
+const name = typeof node.name === "string" ? node.name.trim() : "";
+const icon = typeof node.icon === "string" && node.icon ? node.icon : null;
+const position = node.position === "right" ? "right" : "left";
+const text = String(node.text ?? "").trim();
+---
+
+<div class:list={["article-balloon", `article-balloon--${position}`]}>
+	<figure class="article-balloon__speaker">
+		{
+			icon ? (
+				<img class="article-balloon__icon" src={icon} alt="" width="64" height="64" loading="lazy" />
+			) : (
+				<span class="article-balloon__icon article-balloon__icon--empty" aria-hidden="true" />
+			)
+		}
+		{name && <figcaption class="article-balloon__name">{name}</figcaption>}
+	</figure>
+	<p class="article-balloon__text">{text}</p>
+</div>
+
+<style>
+	.article-balloon {
+		display: flex;
+		align-items: flex-start;
+		gap: 1em;
+	}
+
+	.article-balloon--right {
+		flex-direction: row-reverse;
+	}
+
+	.article-balloon__speaker {
+		flex: none;
+		width: 64px;
+		margin: 0;
+		text-align: center;
+	}
+
+	.article-balloon__icon {
+		display: block;
+		width: 64px;
+		height: 64px;
+		border-radius: var(--radius-full);
+		border: 1px solid var(--color-border);
+		object-fit: cover;
+		background: var(--color-fill);
+	}
+
+	.article-balloon__name {
+		margin-top: 0.3em;
+		color: var(--color-muted);
+		font-size: 0.75em;
+		line-height: 1.3;
+	}
+
+	.article-balloon__text {
+		position: relative;
+		flex: 1;
+		min-width: 0;
+		margin: 0;
+		padding: 0.8em 1.1em;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
+		background: var(--color-surface);
+		white-space: pre-line;
+	}
+
+	/* しっぽ（アイコン側に向ける） */
+	.article-balloon__text::before {
+		content: "";
+		position: absolute;
+		top: 22px;
+		width: 12px;
+		height: 12px;
+		background: inherit;
+		border: inherit;
+		border-width: 0 0 1px 1px;
+		transform: rotate(45deg);
+	}
+
+	.article-balloon--left .article-balloon__text::before {
+		left: -7px;
+	}
+
+	.article-balloon--right .article-balloon__text::before {
+		right: -7px;
+		transform: rotate(-135deg);
+	}
+</style>

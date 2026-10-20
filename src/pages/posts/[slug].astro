@@ -5,6 +5,7 @@ import {
 	getSeoMeta,
 	decodeSlug,
 	getSiteSettings,
+	getCollectionInfo,
 } from "emdash";
 import { Image, PortableText } from "emdash/ui";
 import { Comments, CommentForm } from "emdash/ui/comments";
@@ -94,6 +95,9 @@ const hasHeadings = (post.data.content ?? []).some(
 	(block) =>
 		block._type === "block" && "style" in block && (block.style === "h2" || block.style === "h3"),
 );
+
+// コメントを受け付けないコレクションでは、コメント欄の枠ごと出さない
+const commentsEnabled = (await getCollectionInfo("posts"))?.commentsEnabled ?? false;
 ---
 
 <Base
@@ -213,34 +217,38 @@ const hasHeadings = (post.data.content ?? []).some(
 			)
 		}
 
-		<section class="panel post__comments" aria-labelledby="comments-title">
-			<h2 id="comments-title" class="sr-only">コメント</h2>
-			<Comments
-				collection="posts"
-				contentId={post.data.id}
-				threaded
-				labels={{
-					heading: (count) => (count === 0 ? "コメントはまだありません" : `コメント（${count}件）`),
-					member: "サイトメンバー",
-					like: "いいね",
-				}}
-			/>
-			<CommentForm
-				collection="posts"
-				contentId={post.data.id}
-				labels={{
-					name: "お名前",
-					email: "メールアドレス（公開されません）",
-					comment: "コメント",
-					submit: "コメントを送信",
-					submitting: "送信中…",
-					published: "コメントを公開しました。",
-					pending: "コメントを受け付けました。承認後に表示されます。",
-					error: "送信できませんでした。入力内容を確認してください。",
-					networkError: "通信エラーが発生しました。時間をおいて再度お試しください。",
-				}}
-			/>
-		</section>
+		{
+			commentsEnabled && (
+				<section class="panel post__comments" aria-labelledby="comments-title">
+					<h2 id="comments-title" class="sr-only">コメント</h2>
+					<Comments
+						collection="posts"
+						contentId={post.data.id}
+						threaded
+						labels={{
+							heading: (count) => (count === 0 ? "コメントはまだありません" : `コメント（${count}件）`),
+							member: "サイトメンバー",
+							like: "いいね",
+						}}
+					/>
+					<CommentForm
+						collection="posts"
+						contentId={post.data.id}
+						labels={{
+							name: "お名前",
+							email: "メールアドレス（公開されません）",
+							comment: "コメント",
+							submit: "コメントを送信",
+							submitting: "送信中…",
+							published: "コメントを公開しました。",
+							pending: "コメントを受け付けました。承認後に表示されます。",
+							error: "送信できませんでした。入力内容を確認してください。",
+							networkError: "通信エラーが発生しました。時間をおいて再度お試しください。",
+						}}
+					/>
+				</section>
+			)
+		}
 
 		{hasHeadings && <Toc id="toc-side" slot="side" boxed />}
 	</Columns>

@@ -1,6 +1,7 @@
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import { d1, r2 } from "@emdash-cms/cloudflare";
+import { tsupitsupiBlocks } from "@tsupitsupi/blocks";
 import { defineConfig, envField, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
 
@@ -27,6 +28,8 @@ export default defineConfig({
 		emdash({
 			database: d1({ binding: "DB", session: "auto", coalesce: true }),
 			storage: r2({ binding: "MEDIA" }),
+			// 記事に差し込むブロック（ボックス、吹き出し）。テーマ同梱の信頼済みプラグインなので無料プランで動く
+			plugins: [tsupitsupiBlocks()],
 		}),
 	],
 	fonts: [

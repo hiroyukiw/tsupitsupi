@@ -64,6 +64,7 @@ This is the ツピツピ (tsupitsupi) theme: a Japanese blog theme built from th
 - `posts`: `title`, `featured_image`, `content`, `excerpt`, `layout` (select).
 - `pages`: `title`, `content`, `page_layout` (select), `top_blocks` / `main_blocks` / `bottom_blocks` (blocks).
 - Block types: `hero`, `features`, `post_list`, `cta`, `rich_text`.
+- In-post Portable Text blocks (from `plugins/blocks`, the `@tsupitsupi/blocks` workspace plugin): `tsupitsupi-box` (`style`: point / tip / warning / memo, `title`, `text`) and `tsupitsupi-talk` (`icon`, `name`, `side`: left / right, `text`).
 - Taxonomies: `category`, `tag` (the `popular` tag feeds the 人気の投稿 widget, `pickup` is for pick-up lists).
 - Menus: `primary`, `mobile`, `cta`, `mobile-bar`, `footer`.
 - Widget areas: `sidebar`, `main-top`, `main-bottom`, `home-after-posts`, `post-bottom`, `drawer`, `footer`.

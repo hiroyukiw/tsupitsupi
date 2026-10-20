@@ -1,0 +1,81 @@
+---
+/** ボックス：ポイント・ヒント・注意・メモを枠で囲む。色はテーマのトークンを使う */
+interface Props {
+	node: { style?: string; title?: string; text?: string };
+}
+
+const LABELS: Record<string, string> = {
+	point: "ポイント",
+	tip: "ヒント",
+	warning: "注意",
+	memo: "メモ",
+};
+
+const { node } = Astro.props;
+const style = node.style && node.style in LABELS ? node.style : "point";
+const title = node.title?.trim();
+const text = node.text?.trim();
+---
+
+{
+	(title || text) && (
+		<aside class:list={["ts-box", `ts-box--${style}`]}>
+			<p class="ts-box__head">
+				<span class="ts-box__label">{LABELS[style]}</span>
+				{title && <span class="ts-box__title">{title}</span>}
+			</p>
+			{text && <p class="ts-box__text">{text}</p>}
+		</aside>
+	)
+}
+
+<style>
+	.ts-box {
+		--box-color: var(--color-brand);
+		--box-on-color: var(--color-on-brand);
+		margin-block: var(--spacing-6);
+		padding: var(--spacing-4) var(--spacing-5);
+		border: 1px solid color-mix(in srgb, var(--box-color) 35%, transparent);
+		border-inline-start: 4px solid var(--box-color);
+		border-radius: var(--radius);
+		background: color-mix(in srgb, var(--box-color) 7%, var(--color-surface));
+	}
+
+	.ts-box--tip {
+		--box-color: var(--color-accent-soft);
+		--box-on-color: var(--color-on-accent-soft);
+	}
+
+	.ts-box--warning {
+		--box-color: var(--color-danger);
+		--box-on-color: var(--color-on-brand);
+	}
+
+	.ts-box--memo {
+		--box-color: var(--color-muted);
+		--box-on-color: var(--color-surface);
+	}
+
+	.ts-box__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--spacing-2) var(--spacing-3);
+		margin: 0;
+		font-weight: 700;
+	}
+
+	.ts-box__label {
+		padding: 0.1em 0.75em;
+		border-radius: var(--radius-full);
+		background: var(--box-color);
+		color: var(--box-on-color);
+		font-size: var(--font-size-xs);
+		letter-spacing: 0.06em;
+	}
+
+	.ts-box__text {
+		margin: var(--spacing-3) 0 0;
+		white-space: pre-line;
+	}
+</style>

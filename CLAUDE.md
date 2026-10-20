@@ -19,6 +19,7 @@ EmDash の基本ルール・コマンド・スキルは @AGENTS.md を参照し�
 | `src/components/blog/` | ブログ固有の部品（記事カード、目次、シェアボタン、記事一覧ブロックなど） |
 | `src/components/blocks/` | 固定ページのブロック（メインビジュアル、強み・バナー、CTA、自由入力）と、それを並べる `BlockList` |
 | `src/components/widgets/` | ウィジェットエリアの描画。標準ウィジェットとテーマ独自ウィジェット（`tsupitsupi:popular-posts`） |
+| `plugins/blocks/` | 記事の本文に「/」で差し込むブロック（ボックス、吹き出し）。テーマ同梱の信頼済みプラグイン（`@tsupitsupi/blocks`、pnpm ワークスペース）で、`astro.config.mjs` で読み込む。収益化ブロックはここに足す |
 | `src/styles/tokens.css` | デザイントークンの既定値（`@layer base`）。見た目の変更では編集しない |
 | `src/styles/site.css` | 全ページ共通の土台と部品（`.container` `.btn` `.chip` `.layout` `.widget` など） |
 | `src/styles/forms.css` | EmDash 公式のフォームプラグイン（`.ec-form`）をテーマの見た目に合わせるスタイル |

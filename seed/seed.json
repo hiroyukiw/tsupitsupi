@@ -1908,6 +1908,45 @@
 									"text": "[本文]"
 								}
 							]
+						},
+						{
+							"_type": "block",
+							"_key": "blocks-h2",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "blocks-h2s",
+									"text": "ボックスと吹き出し"
+								}
+							]
+						},
+						{
+							"_type": "tsupitsupi-box",
+							"_key": "blocks-box1",
+							"style": "point",
+							"title": "この記事のポイント",
+							"text": "記事の中で「/」を入力すると、ボックスや吹き出しを差し込めます。\n種類はポイント・ヒント・注意・メモの4つです。"
+						},
+						{
+							"_type": "tsupitsupi-box",
+							"_key": "blocks-box2",
+							"style": "warning",
+							"text": "[注意してほしいことを書きます]"
+						},
+						{
+							"_type": "tsupitsupi-talk",
+							"_key": "blocks-talk1",
+							"name": "読者",
+							"side": "left",
+							"text": "[読者の疑問を書きます]"
+						},
+						{
+							"_type": "tsupitsupi-talk",
+							"_key": "blocks-talk2",
+							"name": "筆者",
+							"side": "right",
+							"text": "[それに答える一言を書きます]"
 						}
 					]
 				},

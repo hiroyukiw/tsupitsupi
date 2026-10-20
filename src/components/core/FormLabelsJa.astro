@@ -1,0 +1,46 @@
+---
+/**
+ * EmDash 公式のフォームプラグインが画面に出す英語の文言を日本語にする。
+ * プラグインのフォーム（form[data-ec-form]）がないページでは何もしない。
+ */
+---
+
+<script>
+	const messages: [RegExp, string | ((...m: string[]) => string)][] = [
+		[/^Submitting\.\.\.$/, "送信中…"],
+		[/^Submitted successfully\.$/, "送信しました。"],
+		[/^Something went wrong\. Please try again\.$/, "送信できませんでした。時間をおいてもう一度お試しください。"],
+		[/^Network error\. Please try again\.$/, "通信エラーが起きました。もう一度お試しください。"],
+		[/^Spam verification (?:required|failed\. Please try again\.)$/, "確認に失敗しました。もう一度お試しください。"],
+		[/^This form is not currently (?:accepting submissions|available)$/, "このフォームは現在受け付けを停止しています。"],
+		[/^(.+) is required$/, (_, label) => `${label}を入力してください`],
+		[/^(.+) must be a valid email address$/, (_, label) => `${label}の形式が正しくありません`],
+		[/^(.+) must be a valid URL$/, (_, label) => `${label}は https:// から始まるアドレスで入力してください`],
+		[/^(.+) (?:must be|has|contains) .+$/, (_, label) => `${label}の入力内容を確認してください`],
+	];
+
+	function translate(el: Element) {
+		const text = el.textContent?.trim();
+		if (!text) return;
+		for (const [pattern, ja] of messages) {
+			const match = text.match(pattern);
+			if (match) {
+				el.textContent = typeof ja === "string" ? ja : ja(...match);
+				return;
+			}
+		}
+	}
+
+	for (const form of document.querySelectorAll<HTMLFormElement>("form[data-ec-form]")) {
+		// 送信後にボタンの文字が英語の「Submit」に戻らないよう、元の文字を覚えさせる
+		const submit = form.querySelector(".ec-form-submit");
+		if (submit && !form.dataset.submitLabel) form.dataset.submitLabel = submit.textContent?.trim();
+
+		new MutationObserver((records) => {
+			for (const record of records) {
+				const target = record.target instanceof Element ? record.target : record.target.parentElement;
+				if (target?.matches(".ec-form-submit, .ec-form-status, .ec-form-error")) translate(target);
+			}
+		}).observe(form, { childList: true, characterData: true, subtree: true });
+	}
+</script>

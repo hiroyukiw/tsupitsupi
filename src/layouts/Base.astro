@@ -8,6 +8,7 @@ import SiteDrawer from "../components/core/SiteDrawer.astro";
 import SiteFooter from "../components/core/SiteFooter.astro";
 import FormLabelsJa from "../components/core/FormLabelsJa.astro";
 import MobileBar from "../components/core/MobileBar.astro";
+import WebAnalytics from "../components/core/WebAnalytics.astro";
 import { getSiteLocale } from "../utils/locale";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
 import "../styles/tokens.css";
@@ -130,6 +131,7 @@ const lang = getSiteLocale() ?? "ja";
 				}
 			})();
 		</script>
+		<WebAnalytics />
 	</head>
 	<body>
 		<EmDashBodyStart page={pageCtx} />

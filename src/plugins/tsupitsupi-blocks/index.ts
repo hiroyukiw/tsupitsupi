@@ -1,5 +1,5 @@
 /**
- * ツピツピの記事用ブロック（ボックス・吹き出し）。
+ * ツピツピの記事用ブロック（ボックス・吹き出し・比較表）。
  *
  * 本文（Portable Text）のエディターで「/」を押すと候補に出る。表示は
  * components.ts の Astro 部品が担当する。テーマに組み込む信頼済みの
@@ -67,6 +67,46 @@ export function createPlugin(): ResolvedPlugin {
 							],
 						},
 						{ type: "text_input", action_id: "text", label: "セリフ", multiline: true },
+					],
+				},
+				{
+					type: "tsupitsupi-compare",
+					label: "比較表",
+					description: "商品やサービスを ◎○△× や価格で並べて比べる",
+					fields: [
+						{ type: "text_input", action_id: "title", label: "表の見出し（任意）" },
+						{ type: "text_input", action_id: "name1", label: "1列目の名前" },
+						{ type: "text_input", action_id: "name2", label: "2列目の名前" },
+						{ type: "text_input", action_id: "name3", label: "3列目の名前（任意）" },
+						{ type: "text_input", action_id: "name4", label: "4列目の名前（任意）" },
+						{
+							type: "select",
+							action_id: "highlight",
+							label: "おすすめの列",
+							options: [
+								{ label: "なし", value: "0" },
+								{ label: "1列目", value: "1" },
+								{ label: "2列目", value: "2" },
+								{ label: "3列目", value: "3" },
+								{ label: "4列目", value: "4" },
+							],
+						},
+						{
+							type: "repeater",
+							action_id: "rows",
+							label: "比べる項目",
+							item_label: "項目",
+							min_items: 1,
+							max_items: 20,
+							fields: [
+								{ type: "text_input", action_id: "label", label: "項目名（例: 価格）" },
+								{ type: "text_input", action_id: "v1", label: "1列目" },
+								{ type: "text_input", action_id: "v2", label: "2列目" },
+								{ type: "text_input", action_id: "v3", label: "3列目" },
+								{ type: "text_input", action_id: "v4", label: "4列目" },
+							],
+						},
+						{ type: "text_input", action_id: "note", label: "表の下の注記（任意）" },
 					],
 				},
 			],

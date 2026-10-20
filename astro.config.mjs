@@ -1,7 +1,7 @@
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import { d1, r2 } from "@emdash-cms/cloudflare";
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig, envField, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
 
 export default defineConfig({
@@ -12,6 +12,12 @@ export default defineConfig({
 		locales: ["ja"],
 	},
 	adapter: cloudflare(),
+	env: {
+		schema: {
+			// Cloudflare Web Analytics のトークン。wrangler.jsonc の vars に入れると計測タグが入る
+			CF_WEB_ANALYTICS_TOKEN: envField.string({ context: "server", access: "public", optional: true }),
+		},
+	},
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,

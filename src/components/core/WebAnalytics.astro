@@ -1,0 +1,17 @@
+---
+/** Cloudflare Web Analytics の計測タグ。トークンが設定されているときだけ出す（Cookie は使わない） */
+import { CF_WEB_ANALYTICS_TOKEN } from "astro:env/server";
+
+const beacon = CF_WEB_ANALYTICS_TOKEN ? JSON.stringify({ token: CF_WEB_ANALYTICS_TOKEN }) : null;
+---
+
+{
+	beacon && (
+		<script
+			is:inline
+			defer
+			src="https://static.cloudflareinsights.com/beacon.min.js"
+			data-cf-beacon={beacon}
+		/>
+	)
+}

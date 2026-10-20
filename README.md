@@ -42,6 +42,14 @@ Cloudflare へ公開するときは `pnpm wrangler login` のあと `pnpm run de
 - **ウィジェット**: サイドバーなど各エリアに追加します
 - **人気の投稿**: 記事にタグ「人気」を付けると表示されます
 
+## アクセス解析
+
+Cloudflare Web Analytics（無料、Cookie なし）に対応しています。Cloudflare の管理画面の「Web Analytics」でサイトを追加し、表示されたコードの `token` の値を `wrangler.jsonc` の `vars` に入れてデプロイすると、全ページに計測タグが入ります。
+
+```jsonc
+"vars": { "CF_WEB_ANALYTICS_TOKEN": "表示されたトークン" },
+```
+
 吹き出し・ボックス・ランキング・比較表・広告枠などの収益化ブロックも、今後このテーマに無料で追加していきます。
 
 ## フォルダ構成

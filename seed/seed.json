@@ -2049,6 +2049,36 @@
 							]
 						},
 						{
+							"_type": "tsupitsupi-ranking",
+							"_key": "krank1",
+							"rank": 1,
+							"name": "[商品名A]",
+							"rating": "4.5",
+							"text": "[おすすめの理由を2〜3行で。どんな人に向いているか]",
+							"button_label": "公式サイトを見る",
+							"button_url": "https://example.com/"
+						},
+						{
+							"_type": "tsupitsupi-ranking",
+							"_key": "krank2",
+							"rank": 2,
+							"name": "[商品名B]",
+							"rating": "4",
+							"text": "[おすすめの理由]",
+							"button_label": "公式サイトを見る",
+							"button_url": "https://example.com/"
+						},
+						{
+							"_type": "tsupitsupi-ranking",
+							"_key": "krank3",
+							"rank": 3,
+							"name": "[商品名C]",
+							"rating": "3.5",
+							"text": "[おすすめの理由]",
+							"button_label": "公式サイトを見る",
+							"button_url": "https://example.com/"
+						},
+						{
 							"_type": "block",
 							"_key": "k135",
 							"style": "h3",

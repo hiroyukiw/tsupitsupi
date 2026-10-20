@@ -1,5 +1,5 @@
 /**
- * ツピツピの記事用ブロック（ボックス・吹き出し・比較表）。
+ * ツピツピの記事用ブロック（ボックス・吹き出し・ランキング・比較表）。
  *
  * 本文（Portable Text）のエディターで「/」を押すと候補に出る。表示は
  * components.ts の Astro 部品が担当する。テーマに組み込む信頼済みの
@@ -67,6 +67,36 @@ export function createPlugin(): ResolvedPlugin {
 							],
 						},
 						{ type: "text_input", action_id: "text", label: "セリフ", multiline: true },
+					],
+				},
+				{
+					type: "tsupitsupi-ranking",
+					label: "ランキング",
+					description: "順位・画像・評価・購入ボタン付きで商品を紹介する（1位ずつ入れて並べる）",
+					fields: [
+						{ type: "number_input", action_id: "rank", label: "順位", min: 1, max: 99 },
+						{ type: "text_input", action_id: "name", label: "商品名" },
+						{ type: "media_picker", action_id: "image", label: "画像", mime_type_filter: "image/" },
+						{
+							type: "select",
+							action_id: "rating",
+							label: "評価",
+							options: [
+								{ label: "なし", value: "" },
+								{ label: "★5.0", value: "5" },
+								{ label: "★4.5", value: "4.5" },
+								{ label: "★4.0", value: "4" },
+								{ label: "★3.5", value: "3.5" },
+								{ label: "★3.0", value: "3" },
+								{ label: "★2.5", value: "2.5" },
+								{ label: "★2.0", value: "2" },
+								{ label: "★1.5", value: "1.5" },
+								{ label: "★1.0", value: "1" },
+							],
+						},
+						{ type: "text_input", action_id: "text", label: "説明", multiline: true },
+						{ type: "text_input", action_id: "button_label", label: "ボタンの文字（例：公式サイトを見る）" },
+						{ type: "text_input", action_id: "button_url", label: "ボタンのリンク先（アフィリエイトリンクも可）", placeholder: "https://..." },
 					],
 				},
 				{

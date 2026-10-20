@@ -30,7 +30,7 @@ EmDash の基本ルール・コマンド・スキルは @AGENTS.md を参照し�
 
 - トップページは固定ページ「home」（スラッグ `home`）を表示する。`pages` コレクションの `top_blocks`（全幅）→ メイン（`main_blocks`、2カラムならサイドバー付き）→ `bottom_blocks`（全幅）の順。`src/components/core/PageView.astro`
 - ブロックの種類は `seed/seed.json` の `blockTypes`（hero / features / post_list / cta / rich_text）。追加するときは seed と `BlockList.astro` の両方に足す
-- 記事本文のブロック（ボックス `tsupitsupi-box`、吹き出し `tsupitsupi-balloon`、比較表 `tsupitsupi-compare`）は `src/plugins/tsupitsupi-blocks/index.ts` の `portableTextBlocks` で定義し、表示部品を `components.ts` の `blockComponents` に登録する。収益化ブロック（ランキングなど）もここに足す
+- 記事本文のブロック（ボックス `tsupitsupi-box`、吹き出し `tsupitsupi-balloon`、ランキング `tsupitsupi-ranking`、比較表 `tsupitsupi-compare`）は `src/plugins/tsupitsupi-blocks/index.ts` の `portableTextBlocks` で定義し、表示部品を `components.ts` の `blockComponents` に登録する。収益化ブロック（広告枠など）もここに足す
 - レイアウトの選択肢は管理画面の表示名がそのまま値になるため日本語（`2カラム` `1カラム` `フルワイド`）。値の扱いは `src/utils/layout.ts` に集める
 - メニュー: `primary`（PC ナビ、子メニューはドロップダウン）、`mobile`（スマホのサイドメニュー。空なら primary）、`cta`（目立つボタン）、`mobile-bar`（スマホ下部、4つまで）、`footer`
 - ウィジェットエリア: `sidebar`、`main-top` / `main-bottom`（メインの上下・全幅）、`home-after-posts`、`post-bottom`、`drawer`（スマホメニュー内）、`footer`

@@ -70,6 +70,28 @@ const buttons = [
 		border-radius: var(--radius-card);
 	}
 
+	/* 背景写真がないときの飾り：緑と黄色のにじみと、細かい点の模様 */
+	.hero:not(.hero--background)::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		pointer-events: none;
+		background:
+			radial-gradient(
+				circle at 12% 18%,
+				color-mix(in srgb, var(--color-brand) 45%, transparent),
+				transparent 42%
+			),
+			radial-gradient(
+				circle at 88% 85%,
+				color-mix(in srgb, var(--color-accent-soft) 30%, transparent),
+				transparent 38%
+			),
+			radial-gradient(color-mix(in srgb, var(--color-on-ink) 14%, transparent) 1px, transparent 1.5px) 0 0 / 22px
+				22px;
+	}
+
 	.hero__inner {
 		display: flex;
 		flex-wrap: wrap;

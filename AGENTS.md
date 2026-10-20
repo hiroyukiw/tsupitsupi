@@ -79,7 +79,6 @@ Override tokens in `src/styles/theme.css` (unlayered, so it beats `@layer base` 
 ## What not to do
 
 - Don't write UI copy in English; this theme targets Japanese bloggers.
-- Don't add monetization blocks (speech bubbles, boxes, rankings, comparison tables, ad slots) here; they belong to the paid Pro extension.
 - Don't enable `worker_loaders` or anything that requires the Workers Paid plan.
 - Don't hard-code colours or sizes in components; use tokens.
 - Comments are enabled on posts. Configure moderation before publishing, or remove `commentsEnabled` and the comments UI together.

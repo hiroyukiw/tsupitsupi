@@ -18,6 +18,7 @@ EmDash の基本ルール・コマンド・スキルは @AGENTS.md を参照し�
 | `src/components/core/` | 用途を問わず使う部品（ヘッダー、フッター、スマホメニュー、2カラム枠、パンくず、ページ送り、固定ページ表示）。ブログ固有の前提（posts コレクション、著者など）に依存させない |
 | `src/components/blog/` | ブログ固有の部品（記事カード、目次、シェアボタン、記事一覧ブロックなど） |
 | `src/components/blocks/` | 固定ページのブロック（メインビジュアル、強み・バナー、CTA、自由入力）と、それを並べる `BlockList` |
+| `src/plugins/tsupitsupi-blocks/` | 記事本文（Portable Text）に入れるブロックの定義。テーマ組み込みの信頼済みプラグインとして `astro.config.mjs` で読み込む。表示は `src/components/blog/Article*.astro` |
 | `src/components/widgets/` | ウィジェットエリアの描画。標準ウィジェットとテーマ独自ウィジェット（`tsupitsupi:popular-posts`） |
 | `src/styles/tokens.css` | デザイントークンの既定値（`@layer base`）。見た目の変更では編集しない |
 | `src/styles/site.css` | 全ページ共通の土台と部品（`.container` `.btn` `.chip` `.layout` `.widget` など） |
@@ -29,6 +30,7 @@ EmDash の基本ルール・コマンド・スキルは @AGENTS.md を参照し�
 
 - トップページは固定ページ「home」（スラッグ `home`）を表示する。`pages` コレクションの `top_blocks`（全幅）→ メイン（`main_blocks`、2カラムならサイドバー付き）→ `bottom_blocks`（全幅）の順。`src/components/core/PageView.astro`
 - ブロックの種類は `seed/seed.json` の `blockTypes`（hero / features / post_list / cta / rich_text）。追加するときは seed と `BlockList.astro` の両方に足す
+- 記事本文のブロック（ボックス `tsupitsupi-box`、吹き出し `tsupitsupi-balloon`）は `src/plugins/tsupitsupi-blocks/index.ts` の `portableTextBlocks` で定義し、表示部品を `components.ts` の `blockComponents` に登録する。収益化ブロック（ランキング、比較表など）もここに足す
 - レイアウトの選択肢は管理画面の表示名がそのまま値になるため日本語（`2カラム` `1カラム` `フルワイド`）。値の扱いは `src/utils/layout.ts` に集める
 - メニュー: `primary`（PC ナビ、子メニューはドロップダウン）、`mobile`（スマホのサイドメニュー。空なら primary）、`cta`（目立つボタン）、`mobile-bar`（スマホ下部、4つまで）、`footer`
 - ウィジェットエリア: `sidebar`、`main-top` / `main-bottom`（メインの上下・全幅）、`home-after-posts`、`post-bottom`、`drawer`（スマホメニュー内）、`footer`

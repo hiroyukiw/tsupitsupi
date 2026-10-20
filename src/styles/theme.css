@@ -38,6 +38,7 @@
 	--color-on-accent-soft: light-dark(#26343a, #f8e98f);
 	--color-brand-soft: light-dark(#e2f2e8, #1c3229);
 	--color-danger: light-dark(#b42318, #f97066);
+	--color-caution: light-dark(#c99a06, #e8c547); /* 記事ボックス「注意」の枠 */
 
 	--font-weight-heading: 700;
 	--font-weight-display: 900;

@@ -1,0 +1,86 @@
+---
+/** 記事内ブロック「ボックス」。ポイント・注意などを枠で囲む */
+const node = Astro.props.node ?? {};
+
+const STYLES = {
+	point: "ポイント",
+	caution: "注意",
+	warning: "警告",
+	memo: "メモ",
+	good: "良い点",
+	bad: "悪い点",
+} as const;
+type BoxStyle = keyof typeof STYLES;
+
+const style: BoxStyle = node.style in STYLES ? node.style : "point";
+const title = typeof node.title === "string" && node.title.trim() ? node.title.trim() : STYLES[style];
+const paragraphs = String(node.text ?? "")
+	.split(/\n{2,}/)
+	.map((p) => p.trim())
+	.filter(Boolean);
+---
+
+<aside class:list={["article-box", `article-box--${style}`]}>
+	<p class="article-box__title">{title}</p>
+	<div class="article-box__body">
+		{paragraphs.map((p) => <p>{p}</p>)}
+	</div>
+</aside>
+
+<style>
+	.article-box {
+		--box-color: var(--color-brand);
+		--box-bg: var(--color-brand-soft);
+
+		border: 2px solid var(--box-color);
+		border-radius: var(--radius-card);
+		background: var(--color-surface);
+		overflow: hidden;
+	}
+
+	.article-box--caution {
+		--box-color: var(--color-caution);
+		--box-bg: var(--color-accent-soft);
+	}
+
+	.article-box--warning,
+	.article-box--bad {
+		--box-color: var(--color-danger);
+		--box-bg: color-mix(in srgb, var(--color-danger) 12%, var(--color-surface));
+	}
+
+	.article-box--memo {
+		--box-color: var(--color-border-strong);
+		--box-bg: var(--color-fill);
+	}
+
+	.article-box__title {
+		margin: 0;
+		padding: 0.5em 1em;
+		background: var(--box-bg);
+		color: var(--color-text);
+		font-size: 0.95em;
+		font-weight: var(--font-weight-heading);
+	}
+
+	.article-box--good .article-box__title::before {
+		content: "○ ";
+	}
+
+	.article-box--bad .article-box__title::before {
+		content: "× ";
+	}
+
+	.article-box__body {
+		padding: 0.9em 1.1em;
+	}
+
+	.article-box__body p {
+		margin: 0;
+		white-space: pre-line;
+	}
+
+	.article-box__body p + p {
+		margin-top: 0.8em;
+	}
+</style>

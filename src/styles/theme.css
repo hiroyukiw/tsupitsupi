@@ -39,6 +39,10 @@
 	--color-brand-soft: light-dark(#e2f2e8, #1c3229);
 	--color-danger: light-dark(#b42318, #f97066);
 	--color-caution: light-dark(#c99a06, #e8c547); /* 記事ボックス「注意」の枠 */
+	--color-rank-1: light-dark(#c99a06, #e8c547); /* ランキングの順位（金・銀・銅） */
+	--color-rank-2: light-dark(#8a949a, #aab4b9);
+	--color-rank-3: light-dark(#a8693a, #d39a6a);
+	--color-star: light-dark(#e0a800, #f2c94c); /* 評価の星 */
 
 	--font-weight-heading: 700;
 	--font-weight-display: 900;

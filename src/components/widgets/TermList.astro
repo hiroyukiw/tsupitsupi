@@ -1,0 +1,45 @@
+---
+import { getTaxonomyTerms, type TaxonomyTerm } from "emdash";
+
+interface Props {
+	taxonomy: "category" | "tag";
+	style?: "links" | "pills";
+	showCount?: boolean;
+	limit?: number;
+}
+
+const { taxonomy, style = "links", showCount = false, limit } = Astro.props;
+const terms: TaxonomyTerm[] = await getTaxonomyTerms(taxonomy, { includeCounts: showCount });
+const shown = limit ? terms.slice(0, limit) : terms;
+const base = taxonomy === "category" ? "/category" : "/tag";
+---
+
+{
+	style === "pills" ? (
+		<ul class="pill-list">
+			{shown.map((term) => (
+				<li><a href={`${base}/${term.slug}`} class="pill">{term.label}</a></li>
+			))}
+		</ul>
+	) : (
+		<ul class="widget-links">
+			{shown.map((term) => (
+				<li>
+					<a href={`${base}/${term.slug}`}>
+						<span>{term.label}</span>
+						{showCount && term.count !== undefined && (
+							<span class="widget-links__count">{term.count}</span>
+						)}
+					</a>
+					{term.children.length > 0 && (
+						<ul>
+							{term.children.map((child) => (
+								<li><a href={`${base}/${child.slug}`}>{child.label}</a></li>
+							))}
+						</ul>
+					)}
+				</li>
+			))}
+		</ul>
+	)
+}

@@ -1,0 +1,195 @@
+---
+import type { MenuItem } from "emdash";
+import Brand from "./Brand.astro";
+import MenuLink from "./MenuLink.astro";
+
+interface Props {
+	siteTitle: string;
+	siteLogo: { url?: string; alt?: string } | null;
+	/** グローバルナビ（子メニューはドロップダウン） */
+	navItems: MenuItem[];
+	/** 右上の目立つボタン */
+	ctaItems: MenuItem[];
+	isLoggedIn: boolean;
+}
+
+const { siteTitle, siteLogo, navItems, ctaItems, isLoggedIn } = Astro.props;
+---
+
+<header class="site-header">
+	<div class="container site-header__inner">
+		<Brand siteTitle={siteTitle} siteLogo={siteLogo} />
+
+		{
+			navItems.length > 0 && (
+				<nav class="site-nav" aria-label="グローバルメニュー">
+					<ul class="site-nav__list">
+						{navItems.map((item) => (
+							<li class:list={["site-nav__item", item.children.length > 0 && "has-children"]}>
+								<MenuLink item={item} class="site-nav__link" />
+								{item.children.length > 0 && (
+									<ul class="site-nav__sub">
+										{item.children.map((child) => (
+											<li>
+												<MenuLink item={child} class="site-nav__sublink" />
+											</li>
+										))}
+									</ul>
+								)}
+							</li>
+						))}
+					</ul>
+				</nav>
+			)
+		}
+
+		<div class="site-header__actions">
+			<a href="/search" class="icon-btn" aria-label="サイト内検索">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+			</a>
+			{
+				ctaItems.map((item) => (
+					<MenuLink item={item} class="btn site-header__cta" />
+				))
+			}
+			{
+				isLoggedIn && (
+					<a href="/_emdash/admin" class="btn btn--outline site-header__admin">
+						管理画面
+					</a>
+				)
+			}
+			<button
+				type="button"
+				class="icon-btn site-header__menu"
+				aria-label="メニューを開く"
+				aria-haspopup="dialog"
+				aria-controls="site-drawer"
+				data-drawer-open
+			>
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+			</button>
+		</div>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		position: relative;
+		z-index: 20;
+		background: var(--color-surface);
+		border-block-end: 1px solid var(--color-border);
+	}
+
+	.site-header__inner {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-6);
+		min-height: 72px;
+	}
+
+	.site-nav {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.site-nav__list {
+		display: flex;
+		gap: 0 var(--spacing-4);
+		list-style: none;
+		white-space: nowrap;
+	}
+
+	.site-nav__item {
+		position: relative;
+	}
+
+	.site-nav :global(.site-nav__link) {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		padding-block: var(--spacing-3);
+		color: var(--color-text);
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+	}
+
+	.site-nav :global(.site-nav__link:hover),
+	.site-nav :global(.site-nav__link[aria-current]) {
+		color: var(--color-brand);
+	}
+
+	.has-children > :global(.site-nav__link)::after {
+		content: "";
+		width: 6px;
+		height: 6px;
+		border-inline-end: 1.5px solid currentColor;
+		border-block-end: 1.5px solid currentColor;
+		rotate: 45deg;
+		translate: 0 -2px;
+	}
+
+	.site-nav__sub {
+		position: absolute;
+		inset-block-start: 100%;
+		inset-inline-start: -12px;
+		min-width: 220px;
+		padding: var(--spacing-2);
+		list-style: none;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-card-hover);
+		opacity: 0;
+		visibility: hidden;
+		translate: 0 4px;
+		transition: opacity var(--transition-fast), translate var(--transition-fast), visibility var(--transition-fast);
+	}
+
+	.site-nav__item:hover > .site-nav__sub,
+	.site-nav__item:focus-within > .site-nav__sub {
+		opacity: 1;
+		visibility: visible;
+		translate: 0 0;
+	}
+
+	.site-nav__sub :global(.site-nav__sublink) {
+		display: block;
+		padding: var(--spacing-2) var(--spacing-3);
+		border-radius: var(--radius);
+		color: var(--color-text);
+		font-size: var(--font-size-sm);
+	}
+
+	.site-nav__sub :global(.site-nav__sublink:hover) {
+		background: var(--color-fill);
+		color: var(--color-brand);
+	}
+
+	.site-header__actions {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2);
+		margin-inline-start: auto;
+	}
+
+	.site-header__menu {
+		display: none;
+	}
+
+	@media (max-width: 1099px) {
+		.site-nav,
+		.site-header__actions :global(.site-header__cta),
+		.site-header__admin {
+			display: none;
+		}
+
+		.site-header__menu {
+			display: inline-flex;
+		}
+
+		.site-header__inner {
+			min-height: 60px;
+		}
+	}
+</style>

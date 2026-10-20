@@ -1,0 +1,60 @@
+---
+/** 記事一覧ページ（すべての記事・カテゴリー・タグ）の共通の見た目 */
+import Columns from "../core/Columns.astro";
+import Breadcrumbs from "../core/Breadcrumbs.astro";
+import Pagination from "../core/Pagination.astro";
+import PostGrid from "./PostGrid.astro";
+import type { PostEntry } from "../../utils/post-terms";
+
+interface Props {
+	/** 「カテゴリー」などの小さなラベル */
+	label?: string;
+	title: string;
+	description?: string;
+	posts: PostEntry[];
+	basePath: string;
+	cursor?: string;
+	nextCursor?: string;
+}
+
+const { label, title, description, posts, basePath, cursor, nextCursor } = Astro.props;
+---
+
+<div class="container">
+	<Breadcrumbs items={[{ label: title }]} />
+</div>
+
+<Columns>
+	<header class="archive-head">
+		{label && <p class="chip">{label}</p>}
+		<h1 class="page-title">{title}</h1>
+		{description && <p class="page-lead">{description}</p>}
+	</header>
+
+	{
+		posts.length > 0 ? (
+			<div>
+				<PostGrid posts={posts} variant="row" priority={!cursor} />
+				<Pagination basePath={basePath} cursor={cursor} nextCursor={nextCursor} />
+			</div>
+		) : (
+			<div class="empty-state">
+				<h2 class="empty-state__title">{cursor ? "これ以上の記事はありません" : "まだ記事がありません"}</h2>
+				<div class="empty-state__actions">
+					<a href={cursor ? basePath : "/"} class="btn btn--outline">
+						{cursor ? "最初のページへ" : "ホームへ戻る"}
+					</a>
+				</div>
+			</div>
+		)
+	}
+</Columns>
+
+<style>
+	.archive-head {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--spacing-2);
+	}
+</style>

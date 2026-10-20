@@ -5,12 +5,226 @@
 
 import type { BylineSummary, ContentBylineCredit, TaxonomyTerm, PortableTextBlock } from "emdash";
 
+export interface PageTopBlocksHeroV1Block {
+  _type: "hero";
+  _version: 1;
+  _key: string;
+  "style"?: "写真を横に並べる" | "背景を写真にする" | "写真なし" | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "subheading"?: string | null;
+  "description"?: string | null;
+  "primary_label"?: string | null;
+  "primary_url"?: string | null;
+  "secondary_label"?: string | null;
+  "secondary_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+}
+
+export type PageTopBlocksHeroBlock = PageTopBlocksHeroV1Block;
+
+export interface PageTopBlocksFeaturesV1Block {
+  _type: "features";
+  _version: 1;
+  _key: string;
+  "heading"?: string | null;
+  "style"?: "強み" | "バナー" | "スライド" | null;
+  "items"?: { "title": string; "text"?: string | null; "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null; "url"?: string | null }[] | null;
+}
+
+export type PageTopBlocksFeaturesBlock = PageTopBlocksFeaturesV1Block;
+
+export interface PageTopBlocksPostListV1Block {
+  _type: "post_list";
+  _version: 1;
+  _key: string;
+  "heading"?: string | null;
+  "source"?: "新着" | "カテゴリー" | "タグ" | null;
+  "term"?: string | null;
+  "count"?: number | null;
+  "style"?: "カード" | "リスト" | null;
+  "more_label"?: string | null;
+  "more_url"?: string | null;
+}
+
+export type PageTopBlocksPostListBlock = PageTopBlocksPostListV1Block;
+
+export interface PageTopBlocksCtaV1Block {
+  _type: "cta";
+  _version: 1;
+  _key: string;
+  "heading": string;
+  "text"?: string | null;
+  "primary_label"?: string | null;
+  "primary_url"?: string | null;
+  "secondary_label"?: string | null;
+  "secondary_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+}
+
+export type PageTopBlocksCtaBlock = PageTopBlocksCtaV1Block;
+
+export interface PageTopBlocksRichTextV1Block {
+  _type: "rich_text";
+  _version: 1;
+  _key: string;
+  "content"?: PortableTextBlock[] | null;
+}
+
+export type PageTopBlocksRichTextBlock = PageTopBlocksRichTextV1Block;
+
+export type PageTopBlocksBlock = PageTopBlocksHeroBlock | PageTopBlocksFeaturesBlock | PageTopBlocksPostListBlock | PageTopBlocksCtaBlock | PageTopBlocksRichTextBlock;
+
+export interface PageMainBlocksHeroV1Block {
+  _type: "hero";
+  _version: 1;
+  _key: string;
+  "style"?: "写真を横に並べる" | "背景を写真にする" | "写真なし" | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "subheading"?: string | null;
+  "description"?: string | null;
+  "primary_label"?: string | null;
+  "primary_url"?: string | null;
+  "secondary_label"?: string | null;
+  "secondary_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+}
+
+export type PageMainBlocksHeroBlock = PageMainBlocksHeroV1Block;
+
+export interface PageMainBlocksFeaturesV1Block {
+  _type: "features";
+  _version: 1;
+  _key: string;
+  "heading"?: string | null;
+  "style"?: "強み" | "バナー" | "スライド" | null;
+  "items"?: { "title": string; "text"?: string | null; "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null; "url"?: string | null }[] | null;
+}
+
+export type PageMainBlocksFeaturesBlock = PageMainBlocksFeaturesV1Block;
+
+export interface PageMainBlocksPostListV1Block {
+  _type: "post_list";
+  _version: 1;
+  _key: string;
+  "heading"?: string | null;
+  "source"?: "新着" | "カテゴリー" | "タグ" | null;
+  "term"?: string | null;
+  "count"?: number | null;
+  "style"?: "カード" | "リスト" | null;
+  "more_label"?: string | null;
+  "more_url"?: string | null;
+}
+
+export type PageMainBlocksPostListBlock = PageMainBlocksPostListV1Block;
+
+export interface PageMainBlocksCtaV1Block {
+  _type: "cta";
+  _version: 1;
+  _key: string;
+  "heading": string;
+  "text"?: string | null;
+  "primary_label"?: string | null;
+  "primary_url"?: string | null;
+  "secondary_label"?: string | null;
+  "secondary_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+}
+
+export type PageMainBlocksCtaBlock = PageMainBlocksCtaV1Block;
+
+export interface PageMainBlocksRichTextV1Block {
+  _type: "rich_text";
+  _version: 1;
+  _key: string;
+  "content"?: PortableTextBlock[] | null;
+}
+
+export type PageMainBlocksRichTextBlock = PageMainBlocksRichTextV1Block;
+
+export type PageMainBlocksBlock = PageMainBlocksHeroBlock | PageMainBlocksFeaturesBlock | PageMainBlocksPostListBlock | PageMainBlocksCtaBlock | PageMainBlocksRichTextBlock;
+
+export interface PageBottomBlocksHeroV1Block {
+  _type: "hero";
+  _version: 1;
+  _key: string;
+  "style"?: "写真を横に並べる" | "背景を写真にする" | "写真なし" | null;
+  "eyebrow"?: string | null;
+  "heading": string;
+  "subheading"?: string | null;
+  "description"?: string | null;
+  "primary_label"?: string | null;
+  "primary_url"?: string | null;
+  "secondary_label"?: string | null;
+  "secondary_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+}
+
+export type PageBottomBlocksHeroBlock = PageBottomBlocksHeroV1Block;
+
+export interface PageBottomBlocksFeaturesV1Block {
+  _type: "features";
+  _version: 1;
+  _key: string;
+  "heading"?: string | null;
+  "style"?: "強み" | "バナー" | "スライド" | null;
+  "items"?: { "title": string; "text"?: string | null; "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null; "url"?: string | null }[] | null;
+}
+
+export type PageBottomBlocksFeaturesBlock = PageBottomBlocksFeaturesV1Block;
+
+export interface PageBottomBlocksPostListV1Block {
+  _type: "post_list";
+  _version: 1;
+  _key: string;
+  "heading"?: string | null;
+  "source"?: "新着" | "カテゴリー" | "タグ" | null;
+  "term"?: string | null;
+  "count"?: number | null;
+  "style"?: "カード" | "リスト" | null;
+  "more_label"?: string | null;
+  "more_url"?: string | null;
+}
+
+export type PageBottomBlocksPostListBlock = PageBottomBlocksPostListV1Block;
+
+export interface PageBottomBlocksCtaV1Block {
+  _type: "cta";
+  _version: 1;
+  _key: string;
+  "heading": string;
+  "text"?: string | null;
+  "primary_label"?: string | null;
+  "primary_url"?: string | null;
+  "secondary_label"?: string | null;
+  "secondary_url"?: string | null;
+  "image"?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null;
+}
+
+export type PageBottomBlocksCtaBlock = PageBottomBlocksCtaV1Block;
+
+export interface PageBottomBlocksRichTextV1Block {
+  _type: "rich_text";
+  _version: 1;
+  _key: string;
+  "content"?: PortableTextBlock[] | null;
+}
+
+export type PageBottomBlocksRichTextBlock = PageBottomBlocksRichTextV1Block;
+
+export type PageBottomBlocksBlock = PageBottomBlocksHeroBlock | PageBottomBlocksFeaturesBlock | PageBottomBlocksPostListBlock | PageBottomBlocksCtaBlock | PageBottomBlocksRichTextBlock;
+
 export interface Page {
   id: string;
   slug: string | null;
   status: string;
   title: string;
   content?: PortableTextBlock[];
+  page_layout?: "2カラム" | "1カラム" | "フルワイド";
+  top_blocks?: PageTopBlocksBlock[];
+  main_blocks?: PageMainBlocksBlock[];
+  bottom_blocks?: PageBottomBlocksBlock[];
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -24,9 +238,10 @@ export interface Post {
   slug: string | null;
   status: string;
   title: string;
-  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  featured_image?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; caption?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
   content?: PortableTextBlock[];
   excerpt?: string;
+  layout?: "2カラム" | "1カラム";
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;

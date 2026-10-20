@@ -6,6 +6,11 @@ import emdash from "emdash/astro";
 
 export default defineConfig({
 	output: "server",
+	// サイトの言語。日付の書式や <html lang> に使われる
+	i18n: {
+		defaultLocale: "ja",
+		locales: ["ja"],
+	},
 	adapter: cloudflare(),
 	image: {
 		layout: "constrained",
@@ -21,10 +26,10 @@ export default defineConfig({
 	fonts: [
 		{
 			provider: fontProviders.google(),
-			name: "Inter",
+			name: "Noto Sans JP",
 			cssVariable: "--font-body",
-			weights: [400, 500, 600, 700],
-			fallbacks: ["sans-serif"],
+			weights: [400, 500, 700, 900],
+			fallbacks: ["Hiragino Sans", "Yu Gothic", "sans-serif"],
 		},
 		{
 			provider: fontProviders.google(),

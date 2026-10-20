@@ -1,0 +1,60 @@
+---
+/**
+ * メインコンテンツの枠。
+ *
+ * 上下に全幅のウィジェットエリア（main-top / main-bottom）、
+ * 2カラムのときは右にサイドバー（sidebar）を置く。
+ * サイドバーの下に追従させたいもの（記事の目次など）は "side" スロットへ。
+ */
+import WidgetArea from "../widgets/WidgetArea.astro";
+import { normalizeLayout, type ColumnLayout } from "../../utils/layout";
+
+interface Props {
+	layout?: ColumnLayout | string | null;
+}
+
+const layout = normalizeLayout(Astro.props.layout);
+const hasSideSlot = Astro.slots.has("side");
+---
+
+<div class="widget-band widget-band--top container">
+	<WidgetArea name="main-top" />
+</div>
+
+<div class:list={["container", "layout", layout === "1カラム" && "layout--one"]}>
+	<div class="layout__main">
+		<slot />
+	</div>
+	{
+		layout === "2カラム" && (
+			<aside class="layout__side" aria-label="サイドバー">
+				<WidgetArea name="sidebar" />
+				{hasSideSlot && (
+					<div class="layout__side--sticky">
+						<slot name="side" />
+					</div>
+				)}
+			</aside>
+		)
+	}
+</div>
+
+<div class="widget-band widget-band--bottom container">
+	<WidgetArea name="main-bottom" />
+</div>
+
+<style>
+	.widget-band:has(.widget) {
+		padding-block: var(--spacing-6) 0;
+	}
+
+	.widget-band--bottom:has(.widget) {
+		padding-block: 0 var(--spacing-10);
+	}
+
+	.layout__side {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-5);
+	}
+</style>

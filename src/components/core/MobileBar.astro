@@ -1,0 +1,69 @@
+---
+import type { MenuItem } from "emdash";
+import MenuLink from "./MenuLink.astro";
+
+interface Props {
+	items: MenuItem[];
+}
+
+const { items } = Astro.props;
+// 4つまで。多すぎると押しにくくなる
+const shown = items.slice(0, 4);
+---
+
+{
+	shown.length > 0 && (
+		<nav class="mobile-bar" aria-label="スマホ下部メニュー">
+			<ul style={`--count: ${shown.length}`}>
+				{shown.map((item) => (
+					<li><MenuLink item={item} class="mobile-bar__link" /></li>
+				))}
+			</ul>
+		</nav>
+	)
+}
+
+<style>
+	.mobile-bar {
+		display: none;
+	}
+
+	@media (max-width: 1099px) {
+		.mobile-bar {
+			display: block;
+			position: fixed;
+			inset-inline: 0;
+			inset-block-end: 0;
+			z-index: 30;
+			background: var(--color-surface);
+			border-block-start: 1px solid var(--color-border);
+			padding-block-end: env(safe-area-inset-bottom);
+		}
+
+		.mobile-bar ul {
+			display: grid;
+			grid-template-columns: repeat(var(--count), minmax(0, 1fr));
+			list-style: none;
+		}
+
+		.mobile-bar :global(.mobile-bar__link) {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 56px;
+			padding-inline: var(--spacing-1);
+			color: var(--color-text);
+			font-size: var(--font-size-label);
+			font-weight: 700;
+			text-align: center;
+		}
+
+		.mobile-bar li:last-child :global(.mobile-bar__link) {
+			color: var(--color-brand);
+		}
+
+		.mobile-bar :global(.mobile-bar__link[aria-current="page"]) {
+			box-shadow: inset 0 3px 0 var(--color-brand);
+		}
+	}
+</style>

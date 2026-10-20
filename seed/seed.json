@@ -2,67 +2,404 @@
 	"$schema": "https://emdashcms.com/seed.schema.json",
 	"version": "1",
 	"meta": {
-		"name": "Blog Starter",
-		"description": "A blog with posts and pages",
-		"author": "EmDash"
+		"name": "ツピツピ",
+		"description": "EmDash 用ブログテーマ「ツピツピ」",
+		"author": "ツピツピ"
 	},
 	"settings": {
-		"title": "My Blog",
-		"tagline": "Thoughts on building for the web"
+		"title": "ツピツピ",
+		"tagline": "[サイトのキャッチコピー]"
 	},
+	"blockTypes": [
+		{
+			"slug": "hero",
+			"label": "メインビジュアル",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "style",
+							"label": "デザイン",
+							"type": "select",
+							"validation": {
+								"options": [
+									"写真を横に並べる",
+									"背景を写真にする",
+									"写真なし"
+								]
+							}
+						},
+						{
+							"slug": "eyebrow",
+							"label": "小見出し",
+							"type": "string"
+						},
+						{
+							"slug": "heading",
+							"label": "キャッチコピー",
+							"type": "text",
+							"required": true
+						},
+						{
+							"slug": "subheading",
+							"label": "サブコピー",
+							"type": "string"
+						},
+						{
+							"slug": "description",
+							"label": "説明文",
+							"type": "text"
+						},
+						{
+							"slug": "primary_label",
+							"label": "ボタン1の文字",
+							"type": "string"
+						},
+						{
+							"slug": "primary_url",
+							"label": "ボタン1のリンク先",
+							"type": "url"
+						},
+						{
+							"slug": "secondary_label",
+							"label": "ボタン2の文字",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_url",
+							"label": "ボタン2のリンク先",
+							"type": "url"
+						},
+						{
+							"slug": "image",
+							"label": "写真",
+							"type": "image"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "features",
+			"label": "強み・バナー",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "heading",
+							"label": "見出し",
+							"type": "string"
+						},
+						{
+							"slug": "style",
+							"label": "デザイン",
+							"type": "select",
+							"validation": {
+								"options": [
+									"強み",
+									"バナー",
+									"スライド"
+								]
+							}
+						},
+						{
+							"slug": "items",
+							"label": "項目",
+							"type": "repeater",
+							"validation": {
+								"subFields": [
+									{
+										"slug": "title",
+										"label": "タイトル",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "text",
+										"label": "説明",
+										"type": "text"
+									},
+									{
+										"slug": "image",
+										"label": "画像",
+										"type": "image"
+									},
+									{
+										"slug": "url",
+										"label": "リンク先",
+										"type": "url"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "post_list",
+			"label": "記事一覧",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "heading",
+							"label": "見出し",
+							"type": "string"
+						},
+						{
+							"slug": "source",
+							"label": "表示する記事",
+							"type": "select",
+							"validation": {
+								"options": [
+									"新着",
+									"カテゴリー",
+									"タグ"
+								]
+							}
+						},
+						{
+							"slug": "term",
+							"label": "カテゴリー・タグのスラッグ",
+							"type": "string"
+						},
+						{
+							"slug": "count",
+							"label": "表示件数",
+							"type": "integer"
+						},
+						{
+							"slug": "style",
+							"label": "デザイン",
+							"type": "select",
+							"validation": {
+								"options": [
+									"カード",
+									"リスト"
+								]
+							}
+						},
+						{
+							"slug": "more_label",
+							"label": "「もっと見る」の文字",
+							"type": "string"
+						},
+						{
+							"slug": "more_url",
+							"label": "「もっと見る」のリンク先",
+							"type": "url"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "cta",
+			"label": "CTA（行動を促すエリア）",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "heading",
+							"label": "見出し",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "text",
+							"label": "説明文",
+							"type": "text"
+						},
+						{
+							"slug": "primary_label",
+							"label": "ボタン1の文字",
+							"type": "string"
+						},
+						{
+							"slug": "primary_url",
+							"label": "ボタン1のリンク先",
+							"type": "url"
+						},
+						{
+							"slug": "secondary_label",
+							"label": "ボタン2の文字",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_url",
+							"label": "ボタン2のリンク先",
+							"type": "url"
+						},
+						{
+							"slug": "image",
+							"label": "画像",
+							"type": "image"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "rich_text",
+			"label": "自由入力",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "content",
+							"label": "本文",
+							"type": "portableText"
+						}
+					]
+				}
+			]
+		}
+	],
 	"collections": [
 		{
 			"slug": "posts",
-			"label": "Posts",
-			"labelSingular": "Post",
+			"label": "投稿",
+			"labelSingular": "投稿",
 			"urlPattern": "/posts/{slug}",
-			"supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"scheduling",
+				"search",
+				"seo"
+			],
 			"commentsEnabled": true,
 			"fields": [
 				{
 					"slug": "title",
-					"label": "Title",
+					"label": "タイトル",
 					"type": "string",
 					"required": true,
 					"searchable": true
 				},
 				{
 					"slug": "featured_image",
-					"label": "Featured Image",
+					"label": "アイキャッチ画像",
 					"type": "image"
 				},
 				{
 					"slug": "content",
-					"label": "Content",
+					"label": "本文",
 					"type": "portableText",
 					"searchable": true
 				},
 				{
 					"slug": "excerpt",
-					"label": "Excerpt",
+					"label": "抜粋",
 					"type": "text"
+				},
+				{
+					"slug": "layout",
+					"label": "レイアウト",
+					"type": "select",
+					"validation": {
+						"options": [
+							"2カラム",
+							"1カラム"
+						]
+					}
 				}
 			]
 		},
 		{
 			"slug": "pages",
-			"label": "Pages",
-			"labelSingular": "Page",
+			"label": "固定ページ",
+			"labelSingular": "固定ページ",
 			"urlPattern": "/pages/{slug}",
-			"supports": ["drafts", "revisions", "preview", "search", "seo"],
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search",
+				"seo"
+			],
 			"fields": [
 				{
 					"slug": "title",
-					"label": "Title",
+					"label": "タイトル",
 					"type": "string",
 					"required": true,
 					"searchable": true
 				},
 				{
 					"slug": "content",
-					"label": "Content",
+					"label": "本文",
 					"type": "portableText",
 					"searchable": true
+				},
+				{
+					"slug": "page_layout",
+					"label": "レイアウト",
+					"type": "select",
+					"validation": {
+						"options": [
+							"2カラム",
+							"1カラム",
+							"フルワイド"
+						]
+					}
+				},
+				{
+					"slug": "top_blocks",
+					"label": "上部エリア（全幅）",
+					"type": "blocks",
+					"validation": {
+						"allowedTypes": [
+							"hero",
+							"features",
+							"post_list",
+							"cta",
+							"rich_text"
+						],
+						"maxItems": 20
+					}
+				},
+				{
+					"slug": "main_blocks",
+					"label": "メインエリア",
+					"type": "blocks",
+					"validation": {
+						"allowedTypes": [
+							"hero",
+							"features",
+							"post_list",
+							"cta",
+							"rich_text"
+						],
+						"maxItems": 20
+					}
+				},
+				{
+					"slug": "bottom_blocks",
+					"label": "下部エリア（全幅）",
+					"type": "blocks",
+					"validation": {
+						"allowedTypes": [
+							"hero",
+							"features",
+							"post_list",
+							"cta",
+							"rich_text"
+						],
+						"maxItems": 20
+					}
 				}
 			]
 		}
@@ -70,83 +407,240 @@
 	"taxonomies": [
 		{
 			"name": "category",
-			"label": "Categories",
-			"labelSingular": "Category",
+			"label": "カテゴリー",
+			"labelSingular": "カテゴリー",
 			"hierarchical": true,
-			"collections": ["posts"],
+			"collections": [
+				"posts"
+			],
 			"terms": [
 				{
-					"slug": "development",
-					"label": "Development"
+					"slug": "features",
+					"label": "機能紹介"
 				},
 				{
-					"slug": "design",
-					"label": "Design"
+					"slug": "docs",
+					"label": "設定ドキュメント"
 				},
 				{
-					"slug": "notes",
-					"label": "Notes"
+					"slug": "updates",
+					"label": "アップデート情報"
+				},
+				{
+					"slug": "samples",
+					"label": "投稿サンプル"
 				}
 			]
 		},
 		{
 			"name": "tag",
-			"label": "Tags",
-			"labelSingular": "Tag",
+			"label": "タグ",
+			"labelSingular": "タグ",
 			"hierarchical": false,
-			"collections": ["posts"],
+			"collections": [
+				"posts"
+			],
 			"terms": [
 				{
-					"slug": "webdev",
-					"label": "Web Development"
+					"slug": "pickup",
+					"label": "ピックアップ"
 				},
 				{
-					"slug": "opinion",
-					"label": "Opinion"
+					"slug": "popular",
+					"label": "人気"
 				},
 				{
-					"slug": "tools",
-					"label": "Tools"
+					"slug": "claude-code",
+					"label": "Claude Code"
 				},
 				{
-					"slug": "creativity",
-					"label": "Creativity"
+					"slug": "cloudflare",
+					"label": "Cloudflare"
 				}
 			]
 		}
 	],
 	"bylines": [
 		{
-			"id": "byline-editorial",
-			"slug": "emdash-editorial",
-			"displayName": "EmDash Editorial"
-		},
-		{
-			"id": "byline-guest",
-			"slug": "guest-contributor",
-			"displayName": "Guest Contributor",
-			"isGuest": true
+			"id": "byline-team",
+			"slug": "tsupitsupi-team",
+			"displayName": "ツピツピ編集部"
 		}
 	],
 	"menus": [
 		{
 			"name": "primary",
-			"label": "Primary Navigation",
+			"label": "グローバルナビ",
 			"items": [
 				{
 					"type": "custom",
-					"label": "Home",
+					"label": "ツピツピの特徴",
+					"url": "/pages/features"
+				},
+				{
+					"type": "custom",
+					"label": "設定ドキュメント",
+					"url": "/category/docs",
+					"children": [
+						{
+							"type": "custom",
+							"label": "Claude Code で導入する",
+							"url": "/posts/setup-with-claude-code"
+						},
+						{
+							"type": "custom",
+							"label": "トップページの設定",
+							"url": "/posts/home-settings"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "デモサイト",
+					"url": "/pages/demo"
+				},
+				{
+					"type": "custom",
+					"label": "投稿サンプル",
+					"url": "/posts/sample-two-column",
+					"children": [
+						{
+							"type": "custom",
+							"label": "投稿：2カラム",
+							"url": "/posts/sample-two-column"
+						},
+						{
+							"type": "custom",
+							"label": "投稿：1カラム",
+							"url": "/posts/sample-one-column"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "ページサンプル",
+					"url": "/pages/sample-two-column",
+					"children": [
+						{
+							"type": "custom",
+							"label": "固定ページ：2カラム",
+							"url": "/pages/sample-two-column"
+						},
+						{
+							"type": "custom",
+							"label": "固定ページ：1カラム",
+							"url": "/pages/sample-one-column"
+						},
+						{
+							"type": "custom",
+							"label": "固定ページ：フルワイド",
+							"url": "/pages/sample-full-width"
+						}
+					]
+				},
+				{
+					"type": "custom",
+					"label": "よくある質問",
+					"url": "/pages/faq"
+				},
+				{
+					"type": "custom",
+					"label": "制作依頼",
+					"url": "/pages/contact"
+				}
+			]
+		},
+		{
+			"name": "mobile",
+			"label": "スマホ用メニュー",
+			"items": [
+				{
+					"type": "custom",
+					"label": "ホーム",
 					"url": "/"
 				},
 				{
 					"type": "custom",
-					"label": "About",
-					"url": "/pages/about"
+					"label": "ツピツピの特徴",
+					"url": "/pages/features"
 				},
 				{
 					"type": "custom",
-					"label": "Posts",
-					"url": "/posts"
+					"label": "設定ドキュメント",
+					"url": "/category/docs"
+				},
+				{
+					"type": "custom",
+					"label": "デモサイト",
+					"url": "/pages/demo"
+				},
+				{
+					"type": "custom",
+					"label": "よくある質問",
+					"url": "/pages/faq"
+				},
+				{
+					"type": "custom",
+					"label": "お問い合わせ",
+					"url": "/pages/contact"
+				}
+			]
+		},
+		{
+			"name": "cta",
+			"label": "CTA ボタン",
+			"items": [
+				{
+					"type": "custom",
+					"label": "無料でダウンロード",
+					"url": "/pages/download"
+				}
+			]
+		},
+		{
+			"name": "mobile-bar",
+			"label": "スマホ下部メニュー",
+			"items": [
+				{
+					"type": "custom",
+					"label": "ホーム",
+					"url": "/"
+				},
+				{
+					"type": "custom",
+					"label": "ドキュメント",
+					"url": "/category/docs"
+				},
+				{
+					"type": "custom",
+					"label": "デモ",
+					"url": "/pages/demo"
+				},
+				{
+					"type": "custom",
+					"label": "ダウンロード",
+					"url": "/pages/download"
+				}
+			]
+		},
+		{
+			"name": "footer",
+			"label": "フッターメニュー",
+			"items": [
+				{
+					"type": "custom",
+					"label": "利用規約",
+					"url": "/pages/terms"
+				},
+				{
+					"type": "custom",
+					"label": "プライバシーポリシー",
+					"url": "/pages/privacy"
+				},
+				{
+					"type": "custom",
+					"label": "お問い合わせ",
+					"url": "/pages/contact"
 				}
 			]
 		}
@@ -154,158 +648,694 @@
 	"widgetAreas": [
 		{
 			"name": "sidebar",
-			"label": "Sidebar",
-			"description": "Widget area displayed on single post pages",
+			"label": "サイドバー",
+			"description": "2カラムのページの右側に表示",
 			"widgets": [
 				{
-					"type": "component",
-					"componentId": "core:search",
-					"title": "Search"
+					"type": "content",
+					"title": "このサイトについて",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k1",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k2",
+									"text": "[プロフィール文：どんな人が、なぜこのテーマを作っているか]"
+								}
+							]
+						}
+					]
 				},
 				{
 					"type": "component",
-					"componentId": "core:categories",
-					"title": "Categories"
-				},
-				{
-					"type": "component",
-					"componentId": "core:tags",
-					"title": "Tags"
-				},
-				{
-					"type": "component",
-					"componentId": "core:recent-posts",
-					"title": "Recent Posts",
+					"componentId": "tsupitsupi:popular-posts",
+					"title": "人気の投稿",
 					"props": {
 						"count": 5,
-						"showDate": true
+						"tag": "popular"
 					}
 				},
 				{
 					"type": "component",
-					"componentId": "core:archives",
-					"title": "Archives",
+					"componentId": "core:categories",
+					"title": "カテゴリー",
 					"props": {
-						"type": "monthly",
-						"limit": 6
+						"showCount": false
+					}
+				},
+				{
+					"type": "component",
+					"componentId": "core:tags",
+					"title": "タグ"
+				}
+			]
+		},
+		{
+			"name": "main-top",
+			"label": "メインコンテンツ上",
+			"description": "記事・サイドバーの上に全幅で表示",
+			"widgets": []
+		},
+		{
+			"name": "main-bottom",
+			"label": "メインコンテンツ下",
+			"description": "記事・サイドバーの下に全幅で表示",
+			"widgets": []
+		},
+		{
+			"name": "home-after-posts",
+			"label": "トップの記事一覧の下",
+			"description": "トップページのメインエリアの最後に表示",
+			"widgets": []
+		},
+		{
+			"name": "post-bottom",
+			"label": "記事の下",
+			"description": "投稿本文の下に表示",
+			"widgets": []
+		},
+		{
+			"name": "drawer",
+			"label": "スマホメニュー内",
+			"description": "スマホのサイドメニューの下部に表示",
+			"widgets": [
+				{
+					"type": "component",
+					"componentId": "core:categories",
+					"title": "カテゴリー",
+					"props": {
+						"showCount": false
 					}
 				}
 			]
 		},
 		{
 			"name": "footer",
-			"label": "Footer",
-			"description": "Widget area displayed in the site footer",
-			"widgets": [
-				{
-					"type": "content",
-					"title": "About",
-					"content": [
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "A blog about software, design, and the occasional stray thought.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
-						}
-					]
-				}
-			]
-		}
-	],
-	"sections": [
-		{
-			"slug": "newsletter-signup",
-			"title": "Newsletter Signup",
-			"description": "A call-to-action block for newsletter subscriptions",
-			"keywords": ["newsletter", "subscribe", "email", "cta"],
-			"source": "theme",
-			"content": [
-				{
-					"_type": "block",
-					"style": "h3",
-					"children": [
-						{
-							"_type": "span",
-							"text": "Stay in the loop",
-							"_key": "k1"
-						}
-					],
-					"_key": "k0"
-				},
-				{
-					"_type": "block",
-					"style": "normal",
-					"children": [
-						{
-							"_type": "span",
-							"text": "Get notified when new posts are published. No spam, unsubscribe anytime.",
-							"_key": "k3"
-						}
-					],
-					"_key": "k2"
-				}
-			]
-		},
-		{
-			"slug": "about-author",
-			"title": "About the Author",
-			"description": "Brief author bio for use in posts or pages",
-			"keywords": ["author", "bio", "about"],
-			"source": "theme",
-			"content": [
-				{
-					"_type": "block",
-					"style": "normal",
-					"children": [
-						{
-							"_type": "span",
-							"text": "A software developer who writes about building things on the web. Based somewhere with good coffee and reliable internet.",
-							"_key": "k1"
-						}
-					],
-					"_key": "k0"
-				}
-			]
+			"label": "フッター",
+			"description": "フッターに表示",
+			"widgets": []
 		}
 	],
 	"content": {
 		"pages": [
 			{
-				"id": "about",
-				"slug": "about",
+				"id": "home",
+				"slug": "home",
 				"status": "published",
 				"data": {
-					"title": "About",
+					"title": "ホーム",
+					"page_layout": "2カラム",
+					"top_blocks": [
+						{
+							"_type": "hero",
+							"_version": 1,
+							"_key": "home-hero",
+							"style": "写真を横に並べる",
+							"eyebrow": "EmDash 用ブログテーマ",
+							"heading": "[キャッチコピー]",
+							"subheading": "[サブコピー]",
+							"description": "[説明文：テーマの特徴を2〜3行で]",
+							"primary_label": "無料で始める",
+							"primary_url": "/pages/download",
+							"secondary_label": "特徴を見る",
+							"secondary_url": "/pages/features",
+							"image": {
+								"$media": {
+									"url": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=800&fit=crop",
+									"alt": "テーマのスクリーンショット",
+									"filename": "hero.jpg"
+								}
+							}
+						},
+						{
+							"_type": "features",
+							"_version": 1,
+							"_key": "home-features",
+							"style": "強み",
+							"items": [
+								{
+									"title": "貼るだけ導入",
+									"text": "Claude Code がセットアップ"
+								},
+								{
+									"title": "無料プランで公開",
+									"text": "Cloudflare Workers で動く"
+								},
+								{
+									"title": "日本語に最適化",
+									"text": "文字組みと読了時間"
+								},
+								{
+									"title": "[強み4]",
+									"text": "[説明]"
+								}
+							]
+						}
+					],
+					"main_blocks": [
+						{
+							"_type": "post_list",
+							"_version": 1,
+							"_key": "home-latest",
+							"heading": "新着記事",
+							"source": "新着",
+							"count": 6,
+							"style": "カード",
+							"more_label": "すべて見る",
+							"more_url": "/posts"
+						},
+						{
+							"_type": "post_list",
+							"_version": 1,
+							"_key": "home-docs",
+							"heading": "設定ドキュメント",
+							"source": "カテゴリー",
+							"term": "docs",
+							"count": 4,
+							"style": "リスト",
+							"more_label": "もっと見る",
+							"more_url": "/category/docs"
+						}
+					],
+					"bottom_blocks": [
+						{
+							"_type": "cta",
+							"_version": 1,
+							"_key": "home-cta",
+							"heading": "[CTA の見出し]",
+							"text": "[CTA の説明文]",
+							"primary_label": "無料でダウンロード",
+							"primary_url": "/pages/download",
+							"secondary_label": "制作を依頼する",
+							"secondary_url": "/pages/contact"
+						}
+					]
+				}
+			},
+			{
+				"id": "page-features",
+				"slug": "features",
+				"status": "published",
+				"data": {
+					"title": "ツピツピの特徴",
+					"page_layout": "2カラム",
 					"content": [
 						{
 							"_type": "block",
+							"_key": "k3",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "A place for writing about software, design, and the occasional stray thought. No posting schedule, no newsletter funnel. Just things I wanted to write down.",
-									"_key": "k1"
+									"_key": "k4",
+									"text": "[準備中]"
 								}
-							],
-							"_key": "k0"
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-demo",
+				"slug": "demo",
+				"status": "published",
+				"data": {
+					"title": "デモサイト",
+					"page_layout": "2カラム",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k5",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k6",
+									"text": "[準備中]"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-faq",
+				"slug": "faq",
+				"status": "published",
+				"data": {
+					"title": "よくある質問",
+					"page_layout": "2カラム",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k7",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k8",
+									"text": "[準備中]"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-contact",
+				"slug": "contact",
+				"status": "published",
+				"data": {
+					"title": "制作依頼・お問い合わせ",
+					"page_layout": "2カラム",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k9",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k10",
+									"text": "[準備中]"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-download",
+				"slug": "download",
+				"status": "published",
+				"data": {
+					"title": "ダウンロード",
+					"page_layout": "2カラム",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k11",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k12",
+									"text": "[準備中]"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-terms",
+				"slug": "terms",
+				"status": "published",
+				"data": {
+					"title": "利用規約",
+					"page_layout": "1カラム",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k13",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k14",
+									"text": "[準備中]"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-privacy",
+				"slug": "privacy",
+				"status": "published",
+				"data": {
+					"title": "プライバシーポリシー",
+					"page_layout": "1カラム",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k15",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k16",
+									"text": "[準備中]"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-sample-two-column",
+				"slug": "sample-two-column",
+				"status": "published",
+				"data": {
+					"title": "固定ページ：2カラム",
+					"page_layout": "2カラム",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k17",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k18",
+									"text": "[導入文：この記事で何がわかるかを2〜3行で書きます]"
+								}
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k19",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k20",
+									"text": "見出しの例"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k21",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "Built with Astro and EmDash. The source is open if you want to see how it works.",
-									"_key": "k3"
+									"_key": "k22",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k2"
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k23",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k24",
+									"text": "小見出しの例"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k25",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k26",
+									"text": "[本文]"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k27",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k28",
+									"text": "まとめ"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k29",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k30",
+									"text": "[本文]"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-sample-one-column",
+				"slug": "sample-one-column",
+				"status": "published",
+				"data": {
+					"title": "固定ページ：1カラム",
+					"page_layout": "1カラム",
+					"content": [
+						{
+							"_type": "block",
+							"_key": "k31",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k32",
+									"text": "[導入文：この記事で何がわかるかを2〜3行で書きます]"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k33",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k34",
+									"text": "見出しの例"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k35",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k36",
+									"text": "[本文]"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k37",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k38",
+									"text": "小見出しの例"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k39",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k40",
+									"text": "[本文]"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k41",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k42",
+									"text": "まとめ"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k43",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k44",
+									"text": "[本文]"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "page-sample-full-width",
+				"slug": "sample-full-width",
+				"status": "published",
+				"data": {
+					"title": "固定ページ：フルワイド",
+					"page_layout": "フルワイド",
+					"content": [],
+					"top_blocks": [
+						{
+							"_type": "hero",
+							"_version": 1,
+							"_key": "lp-hero",
+							"style": "背景を写真にする",
+							"heading": "[LP のキャッチコピー]",
+							"description": "[説明文]",
+							"primary_label": "[ボタン]",
+							"primary_url": "/pages/contact",
+							"image": {
+								"$media": {
+									"url": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=800&fit=crop",
+									"alt": "背景写真",
+									"filename": "lp-hero.jpg"
+								}
+							}
+						},
+						{
+							"_type": "features",
+							"_version": 1,
+							"_key": "lp-banners",
+							"heading": "[見出し]",
+							"style": "バナー",
+							"items": [
+								{
+									"title": "[バナー1]",
+									"url": "/pages/features"
+								},
+								{
+									"title": "[バナー2]",
+									"url": "/pages/demo"
+								},
+								{
+									"title": "[バナー3]",
+									"url": "/pages/faq"
+								},
+								{
+									"title": "[バナー4]",
+									"url": "/pages/contact"
+								}
+							]
+						},
+						{
+							"_type": "rich_text",
+							"_version": 1,
+							"_key": "lp-text",
+							"content": [
+								{
+									"_type": "block",
+									"_key": "k45",
+									"style": "normal",
+									"children": [
+										{
+											"_type": "span",
+											"_key": "k46",
+											"text": "[導入文：この記事で何がわかるかを2〜3行で書きます]"
+										}
+									]
+								},
+								{
+									"_type": "block",
+									"_key": "k47",
+									"style": "h2",
+									"children": [
+										{
+											"_type": "span",
+											"_key": "k48",
+											"text": "見出しの例"
+										}
+									]
+								},
+								{
+									"_type": "block",
+									"_key": "k49",
+									"style": "normal",
+									"children": [
+										{
+											"_type": "span",
+											"_key": "k50",
+											"text": "[本文]"
+										}
+									]
+								},
+								{
+									"_type": "block",
+									"_key": "k51",
+									"style": "h3",
+									"children": [
+										{
+											"_type": "span",
+											"_key": "k52",
+											"text": "小見出しの例"
+										}
+									]
+								},
+								{
+									"_type": "block",
+									"_key": "k53",
+									"style": "normal",
+									"children": [
+										{
+											"_type": "span",
+											"_key": "k54",
+											"text": "[本文]"
+										}
+									]
+								},
+								{
+									"_type": "block",
+									"_key": "k55",
+									"style": "h2",
+									"children": [
+										{
+											"_type": "span",
+											"_key": "k56",
+											"text": "まとめ"
+										}
+									]
+								},
+								{
+									"_type": "block",
+									"_key": "k57",
+									"style": "normal",
+									"children": [
+										{
+											"_type": "span",
+											"_key": "k58",
+											"text": "[本文]"
+										}
+									]
+								}
+							]
+						},
+						{
+							"_type": "cta",
+							"_version": 1,
+							"_key": "lp-cta",
+							"heading": "[CTA の見出し]",
+							"text": "[説明文]",
+							"primary_label": "[ボタン]",
+							"primary_url": "/pages/contact"
 						}
 					]
 				}
@@ -314,625 +1344,697 @@
 		"posts": [
 			{
 				"id": "post-1",
-				"slug": "building-for-the-long-term",
+				"slug": "setup-with-claude-code",
 				"status": "published",
 				"data": {
-					"title": "Building for the Long Term",
-					"excerpt": "The frameworks will change. The databases will change. What survives is the clarity of your thinking.",
+					"title": "Claude Code に貼るだけで導入する手順",
+					"excerpt": "[抜粋：記事の要約を1〜2行で]",
+					"layout": "2カラム",
 					"featured_image": {
 						"$media": {
-							"url": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=800&fit=crop",
-							"alt": "Code on a monitor in a dark room",
-							"filename": "building-long-term.jpg"
+							"url": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=800&fit=crop",
+							"alt": "Claude Code に貼るだけで導入する手順",
+							"filename": "setup-with-claude-code.jpg"
 						}
 					},
 					"content": [
 						{
 							"_type": "block",
+							"_key": "k59",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "Every few years the industry collectively decides that everything we've been doing is wrong and there's a better way. New frameworks, new paradigms, new build tools. The churn is relentless, and if you're not careful, you spend more time migrating than building.",
-									"_key": "k1"
+									"_key": "k60",
+									"text": "[導入文：この記事で何がわかるかを2〜3行で書きます]"
 								}
-							],
-							"_key": "k0"
+							]
 						},
 						{
 							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "I've been writing software long enough to have seen several of these cycles. jQuery to Backbone to Angular to React to whatever comes next. Each transition felt urgent at the time. Looking back, the things that actually mattered were rarely about the framework.",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
+							"_key": "k61",
 							"style": "h2",
 							"children": [
 								{
 									"_type": "span",
-									"text": "What survives",
-									"_key": "k5"
+									"_key": "k62",
+									"text": "見出しの例"
 								}
-							],
-							"_key": "k4"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k63",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "Clean data models survive. Clear boundaries between systems survive. Good naming survives. The decision to keep things simple when you could have made them clever - that definitely survives.",
-									"_key": "k7"
+									"_key": "k64",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k6"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k65",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k66",
+									"text": "小見出しの例"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k67",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "What doesn't survive is code that was written to impress, abstractions built for problems that never materialized, and architectures designed around a framework's opinions rather than the domain's reality.",
-									"_key": "k9"
+									"_key": "k68",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k8"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k69",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k70",
+									"text": "まとめ"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k71",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "The best code I've written is boring. It reads like prose, does one thing well, and doesn't require a PhD in category theory to understand. The worst code I've written was technically impressive at the time.",
-									"_key": "k11"
+									"_key": "k72",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k10"
+							]
 						}
 					]
 				},
 				"bylines": [
 					{
-						"byline": "byline-editorial"
-					},
-					{
-						"byline": "byline-guest",
-						"roleLabel": "Guest essay"
+						"byline": "byline-team"
 					}
 				],
 				"taxonomies": {
-					"category": ["development"],
-					"tag": ["opinion"]
+					"category": [
+						"docs"
+					],
+					"tag": [
+						"claude-code",
+						"popular",
+						"pickup"
+					]
 				}
 			},
 			{
 				"id": "post-2",
-				"slug": "the-case-for-static",
+				"slug": "home-settings",
 				"status": "published",
 				"data": {
-					"title": "The Case for Static",
-					"excerpt": "Static sites aren't a step backwards. They're what you get when you take performance and simplicity seriously.",
+					"title": "トップページの設定",
+					"excerpt": "[抜粋：記事の要約を1〜2行で]",
+					"layout": "2カラム",
 					"featured_image": {
 						"$media": {
-							"url": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&h=800&fit=crop",
-							"alt": "Laptop and coffee on a wooden table",
-							"filename": "case-for-static.jpg"
+							"url": "https://images.unsplash.com/photo-1432821596592-e2c18b78144f?w=1200&h=800&fit=crop",
+							"alt": "トップページの設定",
+							"filename": "home-settings.jpg"
 						}
 					},
 					"content": [
 						{
 							"_type": "block",
+							"_key": "k73",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "There's a certain irony in the fact that the web started static, went dynamic, and is now swinging back toward static again. But the static sites of today aren't the hand-coded HTML pages of 1998. They're generated, optimized, and deployed to edge networks that serve them in milliseconds.",
-									"_key": "k1"
+									"_key": "k74",
+									"text": "[導入文：この記事で何がわかるかを2〜3行で書きます]"
 								}
-							],
-							"_key": "k0"
+							]
 						},
 						{
 							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The pitch for server-rendered everything was compelling: dynamic content, personalization, real-time data. But most sites don't need most of that most of the time. A blog post doesn't need to be rendered on every request. A product page doesn't change every second.",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
+							"_key": "k75",
 							"style": "h2",
 							"children": [
 								{
 									"_type": "span",
-									"text": "The performance argument",
-									"_key": "k5"
+									"_key": "k76",
+									"text": "見出しの例"
 								}
-							],
-							"_key": "k4"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k77",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "A static file served from a CDN is as fast as the web gets. No cold starts, no database queries, no server-side rendering overhead. The Time to First Byte is essentially the network latency to your nearest edge node. You can't beat physics.",
-									"_key": "k7"
+									"_key": "k78",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k6"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k79",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k80",
+									"text": "小見出しの例"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k81",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "And when you do need dynamic behavior, you can add it surgically. An island of interactivity in a sea of static HTML. The best of both worlds, without paying the cost of either at all times.",
-									"_key": "k9"
+									"_key": "k82",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k8"
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k83",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k84",
+									"text": "まとめ"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k85",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k86",
+									"text": "[本文]"
+								}
+							]
 						}
 					]
 				},
 				"bylines": [
 					{
-						"byline": "byline-editorial"
+						"byline": "byline-team"
 					}
 				],
 				"taxonomies": {
-					"category": ["development"],
-					"tag": ["webdev", "opinion"]
+					"category": [
+						"docs"
+					],
+					"tag": [
+						"popular"
+					]
 				}
 			},
 			{
 				"id": "post-3",
-				"slug": "learning-in-public",
+				"slug": "free-plan",
 				"status": "published",
 				"data": {
-					"title": "Learning in Public",
-					"excerpt": "Writing about what you're learning is the fastest way to find out what you don't actually understand.",
+					"title": "Cloudflare の無料プランで公開する",
+					"excerpt": "[抜粋：記事の要約を1〜2行で]",
+					"layout": "2カラム",
 					"featured_image": {
 						"$media": {
-							"url": "https://images.unsplash.com/photo-1432821596592-e2c18b78144f?w=1200&h=800&fit=crop",
-							"alt": "Notebook and pen on a desk",
-							"filename": "learning-in-public.jpg"
+							"url": "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=1200&h=800&fit=crop",
+							"alt": "Cloudflare の無料プランで公開する",
+							"filename": "free-plan.jpg"
 						}
 					},
 					"content": [
 						{
 							"_type": "block",
+							"_key": "k87",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "I started writing about things I was learning not because I had anything original to say, but because I kept forgetting what I'd figured out. The blog posts were notes to my future self, published publicly more out of laziness than courage.",
-									"_key": "k1"
+									"_key": "k88",
+									"text": "[導入文：この記事で何がわかるかを2〜3行で書きます]"
 								}
-							],
-							"_key": "k0"
+							]
 						},
 						{
 							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "What I didn't expect was how much the writing itself would accelerate the learning. There's a particular kind of clarity that comes from trying to explain something to someone else. The gaps in your understanding, which you can happily ignore when the knowledge lives only in your head, become painfully obvious when you try to put it into sentences.",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
+							"_key": "k89",
 							"style": "h2",
 							"children": [
 								{
 									"_type": "span",
-									"text": "The fear of being wrong",
-									"_key": "k5"
+									"_key": "k90",
+									"text": "見出しの例"
 								}
-							],
-							"_key": "k4"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k91",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "The biggest barrier isn't time or writing skill. It's the fear of publishing something that turns out to be wrong. But here's the thing: being wrong publicly is one of the most efficient ways to learn. Someone will correct you, often kindly, and you'll remember that correction forever.",
-									"_key": "k7"
+									"_key": "k92",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k6"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k93",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k94",
+									"text": "小見出しの例"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k95",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "The posts that helped me most weren't written by experts. They were written by people one step ahead of me on the same path, in language that hadn't yet been polished into abstraction. There's a place for that kind of writing, and it's more valuable than most people realize.",
-									"_key": "k9"
+									"_key": "k96",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k8"
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k97",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k98",
+									"text": "まとめ"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k99",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k100",
+									"text": "[本文]"
+								}
+							]
 						}
 					]
 				},
+				"bylines": [
+					{
+						"byline": "byline-team"
+					}
+				],
 				"taxonomies": {
-					"category": ["notes"],
-					"tag": ["opinion"]
+					"category": [
+						"docs"
+					],
+					"tag": [
+						"cloudflare",
+						"popular"
+					]
 				}
 			},
 			{
 				"id": "post-4",
-				"slug": "small-tools-big-impact",
+				"slug": "release-v0-1",
 				"status": "published",
 				"data": {
-					"title": "Small Tools, Big Impact",
-					"excerpt": "The best developer tools do one thing well and get out of your way. A love letter to focused software.",
+					"title": "ツピツピ v0.1 を公開しました",
+					"excerpt": "[抜粋：記事の要約を1〜2行で]",
+					"layout": "2カラム",
 					"featured_image": {
 						"$media": {
-							"url": "https://images.unsplash.com/photo-1575026615908-666710ae5e47?w=1200&h=800&fit=crop",
-							"alt": "Wrenches and hand tools hanging on a workshop wall",
-							"filename": "small-tools.jpg"
+							"url": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&h=800&fit=crop",
+							"alt": "ツピツピ v0.1 を公開しました",
+							"filename": "release-v0-1.jpg"
 						}
 					},
 					"content": [
 						{
 							"_type": "block",
+							"_key": "k101",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "There's a class of software that doesn't get enough appreciation. Not the frameworks or the platforms or the IDEs, but the small, sharp tools that solve one problem so well you stop thinking about them. They become invisible, which is the highest compliment you can pay a tool.",
-									"_key": "k1"
+									"_key": "k102",
+									"text": "[導入文：この記事で何がわかるかを2〜3行で書きます]"
 								}
-							],
-							"_key": "k0"
+							]
 						},
 						{
 							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "I'm talking about things like ripgrep, which searches code so fast it changed how I think about searching. Or jq, which makes JSON feel like a first-class data format in the terminal. Or curl, which has been quietly powering the internet's plumbing for decades.",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
+							"_key": "k103",
 							"style": "h2",
 							"children": [
 								{
 									"_type": "span",
-									"text": "The Unix philosophy, revisited",
-									"_key": "k5"
+									"_key": "k104",
+									"text": "見出しの例"
 								}
-							],
-							"_key": "k4"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k105",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "Do one thing well. The advice is old enough to be a cliche, but the best modern tools still follow it. They don't try to be platforms. They don't have plugin ecosystems or configuration languages or startup wizards. They do their job and they compose with other tools that do theirs.",
-									"_key": "k7"
+									"_key": "k106",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k6"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k107",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k108",
+									"text": "小見出しの例"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k109",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "The temptation is always to add more. One more feature, one more option, one more integration. But every addition is a decision someone has to make, a path through the code that has to be maintained, a thing that can break. The best tools resist this. They stay small, and in staying small, they stay reliable.",
-									"_key": "k9"
+									"_key": "k110",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k8"
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k111",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k112",
+									"text": "まとめ"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k113",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k114",
+									"text": "[本文]"
+								}
+							]
 						}
 					]
 				},
+				"bylines": [
+					{
+						"byline": "byline-team"
+					}
+				],
 				"taxonomies": {
-					"category": ["development"],
-					"tag": ["tools"]
+					"category": [
+						"updates"
+					],
+					"tag": [
+						"pickup"
+					]
 				}
 			},
 			{
 				"id": "post-5",
-				"slug": "designing-with-constraints",
+				"slug": "sample-two-column",
 				"status": "published",
 				"data": {
-					"title": "Designing with Constraints",
-					"excerpt": "Limitations aren't obstacles to creativity. They're the structure that makes creativity possible.",
+					"title": "投稿：2カラム",
+					"excerpt": "[抜粋：記事の要約を1〜2行で]",
+					"layout": "2カラム",
 					"featured_image": {
 						"$media": {
-							"url": "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=1200&h=800&fit=crop",
-							"alt": "Pencils and design tools on a desk",
-							"filename": "designing-with-constraints.jpg"
+							"url": "https://images.unsplash.com/photo-1559051668-e1fa58f25786?w=1200&h=800&fit=crop",
+							"alt": "投稿：2カラム",
+							"filename": "sample-two-column.jpg"
 						}
 					},
 					"content": [
 						{
 							"_type": "block",
+							"_key": "k115",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "Give a designer a blank canvas and unlimited time, and they'll often produce something mediocre. Give them a tight brief, a small screen, and a deadline, and they'll surprise you. This isn't a paradox - it's how creativity actually works.",
-									"_key": "k1"
+									"_key": "k116",
+									"text": "[導入文：この記事で何がわかるかを2〜3行で書きます]"
 								}
-							],
-							"_key": "k0"
+							]
 						},
 						{
 							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "Constraints force decisions. When you can't use more than two typefaces, you have to choose carefully. When the page has to load in under a second, every element earns its place. When the interface has to work on a 320px screen, you discover what's truly essential.",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
+							"_key": "k117",
 							"style": "h2",
 							"children": [
 								{
 									"_type": "span",
-									"text": "Embracing the box",
-									"_key": "k5"
+									"_key": "k118",
+									"text": "見出しの例"
 								}
-							],
-							"_key": "k4"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k119",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "The web itself is a constraint. HTML flows in one direction. CSS has a box model. Browsers have viewport sizes and font rendering quirks. You can fight these constraints or you can work with them, and the results are dramatically different.",
-									"_key": "k7"
+									"_key": "k120",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k6"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k121",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k122",
+									"text": "小見出しの例"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k123",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "The designs I admire most don't look like they were forced through a framework. They look like they grew naturally from the medium, respecting its grain rather than working against it. That only happens when you treat constraints as creative partners rather than enemies.",
-									"_key": "k9"
+									"_key": "k124",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k8"
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k125",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k126",
+									"text": "まとめ"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k127",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k128",
+									"text": "[本文]"
+								}
+							]
 						}
 					]
 				},
+				"bylines": [
+					{
+						"byline": "byline-team"
+					}
+				],
 				"taxonomies": {
-					"category": ["design"],
-					"tag": ["creativity"]
+					"category": [
+						"samples"
+					],
+					"tag": []
 				}
 			},
 			{
 				"id": "post-6",
-				"slug": "a-weekend-with-a-side-project",
+				"slug": "sample-one-column",
 				"status": "published",
 				"data": {
-					"title": "A Weekend with a Side Project",
-					"excerpt": "No stakeholders, no deadlines, no Jira tickets. Just you and a dumb idea that might turn into something.",
+					"title": "投稿：1カラム",
+					"excerpt": "[抜粋：記事の要約を1〜2行で]",
+					"layout": "1カラム",
 					"featured_image": {
 						"$media": {
-							"url": "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1200&h=800&fit=crop",
-							"alt": "Code on a screen with a dark theme",
-							"filename": "weekend-side-project.jpg"
+							"url": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=800&fit=crop",
+							"alt": "投稿：1カラム",
+							"filename": "sample-one-column.jpg"
 						}
 					},
 					"content": [
 						{
 							"_type": "block",
+							"_key": "k129",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "Saturday morning. Coffee's made, the house is quiet, and I've got an idea that's been nagging at me all week. Not a good idea, necessarily - just a persistent one. A small tool that does a thing I keep doing manually. How hard could it be?",
-									"_key": "k1"
+									"_key": "k130",
+									"text": "[導入文：この記事で何がわかるかを2〜3行で書きます]"
 								}
-							],
-							"_key": "k0"
+							]
 						},
 						{
 							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "This is the best kind of programming. No requirements document, no sprint planning, no pull request reviews. Just a text editor and a problem. The freedom to make terrible architectural decisions, rewrite everything twice, and follow tangents that turn out to be dead ends.",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
+							"_key": "k131",
 							"style": "h2",
 							"children": [
 								{
 									"_type": "span",
-									"text": "Why side projects matter",
-									"_key": "k5"
+									"_key": "k132",
+									"text": "見出しの例"
 								}
-							],
-							"_key": "k4"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k133",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "Side projects are where you learn things your day job would never teach you. Not because the problems are harder, but because you're free to take risks. Try a language you've never used. Build something without a framework. Deploy to a platform you've only read about. The stakes are zero, which makes the learning maximum.",
-									"_key": "k7"
+									"_key": "k134",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k6"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k135",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"_key": "k136",
+									"text": "小見出しの例"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"_key": "k137",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "By Sunday evening, the thing sort of works. It's rough, the error handling is nonexistent, and the README is a single sentence. But it solves the problem I set out to solve, and I learned three things I didn't know on Friday. Not a bad weekend.",
-									"_key": "k9"
+									"_key": "k138",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k8"
-						}
-					]
-				},
-				"taxonomies": {
-					"category": ["development"],
-					"tag": ["creativity"]
-				}
-			},
-			{
-				"id": "post-7",
-				"slug": "notes-on-simplicity",
-				"status": "published",
-				"data": {
-					"title": "Notes on Simplicity",
-					"excerpt": "Simplicity isn't the absence of complexity. It's the result of understanding a problem well enough to solve it cleanly.",
-					"featured_image": {
-						"$media": {
-							"url": "https://images.unsplash.com/photo-1559051668-e1fa58f25786?w=1200&h=800&fit=crop",
-							"alt": "Geometric pattern carved into white paper",
-							"filename": "notes-on-simplicity.jpg"
-						}
-					},
-					"content": [
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "Every piece of software starts simple. A few files, a clear purpose, a small surface area. Then features get added, edge cases get handled, and before long you're looking at something that requires a diagram to understand. This isn't inevitable, but it takes discipline to prevent.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
+							]
 						},
 						{
 							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "The hard part of simplicity isn't the initial design. It's the ongoing resistance to complication. Every feature request, every bug fix, every refactor is an opportunity to add complexity. Saying no is the most important design skill, and the least celebrated.",
-									"_key": "k3"
-								}
-							],
-							"_key": "k2"
-						},
-						{
-							"_type": "block",
+							"_key": "k139",
 							"style": "h2",
 							"children": [
 								{
 									"_type": "span",
-									"text": "Removing as a feature",
-									"_key": "k5"
+									"_key": "k140",
+									"text": "まとめ"
 								}
-							],
-							"_key": "k4"
+							]
 						},
 						{
 							"_type": "block",
+							"_key": "k141",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
-									"text": "The best version of a product often has fewer features than the previous one. Not because features were missing, but because someone had the courage to remove things that weren't earning their keep. Every feature has a cost - in maintenance, in cognitive load, in the weight of the interface.",
-									"_key": "k7"
+									"_key": "k142",
+									"text": "[本文]"
 								}
-							],
-							"_key": "k6"
-						},
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "Simplicity is a practice, not a destination. You never arrive at simple. You just keep asking: is this necessary? Could this be clearer? Is there a way to solve this problem by removing something instead of adding something? The answer is yes more often than you'd expect.",
-									"_key": "k9"
-								}
-							],
-							"_key": "k8"
+							]
 						}
 					]
 				},
+				"bylines": [
+					{
+						"byline": "byline-team"
+					}
+				],
 				"taxonomies": {
-					"category": ["notes"],
-					"tag": ["opinion"]
-				}
-			},
-			{
-				"id": "post-draft",
-				"slug": "work-in-progress",
-				"status": "draft",
-				"data": {
-					"title": "Work in Progress",
-					"excerpt": "This post is still being written.",
-					"content": [
-						{
-							"_type": "block",
-							"style": "normal",
-							"children": [
-								{
-									"_type": "span",
-									"text": "This is a draft post that won't appear in the public listing.",
-									"_key": "k1"
-								}
-							],
-							"_key": "k0"
-						}
-					]
+					"category": [
+						"samples"
+					],
+					"tag": []
 				}
 			}
 		]

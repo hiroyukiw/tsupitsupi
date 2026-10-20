@@ -1,0 +1,98 @@
+---
+/** CTA：問い合わせやダウンロードなど、次の行動へ誘導するエリア */
+import { Image } from "emdash/ui";
+import { type BlockProps, str, hasImage } from "./types";
+
+type Props = BlockProps;
+
+const { value, area } = Astro.props;
+const heading = str(value.heading);
+const text = str(value.text);
+const image = hasImage(value.image) ? value.image : null;
+const buttons = [
+	{ label: str(value.primary_label), url: str(value.primary_url), primary: true },
+	{ label: str(value.secondary_label), url: str(value.secondary_url), primary: false },
+].filter((button) => button.label && button.url);
+---
+
+<section class:list={["cta", area === "full" && "cta--full"]}>
+	<div class:list={["cta__inner", area === "full" && "container"]}>
+		<div class="cta__box">
+			<div class="cta__text">
+				{heading && <h2 class="cta__heading">{heading}</h2>}
+				{text && <p class="cta__body">{text}</p>}
+				{
+					buttons.length > 0 && (
+						<div class="cta__buttons">
+							{buttons.map((button) => (
+								<a href={button.url} class:list={["btn", "btn--lg", !button.primary && "btn--on-ink"]}>
+									{button.label}
+								</a>
+							))}
+						</div>
+					)
+				}
+			</div>
+			{
+				image && (
+					<div class="cta__media">
+						<Image image={image} sizes="(min-width: 1000px) 420px, 100vw" />
+					</div>
+				)
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.cta--full {
+		padding-block: var(--spacing-12);
+	}
+
+	.cta__box {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--spacing-8);
+		padding: clamp(1.75rem, 1rem + 3vw, 3.5rem);
+		border-radius: var(--radius-card);
+		background: var(--color-ink);
+		color: var(--color-on-ink);
+	}
+
+	.cta__text {
+		flex: 1 1 420px;
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4);
+		min-width: 0;
+	}
+
+	.cta__heading {
+		font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+		font-weight: 900;
+		line-height: 1.5;
+	}
+
+	.cta__body {
+		color: var(--color-on-ink-muted);
+		line-height: var(--leading-body);
+		white-space: pre-line;
+	}
+
+	.cta__buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-3);
+	}
+
+	.cta__media {
+		flex: 1 1 300px;
+		min-width: 0;
+	}
+
+	.cta__media :global(img) {
+		width: 100%;
+		border-radius: var(--radius);
+	}
+</style>

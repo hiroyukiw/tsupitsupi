@@ -1,0 +1,218 @@
+---
+import type { MenuItem } from "emdash";
+import Brand from "./Brand.astro";
+import MenuLink from "./MenuLink.astro";
+import WidgetArea from "../widgets/WidgetArea.astro";
+
+interface Props {
+	siteTitle: string;
+	siteTagline: string;
+	siteLogo: { url?: string; alt?: string } | null;
+	footerItems: MenuItem[];
+	socialLinks: Array<{ label: string; url: string }>;
+}
+
+const { siteTitle, siteTagline, siteLogo, footerItems, socialLinks } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="site-footer__widgets">
+		<div class="container">
+			<WidgetArea name="footer" class="site-footer__widget-grid" />
+		</div>
+	</div>
+	<div class="container site-footer__main">
+		<div class="site-footer__brand">
+			<Brand siteTitle={siteTitle} siteLogo={siteLogo} onInk />
+			{siteTagline && <p class="site-footer__tagline">{siteTagline}</p>}
+		</div>
+		{
+			footerItems.length > 0 && (
+				<nav aria-label="フッターメニュー">
+					<ul class="site-footer__links">
+						{footerItems.map((item) => (
+							<li><MenuLink item={item} /></li>
+						))}
+					</ul>
+				</nav>
+			)
+		}
+		{
+			socialLinks.length > 0 && (
+				<ul class="site-footer__links" aria-label="SNS">
+					{socialLinks.map((link) => (
+						<li><a href={link.url} rel="noopener noreferrer" target="_blank">{link.label}</a></li>
+					))}
+				</ul>
+			)
+		}
+	</div>
+	<div class="container site-footer__bottom">
+		<p>{`© ${year} ${siteTitle}`}</p>
+		<div class="theme-switcher" role="group" aria-label="表示モード">
+			<button type="button" class="theme-btn" data-theme="light" aria-label="ライト">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+			</button>
+			<button type="button" class="theme-btn" data-theme="dark" aria-label="ダーク">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg>
+			</button>
+			<button type="button" class="theme-btn" data-theme="system" aria-label="端末の設定に合わせる">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg>
+			</button>
+		</div>
+	</div>
+</footer>
+
+<script>
+	const themeBtns = document.querySelectorAll<HTMLButtonElement>(".theme-btn");
+	const root = document.documentElement;
+
+	function setCookie(name: string, value: string, maxAge = 31536000) {
+		const secure = location.protocol === "https:" ? "; Secure" : "";
+		document.cookie =
+			value === ""
+				? `${name}=; path=/; max-age=0; SameSite=Lax${secure}`
+				: `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax${secure}`;
+	}
+
+	function setTheme(theme: string) {
+		root.classList.remove("light", "dark");
+		if (theme === "system") {
+			setCookie("theme", "");
+		} else {
+			setCookie("theme", theme);
+			root.classList.add(theme);
+		}
+		themeBtns.forEach((btn) => {
+			const active = btn.dataset.theme === theme;
+			btn.classList.toggle("active", active);
+			btn.setAttribute("aria-pressed", String(active));
+		});
+	}
+
+	const stored =
+		document.cookie
+			.split("; ")
+			.find((item) => item.startsWith("theme="))
+			?.slice(6) || "system";
+	setTheme(stored);
+	themeBtns.forEach((btn) => {
+		btn.addEventListener("click", () => setTheme(btn.dataset.theme || "system"));
+	});
+</script>
+
+<style>
+	.site-footer {
+		background: var(--color-ink);
+		color: var(--color-on-ink-muted);
+		font-size: var(--font-size-sm);
+	}
+
+	.site-footer :global(a:not(.brand)) {
+		color: var(--color-on-ink-muted);
+	}
+
+	.site-footer :global(a:not(.brand):hover) {
+		color: var(--color-on-ink);
+	}
+
+	.site-footer__widgets:has(.widget) {
+		padding-block: var(--spacing-10) 0;
+	}
+
+	.site-footer__widgets :global(.site-footer__widget-grid) {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: var(--spacing-6);
+	}
+
+	.site-footer__widgets :global(.widget) {
+		background: transparent;
+		border: 0;
+		padding: 0;
+		color: var(--color-on-ink-muted);
+	}
+
+	.site-footer__widgets :global(.widget__title) {
+		color: var(--color-on-ink);
+	}
+
+	.site-footer__widgets :global(.widget-links a) {
+		color: var(--color-on-ink-muted);
+	}
+
+	.site-footer__main {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: var(--spacing-6);
+		padding-block: var(--spacing-10) var(--spacing-6);
+	}
+
+	.site-footer__tagline {
+		margin-block-start: var(--spacing-3);
+		max-width: 32em;
+		line-height: 1.8;
+	}
+
+	.site-footer__links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-2) var(--spacing-5);
+		list-style: none;
+	}
+
+	.site-footer__bottom {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--spacing-4);
+		padding-block: var(--spacing-5);
+		border-block-start: 1px solid color-mix(in srgb, var(--color-on-ink) 15%, transparent);
+	}
+
+	.theme-switcher {
+		display: inline-flex;
+		gap: 2px;
+		padding: 3px;
+		border-radius: var(--radius-full);
+		background: color-mix(in srgb, var(--color-on-ink) 10%, transparent);
+	}
+
+	.theme-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border: 0;
+		border-radius: var(--radius-full);
+		background: transparent;
+		color: var(--color-on-ink-muted);
+		cursor: pointer;
+	}
+
+	.theme-btn:hover {
+		color: var(--color-on-ink);
+	}
+
+	.theme-btn.active {
+		background: var(--color-on-ink);
+		color: var(--color-ink);
+	}
+
+	.theme-btn svg {
+		width: 18px;
+		height: 18px;
+	}
+
+	/* スマホ下部メニューと重ならないように */
+	@media (max-width: 1099px) {
+		.site-footer:has(~ .mobile-bar) {
+			padding-block-end: 64px;
+		}
+	}
+</style>

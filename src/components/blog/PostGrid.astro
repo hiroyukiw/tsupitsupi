@@ -1,0 +1,30 @@
+---
+/** 記事カードの並び。カテゴリーはまとめて1回で取得する */
+import PostCard from "./PostCard.astro";
+import { getPrimaryCategories, type PostEntry } from "../../utils/post-terms";
+
+interface Props {
+	posts: PostEntry[];
+	variant?: "card" | "row";
+	/** 最初の1枚の画像を優先して読み込む */
+	priority?: boolean;
+}
+
+const { posts, variant = "card", priority = false } = Astro.props;
+const categories = await getPrimaryCategories(posts);
+---
+
+<ul class={variant === "card" ? "card-grid" : "row-list"}>
+	{
+		posts.map((post, index) => (
+			<li>
+				<PostCard
+					post={post}
+					category={categories.get(post.data.id)}
+					variant={variant}
+					priority={priority && index === 0}
+				/>
+			</li>
+		))
+	}
+</ul>

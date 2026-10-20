@@ -1,0 +1,25 @@
+---
+/**
+ * 人気の投稿。
+ *
+ * EmDash には閲覧数の集計がないため、指定したタグ（既定は「人気」= popular）
+ * が付いた記事を新しい順に表示する。順位は編集者がタグで決める。
+ */
+import { getEmDashCollection } from "emdash";
+import PostMiniList from "../blog/PostMiniList.astro";
+
+interface Props {
+	count?: number;
+	tag?: string;
+}
+
+const { count = 5, tag = "popular" } = Astro.props;
+const { entries, cacheHint } = await getEmDashCollection("posts", {
+	where: { tag },
+	orderBy: { published_at: "desc" },
+	limit: count,
+});
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+---
+
+<PostMiniList posts={entries} ranked />

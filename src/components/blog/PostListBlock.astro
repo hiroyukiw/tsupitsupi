@@ -1,0 +1,49 @@
+---
+/** ブロック「記事一覧」：新着・カテゴリー・タグの記事をカードかリストで並べる */
+import { getEmDashCollection } from "emdash";
+import PostGrid from "./PostGrid.astro";
+import { type BlockProps, str, num } from "../blocks/types";
+
+type Props = BlockProps;
+
+const { value, area, first = false } = Astro.props;
+const heading = str(value.heading);
+const source = str(value.source) || "新着";
+const term = str(value.term);
+const count = Math.min(num(value.count, 6), 24);
+const variant = str(value.style) === "リスト" ? "row" : "card";
+const moreLabel = str(value.more_label);
+const moreUrl = str(value.more_url);
+
+const where: Record<string, string> | undefined =
+	source === "カテゴリー" && term
+		? { category: term }
+		: source === "タグ" && term
+			? { tag: term }
+			: undefined;
+
+const { entries: posts, cacheHint } = await getEmDashCollection("posts", {
+	where,
+	orderBy: { published_at: "desc" },
+	limit: count,
+});
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+---
+
+{
+	posts.length > 0 && (
+		<section class:list={["post-list-block", area === "full" && "section"]}>
+			<div class:list={[area === "full" && "container"]}>
+				{(heading || (moreLabel && moreUrl)) && (
+					<div class="section-head">
+						{heading && <h2 class="section-head__title">{heading}</h2>}
+						{moreLabel && moreUrl && (
+							<a href={moreUrl} class="section-head__more">{moreLabel}</a>
+						)}
+					</div>
+				)}
+				<PostGrid posts={posts} variant={variant} priority={first} />
+			</div>
+		</section>
+	)
+}

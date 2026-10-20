@@ -1,0 +1,199 @@
+---
+/** 記事内ブロック「比較表」。商品を列、項目を行に並べ、◎○△× に色を付ける */
+const node = Astro.props.node ?? {};
+
+const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
+
+type Row = { label: string; values: string[] };
+const rows: Row[] = (Array.isArray(node.rows) ? node.rows : [])
+	.map((r: Record<string, unknown>): Row => ({
+		label: str(r?.label),
+		values: [str(r?.v1), str(r?.v2), str(r?.v3), str(r?.v4)],
+	}))
+	.filter((r: Row) => r.label || r.values.some(Boolean));
+
+const names = [str(node.name1), str(node.name2), str(node.name3), str(node.name4)];
+// 名前か値が1つでもある列だけを出す
+const columns = [0, 1, 2, 3].filter((i) => names[i] || rows.some((r) => r.values[i]));
+const highlight = Number(node.highlight) - 1;
+const title = str(node.title);
+const note = str(node.note);
+
+// 先頭の記号に色を付ける（「○ 対応」のように後ろに文字が続いてもよい）
+const MARKS: Record<string, string> = {
+	"◎": "best",
+	"○": "good",
+	"〇": "good",
+	"△": "fair",
+	"×": "bad",
+	"✕": "bad",
+};
+function splitMark(value: string) {
+	const mark = value.charAt(0);
+	return mark in MARKS ? { mark, kind: MARKS[mark], rest: value.slice(1).trim() } : null;
+}
+---
+
+{
+	columns.length > 0 && rows.length > 0 && (
+		<figure class="article-compare">
+			{title && <figcaption class="article-compare__title">{title}</figcaption>}
+			<div class="article-compare__scroll" role="region" aria-label={title || "比較表"} tabindex="0">
+				<table>
+					<thead>
+						<tr>
+							<td />
+							{columns.map((i) => (
+								<th scope="col" class:list={{ "is-pick": i === highlight }}>
+									{i === highlight && <span class="article-compare__badge">おすすめ</span>}
+									{names[i] || `${i + 1}列目`}
+								</th>
+							))}
+						</tr>
+					</thead>
+					<tbody>
+						{rows.map((row) => (
+							<tr>
+								<th scope="row">{row.label}</th>
+								{columns.map((i) => {
+									const value = row.values[i];
+									const m = splitMark(value);
+									return (
+										<td class:list={{ "is-pick": i === highlight }}>
+											{m ? (
+												<>
+													<span class:list={["article-compare__mark", `article-compare__mark--${m.kind}`]}>
+														{m.mark}
+													</span>
+													{m.rest && <span class="article-compare__rest">{m.rest}</span>}
+												</>
+											) : (
+												value || "－"
+											)}
+										</td>
+									);
+								})}
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			{note && <p class="article-compare__note">{note}</p>}
+		</figure>
+	)
+}
+
+<style>
+	.article-compare {
+		margin: 0;
+	}
+
+	.article-compare__title {
+		margin-bottom: 0.5em;
+		font-weight: var(--font-weight-heading);
+	}
+
+	.article-compare__scroll {
+		overflow-x: auto;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
+		background: var(--color-surface);
+	}
+
+	.article-compare__scroll:focus-visible {
+		outline: 2px solid var(--color-brand);
+		outline-offset: 2px;
+	}
+
+	table {
+		width: 100%;
+		min-width: 32em;
+		border-collapse: collapse;
+		font-size: 0.92em;
+	}
+
+	th,
+	td {
+		padding: 0.7em 0.8em;
+		border-bottom: 1px solid var(--color-border);
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	tbody tr:last-child > * {
+		border-bottom: 0;
+	}
+
+	thead th {
+		background: var(--color-fill);
+		font-weight: var(--font-weight-heading);
+	}
+
+	thead td {
+		background: var(--color-fill);
+	}
+
+	/* 項目名の列はスマホで横に送っても見えるように固定する */
+	tbody th,
+	thead td {
+		position: sticky;
+		left: 0;
+		z-index: 1;
+		min-width: 6.5em;
+		text-align: left;
+		font-weight: var(--font-weight-heading);
+		white-space: nowrap;
+	}
+
+	tbody th {
+		background: var(--color-fill);
+	}
+
+	.is-pick {
+		background: var(--color-brand-soft);
+	}
+
+	thead th.is-pick {
+		background: var(--color-brand);
+		color: var(--color-on-brand);
+	}
+
+	.article-compare__badge {
+		display: block;
+		margin-bottom: 0.2em;
+		font-size: 0.75em;
+		letter-spacing: 0.05em;
+	}
+
+	.article-compare__mark {
+		display: block;
+		font-size: 1.4em;
+		font-weight: var(--font-weight-heading);
+		line-height: 1.2;
+	}
+
+	.article-compare__mark--best,
+	.article-compare__mark--good {
+		color: var(--color-brand);
+	}
+
+	.article-compare__mark--fair {
+		color: var(--color-caution);
+	}
+
+	.article-compare__mark--bad {
+		color: var(--color-danger);
+	}
+
+	.article-compare__rest {
+		display: block;
+		font-size: 0.85em;
+		color: var(--color-text-secondary);
+	}
+
+	.article-compare__note {
+		margin: 0.5em 0 0;
+		font-size: 0.85em;
+		color: var(--color-muted);
+	}
+</style>

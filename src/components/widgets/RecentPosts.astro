@@ -1,0 +1,18 @@
+---
+import { getEmDashCollection } from "emdash";
+import PostMiniList from "../blog/PostMiniList.astro";
+
+interface Props {
+	count?: number;
+	showDate?: boolean;
+}
+
+const { count = 5, showDate = true } = Astro.props;
+const { entries, cacheHint } = await getEmDashCollection("posts", {
+	orderBy: { published_at: "desc" },
+	limit: count,
+});
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+---
+
+<PostMiniList posts={entries} showDate={showDate} />

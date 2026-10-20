@@ -1,449 +1,195 @@
 ---
-import type { ContentEntry, InferCollectionData } from "emdash";
 import { Image } from "emdash/ui";
-import Byline from "./Byline.astro";
 import { formatDate } from "../../utils/locale";
-import { formatReadingTime, getReadingTime } from "../../utils/reading-time";
+import type { PostEntry, TermLink } from "../../utils/post-terms";
 
 interface Props {
-	post: ContentEntry<InferCollectionData<"posts">>;
-	tags?: Array<{ slug: string; label: string }>;
-	/** card: grid tile. feature: large split card. row: archive list item. */
-	variant?: "card" | "feature" | "row";
+	post: PostEntry;
+	category?: TermLink;
+	/** card: カード（グリッド用） / row: 横長のリスト */
+	variant?: "card" | "row";
 	headingLevel?: 2 | 3;
-	/** Load the image eagerly; use for the largest image above the fold. */
+	/** 一番上に表示される画像だけ優先して読み込む */
 	priority?: boolean;
 }
 
-const {
-	post,
-	tags = [],
-	variant = "card",
-	headingLevel = 2,
-	priority = false,
-} = Astro.props;
+const { post, category, variant = "card", headingLevel = 3, priority = false } = Astro.props;
 
 const Heading = `h${headingLevel}` as const;
 const href = `/posts/${post.id}`;
-const titleId = `post-${variant}-${post.id}`;
-const title = post.data.title || "Untitled";
+const title = post.data.title || "（タイトルなし）";
 const publishedAt = post.data.publishedAt ?? null;
-const readingTime = formatReadingTime(getReadingTime(post.data.content));
-const bylines = post.data.bylines ?? [];
-const visibleTags = tags.slice(0, variant === "card" ? 2 : 3);
-
-const sizes = {
-	card: "(min-width: 1080px) 360px, (min-width: 700px) 45vw, 100vw",
-	feature: "(min-width: 900px) 640px, 100vw",
-	row: "(min-width: 720px) 240px, 120px",
-}[variant];
+const sizes =
+	variant === "card" ? "(min-width: 1000px) 260px, (min-width: 600px) 45vw, 100vw" : "160px";
 ---
 
-<article class:list={["post", `post--${variant}`]}>
-	<a href={href} class="post__media" tabindex="-1" aria-hidden="true">
+<article class:list={["post-card", `post-card--${variant}`]}>
+	<a href={href} class="post-card__media" tabindex="-1" aria-hidden="true">
 		{
 			post.data.featured_image ? (
-				<div class="post__image" {...post.edit.featured_image}>
-					<Image
-						image={post.data.featured_image}
-						sizes={sizes}
-						priority={priority}
-					/>
-				</div>
+				<Image image={post.data.featured_image} sizes={sizes} priority={priority} />
 			) : (
-				<div class="post__placeholder" />
+				<span class="post-card__placeholder" />
 			)
 		}
 	</a>
-	<div class="post__body">
-		<a href={href} class="post__link" aria-labelledby={titleId}>
-			<span class="post__meta">
-				{
-					publishedAt && (
-						<time datetime={publishedAt.toISOString()}>
-							{formatDate(publishedAt, "short")}
-						</time>
-					)
-				}
-				<span>{readingTime}</span>
-			</span>
-			<Heading class="post__title" id={titleId} {...post.edit.title}>
-				{title}
-			</Heading>
-			{
-				post.data.excerpt && (
-					<p class="post__excerpt" {...post.edit.excerpt}>
-						{post.data.excerpt}
-					</p>
-				)
-			}
-			{
-				variant === "feature" && (
-					<span class="post__cta arrow-link" aria-hidden="true">
-						Read article
-						<svg
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="1.75"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<path d="M5 12h14" />
-							<path d="m12 5 7 7-7 7" />
-						</svg>
-					</span>
-				)
-			}
-		</a>
+	<div class="post-card__body">
+		{category && <a href={`/category/${category.slug}`} class="chip post-card__category">{category.label}</a>}
+		<Heading class="post-card__title" {...post.edit.title}>
+			<a href={href}>{title}</a>
+		</Heading>
 		{
-			(bylines.length > 0 || visibleTags.length > 0) && (
-				<div class="post__footer">
-					<Byline
-						bylines={bylines}
-						max={variant === "card" ? 1 : 2}
-						size={variant === "feature" ? "sm" : "xs"}
-					/>
-					{visibleTags.length > 0 && (
-						<ul class="chips post__tags" aria-label="Tags">
-							{visibleTags.map((tag) => (
-								<li>
-									<a href={`/tag/${tag.slug}`} class="chip">
-										{tag.label}
-									</a>
-								</li>
-							))}
-						</ul>
-					)}
-				</div>
+			variant === "row" && post.data.excerpt && (
+				<p class="post-card__excerpt">{post.data.excerpt}</p>
+			)
+		}
+		{
+			publishedAt && (
+				<time class="post-card__date" datetime={publishedAt.toISOString()}>
+					{formatDate(publishedAt, "short")}
+				</time>
 			)
 		}
 	</div>
 </article>
 
 <style>
-	.post {
+	.post-card {
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		min-width: 0;
-		transition:
-			box-shadow var(--transition-base),
-			outline-color var(--transition-fast);
-	}
-
-	.post:has(.post__link:focus-visible) {
-		outline: 2px solid var(--color-brand);
-		outline-offset: 2px;
-	}
-
-	@supports selector(:has(*)) {
-		.post__link:focus-visible {
-			outline: none;
-		}
-	}
-
-	/* Media */
-	.post__media {
-		position: relative;
-		display: block;
+		height: 100%;
 		overflow: hidden;
-		aspect-ratio: 16 / 10;
-		border-radius: var(--radius-lg);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-card);
+		transition: box-shadow var(--transition-base), translate var(--transition-base);
+	}
+
+	.post-card:hover {
+		box-shadow: var(--shadow-card-hover);
+		translate: 0 -2px;
+	}
+
+	.post-card__media {
+		display: block;
+		aspect-ratio: 16 / 9;
 		background: var(--color-fill);
 	}
 
-	.post__media::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		border-radius: inherit;
-		outline: 1px solid var(--color-media-outline);
-		outline-offset: -1px;
-		pointer-events: none;
-	}
-
-	.post__image {
-		height: 100%;
-	}
-
-	.post__image :global(img) {
+	.post-card__media :global(img),
+	.post-card__placeholder {
+		display: block;
 		width: 100%;
-		max-width: none;
 		height: 100%;
-		max-height: none;
 		object-fit: cover;
-		transition: scale 500ms var(--ease-out);
 	}
 
-	.post:has(.post__link:hover, .post__media:hover) .post__image :global(img) {
-		scale: 1.03;
-	}
-
-	.post__placeholder {
-		position: absolute;
-		inset: 0;
-		background-image: radial-gradient(
-			circle,
-			var(--color-border-strong) 1px,
-			transparent 1.5px
-		);
-		background-size: 14px 14px;
-		mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%);
-	}
-
-	/* Text */
-	.post__body {
+	.post-card__body {
 		display: flex;
 		flex: 1;
 		flex-direction: column;
-		min-width: 0;
-	}
-
-	.post__link {
-		display: flex;
-		flex-direction: column;
+		align-items: flex-start;
 		gap: var(--spacing-2);
-		color: inherit;
-		text-decoration: none;
+		padding: var(--spacing-4) var(--spacing-4) var(--spacing-5);
 	}
 
-	.post__meta {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		column-gap: var(--spacing-2);
-		font-size: var(--font-size-xs);
-		color: var(--color-muted);
-		font-variant-numeric: tabular-nums;
+	.post-card__category {
+		position: relative;
+		z-index: 1;
 	}
 
-	/* Trailing separators, so a wrapped line never starts with a dot */
-	.post__meta > :not(:last-child)::after {
-		content: "·";
-		content: "·" / "";
-		margin-inline-start: var(--spacing-2);
+	.post-card__title {
+		font-size: var(--font-size-base);
+		font-weight: 700;
+		line-height: 1.6;
 	}
 
-	.post__title {
-		font-size: var(--font-size-lg);
-		line-height: var(--leading-snug);
+	.post-card__title a {
 		color: var(--color-text);
-		text-decoration-line: underline;
-		text-decoration-thickness: 1px;
-		text-decoration-color: transparent;
-		text-underline-offset: 0.18em;
-		transition: text-decoration-color var(--transition-fast);
 	}
 
-	.post__excerpt {
+	/* カード全体をクリックできるように */
+	.post-card__title a::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+	}
+
+	.post-card__title a:hover {
+		color: var(--color-brand);
+	}
+
+	.post-card__excerpt {
+		font-size: var(--font-size-sm);
+		color: var(--color-text-secondary);
+		line-height: 1.7;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
-		font-size: var(--font-size-sm);
-		line-height: var(--leading-normal);
-		color: var(--color-text-secondary);
 	}
 
-	/* Inline editing needs the whole excerpt, not the clamped preview */
-	.post__excerpt[data-emdash-editing] {
-		display: block;
-		-webkit-line-clamp: unset;
-		overflow: visible;
+	.post-card__date {
+		margin-block-start: auto;
+		font-size: var(--font-size-label);
+		color: var(--color-muted);
 	}
 
-	.post__footer {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: var(--spacing-3);
-		margin-top: auto;
+	.post-card--row {
+		flex-direction: row;
+		align-items: stretch;
 	}
 
-	.post__footer > * {
-		min-width: 0;
-		max-width: 100%;
+	.post-card--row .post-card__media {
+		flex: none;
+		width: clamp(112px, 28%, 220px);
+		aspect-ratio: auto;
+		min-height: 100px;
 	}
 
-	.post__tags {
-		gap: var(--spacing-1);
+	.post-card--row .post-card__body {
+		padding: var(--spacing-3) var(--spacing-4);
+		gap: 6px;
 	}
 
-	/* Card: grid tile with inset media */
-	.post--card {
-		padding: var(--card-padding);
-		border-radius: var(--radius-xl);
-		background: var(--color-surface);
-		box-shadow: var(--shadow-card);
+	.post-card--row .post-card__date {
+		margin-block-start: 0;
 	}
 
-	.post--card:has(.post__link:hover, .post__media:hover) {
-		box-shadow: var(--shadow-card-hover);
-	}
-
-	.post--card:has(.post__link:focus-visible) {
-		outline-offset: 3px;
-	}
-
-	.post--card .post__link {
-		padding: var(--spacing-4) var(--spacing-3) var(--spacing-4);
-	}
-
-	/* Stacked, so footers line up across a row whatever their content */
-	.post--card .post__footer {
-		flex-direction: column;
-		align-items: flex-start;
-		gap: var(--spacing-3);
-		padding: 0 var(--spacing-3) var(--spacing-3);
-	}
-
-	/* Feature: large split card */
-	.post--feature {
-		display: grid;
-		grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-		padding: var(--card-padding);
-		border-radius: var(--radius-xl);
-		background: var(--color-surface);
-		box-shadow: var(--shadow-card);
-	}
-
-	.post--feature:has(.post__link:hover, .post__media:hover) {
-		box-shadow: var(--shadow-card-hover);
-	}
-
-	.post--feature:has(.post__link:focus-visible) {
-		outline-offset: 3px;
-	}
-
-	.post--feature .post__media {
-		aspect-ratio: 4 / 3;
-	}
-
-	.post--feature .post__body {
-		justify-content: center;
-		gap: var(--spacing-8);
-		padding: clamp(1.5rem, 1rem + 2vw, 3rem);
-	}
-
-	.post--feature .post__link {
-		gap: var(--spacing-4);
-	}
-
-	.post--feature .post__meta {
-		font-size: var(--font-size-sm);
-	}
-
-	.post--feature .post__title {
-		font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem);
-		line-height: var(--leading-tight);
-		font-weight: var(--font-weight-display);
-		letter-spacing: var(--tracking-tight);
-	}
-
-	.post--feature .post__excerpt {
-		-webkit-line-clamp: 3;
-		font-size: var(--font-size-lg);
-	}
-
-	.post--feature .post__cta {
-		margin-top: var(--spacing-2);
-		color: var(--color-text);
-	}
-
-	.post--feature:has(.post__link:hover) .post__cta :global(svg) {
-		translate: 2px 0;
-	}
-
-	.post--feature:has(.post__link:hover) .post__cta :global(svg:dir(rtl)) {
-		translate: -2px 0;
-	}
-
-	.post--feature .post__footer {
-		margin-top: 0;
-		padding-top: var(--spacing-6);
-		border-top: 1px solid var(--color-border-subtle);
-	}
-
-	/* Row: archive list item with an end-side thumbnail */
-	.post--row {
-		--avatar-ring: var(--color-bg);
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) clamp(7.5rem, 24%, 15rem);
-		align-items: start;
-		gap: var(--spacing-8);
-		padding-block: var(--spacing-8);
-		border-radius: var(--radius-lg);
-	}
-
-	.post--row .post__media {
-		grid-column: 2;
-		grid-row: 1;
-	}
-
-	.post--row .post__body {
-		grid-column: 1;
-		grid-row: 1;
-		gap: var(--spacing-4);
-		max-width: 44rem;
-	}
-
-	.post--row .post__title {
-		font-size: var(--font-size-xl);
-	}
-
-	.post--row .post__excerpt {
-		font-size: var(--font-size-base);
-	}
-
-	.post--row:has(.post__link:hover) .post__title {
-		text-decoration-color: currentColor;
-	}
-
-	.post--row .post__footer {
-		justify-content: flex-start;
-		column-gap: var(--spacing-4);
-	}
-
-	@media (max-width: 900px) {
-		.post--feature {
-			grid-template-columns: minmax(0, 1fr);
+	/* スマホでは、カード一覧の2件目以降を横長にして縦の長さを抑える */
+	@media (max-width: 599px) {
+		:global(.card-grid > li:not(:first-child)) .post-card--card {
+			flex-direction: row;
 		}
 
-		.post--feature .post__media {
-			aspect-ratio: 16 / 9;
+		:global(.card-grid > li:not(:first-child)) .post-card--card .post-card__media {
+			flex: none;
+			width: 112px;
+			aspect-ratio: auto;
+			min-height: 88px;
 		}
 
-		.post--feature .post__body {
-			padding: var(--spacing-6) var(--spacing-4) var(--spacing-4);
-		}
-	}
-
-	@media (max-width: 560px) {
-		.post--row {
-			grid-template-columns: minmax(0, 1fr) 6rem;
-			gap: var(--spacing-4);
-			padding-block: var(--spacing-6);
+		:global(.card-grid > li:not(:first-child)) .post-card--card .post-card__body {
+			padding: var(--spacing-3);
+			gap: 4px;
 		}
 
-		.post--row .post__media {
-			aspect-ratio: 1;
-		}
-
-		.post--row .post__title {
-			font-size: var(--font-size-lg);
-		}
-
-		.post--row .post__excerpt {
+		:global(.card-grid > li:not(:first-child)) .post-card--card .post-card__title {
 			font-size: var(--font-size-sm);
 		}
-	}
 
-	@media (max-width: 400px) {
-		.post--row {
-			grid-template-columns: minmax(0, 1fr) 4.5rem;
-			gap: var(--spacing-3);
+		:global(.card-grid > li:not(:first-child)) .post-card--card .post-card__date {
+			margin-block-start: 0;
+		}
+
+		.post-card--row .post-card__title {
+			font-size: var(--font-size-sm);
+		}
+
+		.post-card--row .post-card__excerpt {
+			display: none;
 		}
 	}
 </style>

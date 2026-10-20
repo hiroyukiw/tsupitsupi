@@ -1,0 +1,178 @@
+---
+/** メインビジュアル：キャッチコピー、サブコピー、説明、ボタン2つ、写真 */
+import { Image } from "emdash/ui";
+import { type BlockProps, str, hasImage } from "./types";
+
+type Props = BlockProps;
+
+const { value, area, first = false } = Astro.props;
+const style = str(value.style) || "写真を横に並べる";
+const image = hasImage(value.image) ? value.image : null;
+const variant =
+	style === "背景を写真にする" && image ? "background" : style === "写真なし" || !image ? "text" : "split";
+
+const eyebrow = str(value.eyebrow);
+const heading = str(value.heading);
+const subheading = str(value.subheading);
+const description = str(value.description);
+const buttons = [
+	{ label: str(value.primary_label), url: str(value.primary_url), primary: true },
+	{ label: str(value.secondary_label), url: str(value.secondary_url), primary: false },
+].filter((button) => button.label && button.url);
+---
+
+<section class:list={["hero", `hero--${variant}`, area === "main" && "hero--in-main"]}>
+	{
+		variant === "background" && image && (
+			<div class="hero__bg" aria-hidden="true">
+				<Image image={image} sizes="100vw" priority={first} />
+			</div>
+		)
+	}
+	<div class:list={["hero__inner", area === "full" && "container"]}>
+		<div class="hero__text">
+			{eyebrow && <p class="hero__eyebrow">{eyebrow}</p>}
+			{heading && <h1 class="hero__heading">{heading}</h1>}
+			{subheading && <p class="hero__sub">{subheading}</p>}
+			{description && <p class="hero__description">{description}</p>}
+			{
+				buttons.length > 0 && (
+					<div class="hero__buttons">
+						{buttons.map((button) => (
+							<a href={button.url} class:list={["btn", "btn--lg", !button.primary && "btn--on-ink"]}>
+								{button.label}
+							</a>
+						))}
+					</div>
+				)
+			}
+		</div>
+		{
+			variant === "split" && image && (
+				<div class="hero__media">
+					<Image image={image} sizes="(min-width: 1000px) 540px, 100vw" priority={first} />
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.hero {
+		position: relative;
+		isolation: isolate;
+		overflow: hidden;
+		background: var(--color-ink);
+		color: var(--color-on-ink);
+	}
+
+	.hero--in-main {
+		border-radius: var(--radius-card);
+	}
+
+	.hero__inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: clamp(2rem, 1rem + 3vw, 3rem);
+		padding-block: clamp(3rem, 2rem + 4vw, 5rem);
+	}
+
+	.hero--in-main .hero__inner {
+		padding: clamp(2rem, 1.5rem + 3vw, 3.5rem);
+	}
+
+	.hero__text {
+		flex: 1 1 420px;
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-4);
+		min-width: 0;
+	}
+
+	.hero--text .hero__text,
+	.hero--background .hero__text {
+		max-width: 760px;
+	}
+
+	.hero--text .hero__inner,
+	.hero--background .hero__inner {
+		justify-content: center;
+		text-align: center;
+	}
+
+	.hero--text .hero__buttons,
+	.hero--background .hero__buttons {
+		justify-content: center;
+	}
+
+	.hero--background .hero__inner {
+		min-height: clamp(360px, 50vw, 560px);
+	}
+
+	.hero__eyebrow {
+		font-size: var(--font-size-xs);
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		color: var(--color-accent-soft);
+	}
+
+	:global(:root.dark) .hero__eyebrow {
+		color: var(--color-on-accent-soft);
+	}
+
+	.hero__heading {
+		font-size: clamp(1.9rem, 1.3rem + 2.6vw, 3rem);
+		line-height: 1.35;
+		white-space: pre-line;
+	}
+
+	.hero__sub {
+		font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+		font-weight: 700;
+	}
+
+	.hero__description {
+		color: var(--color-on-ink-muted);
+		line-height: var(--leading-body);
+		white-space: pre-line;
+	}
+
+	.hero__buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-3);
+		margin-block-start: var(--spacing-2);
+	}
+
+	.hero__media {
+		flex: 1 1 380px;
+		min-width: 0;
+	}
+
+	.hero__media :global(img) {
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-radius: var(--radius-card);
+	}
+
+	.hero__bg {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+	}
+
+	.hero__bg :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.hero__bg::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: color-mix(in srgb, var(--color-ink) 62%, transparent);
+	}
+</style>

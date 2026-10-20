@@ -1,34 +1,78 @@
 /*
-  theme.css -- your theme overrides. This is the file to edit to
-  retheme the site.
+  theme.css -- ツピツピのデザイントークン。
 
-  Every design token lives in src/styles/tokens.css (colors, type
-  scale, spacing, layout, shadows) with its default value. Override any
-  of them here: declarations in this file are unlayered, so they always
-  beat the @layer base defaults in tokens.css.
+  tokens.css の既定値をここで上書きします（このファイルは @layer の外なので、
+  常に tokens.css より優先されます）。色は light-dark(<ライト>, <ダーク>) で
+  両モードを一度に指定します。
 
-  Colors are defined with light-dark(). Overriding with a plain color
-  changes light and dark mode at once; use light-dark(<light>, <dark>)
-  to set different values per mode.
+  ツピツピの配色はシジュウカラがモチーフです。
+  - ink: 頭の黒。ヘッダー帯・見出し帯・フッターに使う
+  - brand: 差し色の緑。ボタン・リンク
+  - accent-soft: お腹の黄色。カテゴリーなどの小さなラベル
 
-  Set the three brand tokens together, as in the example below:
-  --color-on-brand defaults to near-black in dark mode.
-
-  Webfonts are loaded in astro.config.mjs (--font-body, --font-mono).
-  Swap the loaded font there; use overrides here for system fonts or a
-  separate heading face.
-
-  Example:
-
-  :root {
-    --color-brand: light-dark(#0f766e, #2dd4bf);
-    --color-brand-hover: light-dark(#115e59, #5eead4);
-    --color-on-brand: light-dark(#ffffff, #0a0a0a);
-    --font-heading: "Iowan Old Style", Georgia, serif;
-    --radius-lg: 18px;
-    --radius-xl: 24px;
-  }
+  業種別スタイル（コーポレート、クリニックなど）は、このファイルと同じ
+  トークンを上書きする形で追加します。
 */
 
 :root {
+	--color-bg: light-dark(#f7f6f1, #111517);
+	--color-surface: light-dark(#ffffff, #192023);
+	--color-fill: light-dark(#f2f0e8, #222a2e);
+	--color-fill-strong: light-dark(#e8e5da, #2b3438);
+	--color-text: light-dark(#1f2a2e, #e7ecec);
+	--color-text-secondary: light-dark(#4a5357, #b9c2c5);
+	--color-muted: light-dark(#5b6468, #9aa5a9);
+	--color-border: light-dark(#e3e1d9, #2c3539);
+	--color-border-subtle: light-dark(#efede6, #222a2e);
+	--color-border-strong: light-dark(#c9ccc4, #3d484c);
+
+	--color-brand: light-dark(#2d6a55, #74c6a6);
+	--color-brand-hover: light-dark(#1f4d3d, #95d6bc);
+	--color-on-brand: light-dark(#ffffff, #0d1a15);
+
+	/* ツピツピ独自のトークン */
+	--color-ink: light-dark(#1f2a2e, #0b0f10);
+	--color-on-ink: #ffffff;
+	--color-on-ink-muted: #cfd6d8;
+	--color-accent-soft: light-dark(#efe6a8, #4b4521);
+	--color-on-accent-soft: light-dark(#1f2a2e, #f4ecb8);
+	--color-brand-soft: light-dark(#e6f0eb, #1c3229);
+
+	--font-weight-heading: 700;
+	--font-weight-display: 900;
+	--tracking-tight: 0;
+	--tracking-snug: 0;
+	--leading-body: 1.9;
+
+	--radius-card: 12px;
+	--container-width: 1180px;
+	--sidebar-width: 320px;
+	--column-gap: 32px;
+	--header-cta-radius: var(--radius-full);
+	--shadow-card: 0 1px 2px var(--color-shadow);
+	--shadow-card-hover: 0 8px 24px -8px var(--color-shadow-strong);
+}
+
+/* light-dark() が使えない古いブラウザ向け（ライトの値。上と揃えること） */
+@supports not (color: light-dark(#000, #fff)) {
+	:root {
+		color-scheme: light;
+		--color-bg: #f7f6f1;
+		--color-surface: #ffffff;
+		--color-fill: #f2f0e8;
+		--color-fill-strong: #e8e5da;
+		--color-text: #1f2a2e;
+		--color-text-secondary: #4a5357;
+		--color-muted: #5b6468;
+		--color-border: #e3e1d9;
+		--color-border-subtle: #efede6;
+		--color-border-strong: #c9ccc4;
+		--color-brand: #2d6a55;
+		--color-brand-hover: #1f4d3d;
+		--color-on-brand: #ffffff;
+		--color-ink: #1f2a2e;
+		--color-accent-soft: #efe6a8;
+		--color-on-accent-soft: #1f2a2e;
+		--color-brand-soft: #e6f0eb;
+	}
 }

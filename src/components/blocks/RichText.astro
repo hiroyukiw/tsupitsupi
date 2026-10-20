@@ -1,0 +1,34 @@
+---
+/** 自由入力：本文と同じ書式で文章や画像を置く */
+import { PortableText } from "emdash/ui";
+import { type BlockProps } from "./types";
+import "../../styles/prose.css";
+
+type Props = BlockProps;
+
+const { value, area } = Astro.props;
+const content = Array.isArray(value.content) ? value.content : [];
+---
+
+{
+	content.length > 0 && (
+		<section class:list={["rich-text", area === "full" && "rich-text--full"]}>
+			<div class:list={[area === "full" && "container"]}>
+				<div class="panel prose">
+					<PortableText value={content} />
+				</div>
+			</div>
+		</section>
+	)
+}
+
+<style>
+	.rich-text--full {
+		padding-block: var(--spacing-10);
+	}
+
+	.rich-text--full .panel {
+		max-width: 860px;
+		margin-inline: auto;
+	}
+</style>

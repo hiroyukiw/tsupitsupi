@@ -1,0 +1,48 @@
+---
+/**
+ * 固定ページのブロック（top_blocks / main_blocks / bottom_blocks）を順に描画する。
+ *
+ * ブロックの種類は seed/seed.json の blockTypes で定義している。
+ * area="full" は画面幅いっぱいのセクション、area="main" はメインカラムの中に置く。
+ */
+import Hero from "./Hero.astro";
+import Features from "./Features.astro";
+import Cta from "./Cta.astro";
+import RichText from "./RichText.astro";
+import PostListBlock from "../blog/PostListBlock.astro";
+
+interface Props {
+	blocks?: unknown;
+	area: "full" | "main";
+}
+
+type BlockValue = { _type: string; _key?: string } & Record<string, unknown>;
+
+const { area } = Astro.props;
+const blocks: BlockValue[] = Array.isArray(Astro.props.blocks)
+	? Astro.props.blocks.filter(
+			(block): block is BlockValue =>
+				!!block && typeof block === "object" && typeof (block as BlockValue)._type === "string",
+		)
+	: [];
+---
+
+{
+	blocks.map((block, index) => {
+		const props = { value: block, area, first: index === 0 };
+		switch (block._type) {
+			case "hero":
+				return <Hero {...props} />;
+			case "features":
+				return <Features {...props} />;
+			case "cta":
+				return <Cta {...props} />;
+			case "rich_text":
+				return <RichText {...props} />;
+			case "post_list":
+				return <PostListBlock {...props} />;
+			default:
+				return null;
+		}
+	})
+}

@@ -1,0 +1,87 @@
+---
+/**
+ * 固定ページの表示（トップページも同じ仕組み）。
+ *
+ *   上部エリア（top_blocks, 全幅）
+ *   メイン：タイトル・本文・main_blocks（2カラムならサイドバー付き）
+ *   下部エリア（bottom_blocks, 全幅）
+ */
+import { PortableText } from "emdash/ui";
+import Columns from "./Columns.astro";
+import Breadcrumbs from "./Breadcrumbs.astro";
+import BlockList from "../blocks/BlockList.astro";
+import { normalizePageLayout } from "../../utils/layout";
+import "../../styles/prose.css";
+
+interface Props {
+	/** 固定ページの entry.data */
+	data: object;
+	/** inline editing attributes for the title, from entry.edit */
+	titleEdit?: Record<string, unknown>;
+	/** トップページではタイトルとパンくずを出さない */
+	isHome?: boolean;
+}
+
+const { titleEdit = {}, isHome = false } = Astro.props;
+const data = Astro.props.data as Record<string, unknown> & { title?: string };
+const layout = normalizePageLayout(data.page_layout);
+const content = Array.isArray(data.content) ? data.content : [];
+const hasMainBlocks = Array.isArray(data.main_blocks) && data.main_blocks.length > 0;
+const showArticle = !isHome || content.length > 0;
+---
+
+<BlockList blocks={data.top_blocks} area="full" />
+
+{
+	layout === "フルワイド" ? (
+		<>
+			{content.length > 0 && (
+				<div class="container section">
+					<div class="panel prose page-wide">
+						<PortableText value={content} />
+					</div>
+				</div>
+			)}
+			<BlockList blocks={data.main_blocks} area="full" />
+		</>
+	) : (
+		<>
+			{!isHome && (
+				<div class="container">
+					<Breadcrumbs items={[{ label: data.title ?? "" }]} />
+				</div>
+			)}
+			<Columns layout={layout}>
+				{showArticle && (
+					<article class="panel">
+						{!isHome && (
+							<h1 class="page-title" {...titleEdit}>
+								{data.title}
+							</h1>
+						)}
+						{content.length > 0 && (
+							<div class:list={["prose", !isHome && "page-body"]}>
+								<PortableText value={content} />
+							</div>
+						)}
+					</article>
+				)}
+				{hasMainBlocks && <BlockList blocks={data.main_blocks} area="main" />}
+				<slot />
+			</Columns>
+		</>
+	)
+}
+
+<BlockList blocks={data.bottom_blocks} area="full" />
+
+<style>
+	.page-body {
+		margin-block-start: var(--spacing-6);
+	}
+
+	.page-wide {
+		max-width: 860px;
+		margin-inline: auto;
+	}
+</style>

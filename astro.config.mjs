@@ -28,8 +28,8 @@ export default defineConfig({
 			provider: fontProviders.google(),
 			name: "Noto Sans JP",
 			cssVariable: "--font-body",
-			weights: [400, 500, 600, 700],
-			fallbacks: ["sans-serif"],
+			weights: [400, 500, 700, 900],
+			fallbacks: ["Hiragino Sans", "Yu Gothic", "sans-serif"],
 		},
 		{
 			provider: fontProviders.google(),

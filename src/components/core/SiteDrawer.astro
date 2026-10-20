@@ -1,0 +1,198 @@
+---
+import type { MenuItem } from "emdash";
+import MenuLink from "./MenuLink.astro";
+import WidgetArea from "../widgets/WidgetArea.astro";
+
+interface Props {
+	/** スマホ用メニュー。空なら呼び出し側でグローバルナビを渡す */
+	menuItems: MenuItem[];
+	ctaItems: MenuItem[];
+	socialLinks: Array<{ label: string; url: string }>;
+}
+
+const { menuItems, ctaItems, socialLinks } = Astro.props;
+---
+
+<dialog id="site-drawer" class="drawer" aria-label="サイトメニュー">
+	<div class="drawer__panel">
+		<div class="drawer__head">
+			<span class="drawer__title">メニュー</span>
+			<button type="button" class="icon-btn" aria-label="メニューを閉じる" data-drawer-close>
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+			</button>
+		</div>
+
+		<form class="widget-search drawer__search" action="/search" method="get" role="search">
+			<label for="drawer-search" class="sr-only">サイト内検索</label>
+			<input id="drawer-search" type="search" name="q" placeholder="キーワードで検索" />
+			<button type="submit" class="btn">検索</button>
+		</form>
+
+		{
+			menuItems.length > 0 && (
+				<nav aria-label="スマホメニュー">
+					<ul class="drawer__menu">
+						{menuItems.map((item) =>
+							item.children.length > 0 ? (
+								<li>
+									<details class="drawer__group">
+										<summary>{item.label}</summary>
+										<ul>
+											<li><MenuLink item={item} class="drawer__link drawer__link--sub" /></li>
+											{item.children.map((child) => (
+												<li><MenuLink item={child} class="drawer__link drawer__link--sub" /></li>
+											))}
+										</ul>
+									</details>
+								</li>
+							) : (
+								<li><MenuLink item={item} class="drawer__link" /></li>
+							),
+						)}
+					</ul>
+				</nav>
+			)
+		}
+
+		{
+			ctaItems.length > 0 && (
+				<div class="drawer__cta">
+					{ctaItems.map((item) => (
+						<MenuLink item={item} class="btn btn--lg" />
+					))}
+				</div>
+			)
+		}
+
+		<WidgetArea name="drawer" />
+
+		{
+			socialLinks.length > 0 && (
+				<ul class="pill-list drawer__social" aria-label="SNS">
+					{socialLinks.map((link) => (
+						<li><a href={link.url} class="pill" rel="noopener noreferrer" target="_blank">{link.label}</a></li>
+					))}
+				</ul>
+			)
+		}
+	</div>
+</dialog>
+
+<script>
+	const drawer = document.querySelector<HTMLDialogElement>("#site-drawer");
+	if (drawer) {
+		document.querySelectorAll("[data-drawer-open]").forEach((button) => {
+			button.addEventListener("click", () => drawer.showModal());
+		});
+		drawer.querySelectorAll("[data-drawer-close]").forEach((button) => {
+			button.addEventListener("click", () => drawer.close());
+		});
+		// パネルの外側（背景）をクリックしたら閉じる
+		drawer.addEventListener("click", (event) => {
+			if (event.target === drawer) drawer.close();
+		});
+	}
+</script>
+
+<style>
+	.drawer {
+		width: min(360px, 88vw);
+		max-width: none;
+		height: 100dvh;
+		max-height: none;
+		margin: 0 0 0 auto;
+		padding: 0;
+		border: 0;
+		background: var(--color-bg);
+		color: var(--color-text);
+	}
+
+	.drawer::backdrop {
+		background: rgb(0 0 0 / 0.45);
+	}
+
+	.drawer[open] {
+		animation: drawer-in var(--transition-base);
+	}
+
+	@keyframes drawer-in {
+		from { translate: 100% 0; }
+		to { translate: 0 0; }
+	}
+
+	.drawer__panel {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-5);
+		min-height: 100%;
+		padding: var(--spacing-4) var(--spacing-5) var(--spacing-10);
+	}
+
+	.drawer__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.drawer__title {
+		font-weight: 700;
+	}
+
+	.drawer__menu {
+		list-style: none;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
+		overflow: hidden;
+	}
+
+	.drawer__menu > li + li {
+		border-block-start: 1px solid var(--color-border-subtle);
+	}
+
+	.drawer__menu :global(.drawer__link),
+	.drawer__group summary {
+		display: flex;
+		align-items: center;
+		min-height: 48px;
+		padding-inline: var(--spacing-4);
+		color: var(--color-text);
+		font-weight: 500;
+		cursor: pointer;
+	}
+
+	.drawer__group summary {
+		justify-content: space-between;
+		list-style: none;
+	}
+
+	.drawer__group summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.drawer__group summary::after {
+		content: "+";
+		font-size: 1.2em;
+		color: var(--color-muted);
+	}
+
+	.drawer__group[open] summary::after {
+		content: "−";
+	}
+
+	.drawer__group ul {
+		list-style: none;
+		background: var(--color-fill);
+	}
+
+	.drawer__menu :global(.drawer__link--sub) {
+		padding-inline-start: var(--spacing-8);
+		font-size: var(--font-size-sm);
+	}
+
+	.drawer__cta {
+		display: flex;
+		flex-direction: column;
+		gap: var(--spacing-2);
+	}
+</style>

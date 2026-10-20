@@ -1,0 +1,123 @@
+---
+/**
+ * 目次。本文（[data-post-content]）の h2 / h3 からスクリプトで作る。
+ * 同じページに複数置ける（本文中とサイドバーの追従目次）。
+ */
+interface Props {
+	id: string;
+	/** サイドバー用：ウィジェットと同じ見た目の枠 */
+	boxed?: boolean;
+}
+
+const { id, boxed = false } = Astro.props;
+---
+
+<nav class:list={["toc", boxed ? "widget" : "toc--inline"]} aria-labelledby={`${id}-title`} data-toc>
+	<h2 id={`${id}-title`} class:list={["toc__title", boxed && "widget__title"]}>目次</h2>
+	<ul class="toc__list" data-toc-list></ul>
+</nav>
+
+<script>
+	function buildToc() {
+		const content = document.querySelector("[data-post-content]");
+		const tocs = [...document.querySelectorAll<HTMLElement>("[data-toc]")];
+		if (!content || tocs.length === 0 || tocs[0].dataset.built) return;
+
+		const headings = [...content.querySelectorAll<HTMLHeadingElement>("h2, h3")];
+		if (headings.length === 0) {
+			tocs.forEach((toc) => (toc.hidden = true));
+			return;
+		}
+		headings.forEach((heading, index) => {
+			if (!heading.id) heading.id = `heading-${index + 1}`;
+		});
+
+		const linkGroups = tocs.map((toc) => {
+			toc.dataset.built = "true";
+			const list = toc.querySelector("[data-toc-list]");
+			const links = new Map<Element, HTMLAnchorElement>();
+			for (const heading of headings) {
+				const item = document.createElement("li");
+				item.className = heading.tagName === "H3" ? "toc__item toc__item--sub" : "toc__item";
+				const link = document.createElement("a");
+				link.href = `#${heading.id}`;
+				link.className = "toc__link";
+				link.textContent = heading.textContent;
+				item.appendChild(link);
+				list?.appendChild(item);
+				links.set(heading, link);
+			}
+			return links;
+		});
+
+		// 読んでいる見出しを目立たせる
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					for (const links of linkGroups) {
+						for (const link of links.values()) link.removeAttribute("aria-current");
+						links.get(entry.target)?.setAttribute("aria-current", "true");
+					}
+				}
+			},
+			{ rootMargin: "-80px 0px -75% 0px" },
+		);
+		headings.forEach((heading) => observer.observe(heading));
+	}
+
+	buildToc();
+</script>
+
+<style>
+	.toc--inline {
+		padding: var(--spacing-5) var(--spacing-6);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
+		background: var(--color-fill);
+	}
+
+	.toc__title:not(.widget__title) {
+		margin-block-end: var(--spacing-3);
+		font-size: var(--font-size-base);
+	}
+
+	.toc__list {
+		list-style: none;
+		counter-reset: toc;
+		font-size: var(--font-size-sm);
+		line-height: 1.9;
+	}
+
+	.toc :global(.toc__item:not(.toc__item--sub))::before {
+		counter-increment: toc;
+		content: counter(toc) ". ";
+		color: var(--color-muted);
+	}
+
+	.toc :global(.toc__item--sub) {
+		padding-inline-start: 1.6em;
+	}
+
+	.toc :global(.toc__item--sub)::before {
+		content: "– ";
+		color: var(--color-muted);
+	}
+
+	.toc :global(.toc__link) {
+		color: var(--color-text);
+	}
+
+	.toc :global(.toc__link:hover),
+	.toc :global(.toc__link[aria-current]) {
+		color: var(--color-brand);
+		font-weight: 700;
+	}
+
+	/* サイドバーの追従目次は PC のときだけ */
+	@media (max-width: 999px) {
+		.toc.widget {
+			display: none;
+		}
+	}
+</style>

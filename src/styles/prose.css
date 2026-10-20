@@ -238,3 +238,38 @@
 .prose .emdash-file {
 	border-radius: var(--radius-lg) !important;
 }
+
+/*
+  ツピツピの本文スタイル。見出し h2 は黒帯、h3 は下線。
+  @layer base の中なので theme.css から上書きできる。
+*/
+@layer base {
+	.prose {
+		max-width: none;
+		font-size: var(--font-size-base);
+		line-height: var(--leading-body);
+	}
+
+	.prose h2 {
+		padding: 0.7em 1em;
+		border-radius: var(--radius);
+		background: var(--color-ink);
+		color: var(--color-on-ink);
+		font-size: var(--font-size-xl);
+		font-weight: 900;
+	}
+
+	.prose h3 {
+		padding-block-end: 0.4em;
+		border-block-end: 2px solid var(--color-ink);
+		font-size: var(--font-size-lg);
+	}
+
+	:root.dark .prose h3 {
+		border-block-end-color: var(--color-border-strong);
+	}
+
+	.prose a:where(:not([class*="emdash"])) {
+		color: var(--color-brand);
+	}
+}

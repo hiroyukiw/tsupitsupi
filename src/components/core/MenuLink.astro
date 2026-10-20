@@ -1,0 +1,37 @@
+---
+import type { MenuItem } from "emdash";
+
+interface Props {
+	item: MenuItem;
+	class?: string;
+}
+
+const { item, class: className } = Astro.props;
+
+const TRAILING_SLASH = /\/$/;
+const currentPath = Astro.url.pathname.replace(TRAILING_SLASH, "") || "/";
+
+/** 今いるページなら "page"、その親セクションなら "true" */
+function navCurrent(url: string): "page" | "true" | undefined {
+	let target: URL;
+	try {
+		target = new URL(url, Astro.url);
+	} catch {
+		return undefined;
+	}
+	if (target.origin !== Astro.url.origin || target.hash) return undefined;
+	if (target.search && target.search !== Astro.url.search) return undefined;
+	const path = target.pathname.replace(TRAILING_SLASH, "") || "/";
+	if (path === currentPath) return "page";
+	if (path !== "/" && currentPath.startsWith(`${path}/`)) return "true";
+	return undefined;
+}
+---
+
+<a
+	href={item.url}
+	class={className}
+	target={item.target}
+	rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+	aria-current={navCurrent(item.url)}
+>{item.label}</a>

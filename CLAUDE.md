@@ -15,11 +15,23 @@ EmDash の基本ルール・コマンド・スキルは @AGENTS.md を参照し�
 
 | 場所 | 置くもの |
 | --- | --- |
-| `src/components/core/` | 用途を問わず使う部品（ページ送り、パンくず、ボタンなど）。ブログ固有の前提（posts コレクション、著者など）に依存させない |
-| `src/components/blog/` | ブログ固有の部品（記事カード、著者表示、関連記事など） |
+| `src/components/core/` | 用途を問わず使う部品（ヘッダー、フッター、スマホメニュー、2カラム枠、パンくず、ページ送り、固定ページ表示）。ブログ固有の前提（posts コレクション、著者など）に依存させない |
+| `src/components/blog/` | ブログ固有の部品（記事カード、目次、シェアボタン、記事一覧ブロックなど） |
+| `src/components/blocks/` | 固定ページのブロック（メインビジュアル、強み・バナー、CTA、自由入力）と、それを並べる `BlockList` |
+| `src/components/widgets/` | ウィジェットエリアの描画。標準ウィジェットとテーマ独自ウィジェット（`tsupitsupi:popular-posts`） |
 | `src/styles/tokens.css` | デザイントークンの既定値（`@layer base`）。見た目の変更では編集しない |
-| `src/styles/theme.css` | ツピツピとしてのトークン上書きと追加スタイル。色や数値はトークン経由で使う |
-| `src/utils/` | 表示ロジックの小さな関数（読了時間、日付書式など） |
+| `src/styles/site.css` | 全ページ共通の土台と部品（`.container` `.btn` `.chip` `.layout` `.widget` など） |
+| `src/styles/theme.css` | ツピツピとしてのトークン上書き（配色など）。色や数値はトークン経由で使う |
+| `src/utils/` | 表示ロジックの小さな関数（読了時間、日付書式、レイアウト値の正規化など） |
+
+## ページの組み立て
+
+- トップページは固定ページ「home」（スラッグ `home`）を表示する。`pages` コレクションの `top_blocks`（全幅）→ メイン（`main_blocks`、2カラムならサイドバー付き）→ `bottom_blocks`（全幅）の順。`src/components/core/PageView.astro`
+- ブロックの種類は `seed/seed.json` の `blockTypes`（hero / features / post_list / cta / rich_text）。追加するときは seed と `BlockList.astro` の両方に足す
+- レイアウトの選択肢は管理画面の表示名がそのまま値になるため日本語（`2カラム` `1カラム` `フルワイド`）。値の扱いは `src/utils/layout.ts` に集める
+- メニュー: `primary`（PC ナビ、子メニューはドロップダウン）、`mobile`（スマホのサイドメニュー。空なら primary）、`cta`（目立つボタン）、`mobile-bar`（スマホ下部、4つまで）、`footer`
+- ウィジェットエリア: `sidebar`、`main-top` / `main-bottom`（メインの上下・全幅）、`home-after-posts`、`post-bottom`、`drawer`（スマホメニュー内）、`footer`
+- 「人気の投稿」は閲覧数ではなくタグ `popular` が付いた記事を出す（EmDash に閲覧数の集計がないため）。独自ウィジェットは管理画面の追加候補に出ないので、seed で配置している
 
 - 新しい部品を作るときは、まず core か blog かを判断する。迷ったら blog に置き、別用途でも必要になった時点で core に昇格させる。
 - 将来のスタイル（例: コーポレート、クリニック）は、`theme.css` 相当のトークン上書きと用途別コンポーネントで実現する。ページ構造を複製しない。
@@ -29,6 +41,7 @@ EmDash の基本ルール・コマンド・スキルは @AGENTS.md を参照し�
 - `astro.config.mjs` で `i18n.defaultLocale` は `ja`。日付表示は `src/utils/locale.ts` を通す。
 - 本文フォントは Noto Sans JP（`--font-body`）、ラベル・コードは JetBrains Mono（`--font-mono`）。
 - 読了時間は日本語を1分500文字で計算する（`src/utils/reading-time.ts`）。
+- 画面の文言（ボタン、見出し、aria-label、EmDash 部品の labels）は日本語で書く。
 
 ## 作業の確認
 

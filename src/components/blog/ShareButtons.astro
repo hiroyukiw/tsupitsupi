@@ -1,0 +1,100 @@
+---
+/** SNS シェアボタン（X、はてなブックマーク、LINE、リンクをコピー） */
+interface Props {
+	url: string;
+	title: string;
+}
+
+const { url, title } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const links = [
+	{ label: "X", href: `https://x.com/intent/post?url=${encodedUrl}&text=${encodedTitle}` },
+	{ label: "はてブ", href: `https://b.hatena.ne.jp/add?mode=confirm&url=${encodedUrl}&title=${encodedTitle}` },
+	{ label: "LINE", href: `https://social-plugins.line.me/lineit/share?url=${encodedUrl}` },
+];
+---
+
+<div class="share">
+	<span class="share__label">この記事をシェア</span>
+	<ul class="share__list">
+		{
+			links.map((link) => (
+				<li>
+					<a href={link.href} class="share__btn" target="_blank" rel="noopener noreferrer">
+						{link.label}
+					</a>
+				</li>
+			))
+		}
+		<li>
+			<button type="button" class="share__btn share__btn--copy" data-copy-url={url}>
+				リンクをコピー
+			</button>
+		</li>
+	</ul>
+</div>
+
+<script>
+	document.querySelectorAll<HTMLButtonElement>("[data-copy-url]").forEach((button) => {
+		const original = button.textContent;
+		button.addEventListener("click", async () => {
+			try {
+				await navigator.clipboard.writeText(button.dataset.copyUrl ?? location.href);
+				button.textContent = "コピーしました";
+			} catch {
+				button.textContent = "コピーできませんでした";
+			}
+			setTimeout(() => (button.textContent = original), 2000);
+		});
+	});
+</script>
+
+<style>
+	.share {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--spacing-3);
+		padding-block-start: var(--spacing-5);
+		border-block-start: 1px solid var(--color-border);
+	}
+
+	.share__label {
+		font-size: var(--font-size-sm);
+		font-weight: 700;
+	}
+
+	.share__list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-2);
+		list-style: none;
+	}
+
+	.share__btn {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		padding: 0 var(--spacing-4);
+		border: 0;
+		border-radius: var(--radius-full);
+		background: var(--color-ink);
+		color: var(--color-on-ink);
+		font: inherit;
+		font-size: var(--font-size-xs);
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	a.share__btn,
+	a.share__btn:hover {
+		color: var(--color-on-ink);
+	}
+
+	.share__btn--copy {
+		background: var(--color-surface);
+		color: var(--color-text);
+		box-shadow: inset 0 0 0 1px var(--color-border-strong);
+	}
+</style>

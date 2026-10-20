@@ -1,0 +1,25 @@
+---
+/** パンくずリスト。先頭の「ホーム」は自動で付く。最後の項目は現在地（リンクなし） */
+interface Props {
+	items: Array<{ label: string; href?: string }>;
+}
+
+const { items } = Astro.props;
+const all = [{ label: "ホーム", href: "/" }, ...items.filter((item) => item.label)];
+---
+
+<nav class="breadcrumbs" aria-label="パンくずリスト">
+	<ol>
+		{
+			all.map((item, index) => (
+				<li>
+					{index < all.length - 1 && item.href ? (
+						<a href={item.href}>{item.label}</a>
+					) : (
+						<span aria-current="page">{item.label}</span>
+					)}
+				</li>
+			))
+		}
+	</ol>
+</nav>

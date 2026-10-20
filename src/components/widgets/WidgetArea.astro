@@ -1,0 +1,86 @@
+---
+/**
+ * ウィジェットエリアの表示。
+ *
+ * emdash/ui の WidgetArea の代わりに、ツピツピのデザインで描画する。
+ * 管理画面で追加できる標準ウィジェット（自由入力、メニュー、新着記事、
+ * カテゴリー、タグ、検索）に加え、テーマ独自のウィジェット
+ * （tsupitsupi:popular-posts）にも対応する。
+ */
+import { getWidgetAreaWithCacheHint, getMenu } from "emdash";
+import { PortableText } from "emdash/ui";
+import RecentPosts from "./RecentPosts.astro";
+import PopularPosts from "./PopularPosts.astro";
+import TermList from "./TermList.astro";
+
+interface Props {
+	name: string;
+	class?: string;
+}
+
+const { name, class: className } = Astro.props;
+const { data: area, cacheHint } = await getWidgetAreaWithCacheHint(name);
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const widgets = await Promise.all(
+	(area?.widgets ?? []).map(async (widget) => ({
+		widget,
+		menu: widget.type === "menu" && widget.menuName ? await getMenu(widget.menuName) : null,
+		props: (widget.componentProps ?? {}) as Record<string, unknown>,
+	})),
+);
+
+const num = (value: unknown, fallback: number) =>
+	typeof value === "number" && value > 0 ? value : fallback;
+---
+
+{
+	widgets.length > 0 && (
+		<div class:list={["widget-stack", className]} data-widget-area={name}>
+			{widgets.map(({ widget, menu, props }) => (
+				<section class="widget" data-widget-type={widget.type}>
+					{widget.title && <h2 class="widget__title">{widget.title}</h2>}
+					<div class="widget__body">
+						{widget.type === "content" && widget.content && <PortableText value={widget.content} />}
+
+						{widget.type === "menu" && menu && (
+							<ul class="widget-links">
+								{menu.items.map((item) => (
+									<li><a href={item.url}>{item.label}</a></li>
+								))}
+							</ul>
+						)}
+
+						{widget.componentId === "core:recent-posts" && (
+							<RecentPosts count={num(props.count, 5)} showDate={props.showDate !== false} />
+						)}
+						{widget.componentId === "tsupitsupi:popular-posts" && (
+							<PopularPosts
+								count={num(props.count, 5)}
+								tag={typeof props.tag === "string" && props.tag ? props.tag : "popular"}
+							/>
+						)}
+						{widget.componentId === "core:categories" && (
+							<TermList taxonomy="category" showCount={props.showCount !== false} />
+						)}
+						{widget.componentId === "core:tags" && (
+							<TermList taxonomy="tag" style="pills" limit={num(props.limit, 20)} />
+						)}
+						{widget.componentId === "core:search" && (
+							<form class="widget-search" action="/search" method="get" role="search">
+								<label class="sr-only" for={`search-${widget.id}`}>サイト内検索</label>
+								<input
+									id={`search-${widget.id}`}
+									type="search"
+									name="q"
+									placeholder={typeof props.placeholder === "string" ? props.placeholder : "キーワードで検索"}
+								/>
+								<button type="submit" class="btn">検索</button>
+							</form>
+						)}
+					</div>
+				</section>
+			))}
+		</div>
+	)
+}

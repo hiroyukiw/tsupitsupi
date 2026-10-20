@@ -44,73 +44,42 @@ This template ships with `.mcp.json`, `.cursor/mcp.json`, and `.vscode/mcp.json`
 
 ## This Template
 
-This is the ツピツピ (tsupitsupi) theme, built from the EmDash blog template. See `CLAUDE.md` for theme-specific rules (Japanese-first, core/blog component split, free-plan only).
-
-A blog with posts, pages, categories, tags, full-text search, and RSS. Designed for personal writing, technical writing, indie newsletters, and anything where the writing is the product. Neutral editorial aesthetic: a framed layout with hairline rails, white cards on an off-white canvas, Noto Sans JP with JetBrains Mono labels, and real article structure with bylines and reading time.
+This is the ツピツピ (tsupitsupi) theme: a Japanese blog theme built from the EmDash blog template and modeled on STORK19-style WordPress themes. **Read `CLAUDE.md` first** for theme-specific rules (Japanese-first UI, component folders, page builder blocks, menus and widget areas, free-plan only).
 
 ## Pages
 
-| Page        | Path               | What it shows                                                                                                                  |
-| ----------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| Home        | `/`                | Site title and tagline, featured post card (first post with an image), latest posts grid                                       |
-| All posts   | `/posts`           | Post rows with thumbnails, excerpts, bylines, and tag chips; cursor pagination                                                 |
-| Post detail | `/posts/[slug]`    | Tags, title, excerpt, featured image, then a three-column reading view: meta rail, body, table of contents and sidebar widgets |
-| Search      | `/search`          | Full-text search over posts; matching title terms are highlighted                                                              |
-| Page        | `/pages/[slug]`    | Static page content (Portable Text)                                                                                            |
-| Category    | `/category/[slug]` | Card grid of posts in a category                                                                                               |
-| Tag         | `/tag/[slug]`      | Card grid of posts with a tag                                                                                                  |
-| RSS         | `/rss.xml`         | Generated feed                                                                                                                 |
+| Page        | Path               | What it shows                                                                                       |
+| ----------- | ------------------ | --------------------------------------------------------------------------------------------------- |
+| Home        | `/`                | The `pages` entry with slug `home`, rendered through its blocks (falls back to latest posts)        |
+| All posts   | `/posts`           | Post rows with category chips; cursor pagination; sidebar                                           |
+| Post detail | `/posts/[slug]`    | Breadcrumbs, category, title, dates, image, TOC, body, tags, share, author, prev/next, related, comments. `layout` field picks 2カラム / 1カラム |
+| Page        | `/pages/[slug]`    | Blocks + body. `page_layout` picks 2カラム / 1カラム / フルワイド. `/pages/home` redirects to `/`      |
+| Category    | `/category/[slug]` | Post rows in a category                                                                             |
+| Tag         | `/tag/[slug]`      | Post rows with a tag                                                                                |
+| Search      | `/search`          | Full-text search over posts                                                                         |
+| RSS         | `/rss.xml`         | Generated feed                                                                                      |
 
 ## Schema
 
-- `posts` collection: `title`, `featured_image`, `content` (Portable Text), `excerpt` (text).
-- `pages` collection: `title`, `content` (Portable Text). Used for `/about` etc.
-- Taxonomies: `category`, `tag`.
-- Single `primary` menu (Home, About, Posts by default).
-
-Site settings have `title` and `tagline`. The title renders in the header, the home page intro, and the footer; the tagline renders under the title in the home page intro and in the footer.
+- `posts`: `title`, `featured_image`, `content`, `excerpt`, `layout` (select).
+- `pages`: `title`, `content`, `page_layout` (select), `top_blocks` / `main_blocks` / `bottom_blocks` (blocks).
+- Block types: `hero`, `features`, `post_list`, `cta`, `rich_text`.
+- Taxonomies: `category`, `tag` (the `popular` tag feeds the 人気の投稿 widget, `pickup` is for pick-up lists).
+- Menus: `primary`, `mobile`, `cta`, `mobile-bar`, `footer`.
+- Widget areas: `sidebar`, `main-top`, `main-bottom`, `home-after-posts`, `post-bottom`, `drawer`, `footer`.
 
 ## Visual character
 
-The palette is neutral: an off-white canvas (`--color-bg`), white surfaces (`--color-surface`), and near-black ink. `--color-brand` is ink too -- it drives buttons, links, focus rings, and the site monogram. Dark mode inverts the same scale.
-
-Every page sits in a frame: two hairline rails run the full height of the page, and each full-width section (`.band`) is ruled off with a hairline that meets the rails at a small crosshair. Cards are white with a 1px ring and a soft shadow, and their images are inset so the corners stay concentric (`--radius-xl` card = `--radius-lg` image + `--card-padding`).
-
-Type is **Noto Sans JP** on `--font-body` for everything, with weight and size carrying the hierarchy. **JetBrains Mono** on `--font-mono` sets code and the small uppercase labels (`.eyebrow`) used for section names and meta. Page titles use `--font-size-display` with tight tracking; the home intro pairs the site title with the tagline as a muted second line.
-
-The article layout is the standout feature: a meta rail (authors, date, reading time), a 680px body column, and a rail with the table of contents and sidebar widgets. Below 1100px it collapses to one column, the table of contents is hidden, and the widgets move under the article. Don't flatten it on desktop -- the layout signals "this is something to read".
+Inspired by the great tit (シジュウカラ): a near-black ink (`--color-ink`) for the hero band, h2 headings and footer; white cards on a warm off-white canvas; a green brand colour (`--color-brand`) for buttons and links; a soft yellow (`--color-accent-soft`) for category chips. Noto Sans JP throughout, heavy weights (700/900) for headings. Cards have a 1px border and 12px radius (`--radius-card`).
 
 ## Customisation
 
-Design tokens live in `src/styles/tokens.css` with their default values. To restyle the site, override tokens in `src/styles/theme.css` -- declarations there are unlayered, so they always beat the `@layer base` defaults. Don't edit `tokens.css` or `Base.astro` for visual changes.
-
-Colours are defined with `light-dark(<light>, <dark>)`, so each token carries both modes. Overriding with a plain colour changes light and dark at once; use `light-dark()` in the override to keep them distinct. There is no separate dark palette to maintain. To give the site a colour, set `--color-brand`, `--color-brand-hover`, and `--color-on-brand` together: `--color-on-brand` defaults to near-black in dark mode, to sit on the light ink brand.
-
-Webfonts are configured in `astro.config.mjs` under `fonts:`. To swap the body face, change the `name:` for the entry bound to `cssVariable: "--font-body"`. Good alternatives: Geist, IBM Plex Sans, Söhne (if you have a licence), Public Sans. If you want a serif-bodied blog, swap to a humanist serif like Source Serif, Crimson Pro, or Lora -- but then also raise `--font-size-base` to `1.0625rem` for readability. To give headings their own face (or use a system font) without touching the font pipeline, override `--font-heading` or `--font-body` in `theme.css`.
-
-`Base.astro` defines the shared building blocks every page uses: `.frame` (content width, aligned with the rails), `.band` and `.section` (full-width sections), `.intro`, `.eyebrow`, `.chip`, `.btn`, and `.post-grid`. Posts render through `src/components/blog/PostCard.astro` (`card`, `feature`, and `row` variants) and bylines through `src/components/blog/Byline.astro`.
-
-CSS variables worth knowing (see `tokens.css` for the full list):
-
-- `--color-brand`, `--color-brand-hover`, `--color-on-brand`, `--color-brand-ring`
-- `--color-bg`, `--color-surface`, `--color-fill`, `--color-text`, `--color-text-secondary`, `--color-muted`, `--color-border`, `--color-ring`
-- `--font-body`, `--font-heading`, `--font-mono`
-- `--font-weight-heading` / `--font-weight-display` (both 600) -- heading weights; lower them if you switch to a serif
-- `--font-size-display` -- page titles
-- `--radius-sm` / `--radius` / `--radius-lg` / `--radius-xl` / `--radius-full`, `--card-padding`
-- `--shadow-card`, `--shadow-card-hover`
-- `--content-width` (680px) -- article body column
-- `--wide-width` (1200px) -- the frame, rails included
-- `--frame-margin` / `--frame-padding` -- space outside and inside the rails
-- `--meta-col-width` (180px) / `--gutter-width` (200px) -- the article rails
-- `--avatar-size-{xs,sm,md,lg}` -- byline avatar sizes
+Override tokens in `src/styles/theme.css` (unlayered, so it beats `@layer base` in `tokens.css` and `site.css`). Colours use `light-dark()`. Industry styles (corporate, clinic, …) should be token overrides plus purpose-specific components, not copies of page structure.
 
 ## What not to do
 
-- Don't add a second accent colour or coloured section backgrounds. If the site needs a colour, it goes in `--color-brand`.
-- Don't replace Noto Sans JP with a display sans (Bebas, Anton, etc.). Headings rely on weight and size, not novelty faces.
-- Don't break the frame: new sections should be `.band` elements with their content in a `.frame`, so the rails and rules line up.
-- Don't collapse the article rails on desktop -- they're part of the reading experience.
-- Don't use stock blog copy ("Welcome to my blog", "Stay tuned for more"). Write a real tagline that says what this blog is about.
-- Don't seed the home page with three identical placeholder posts. If you only have one real post, show one real post.
-- Comments are enabled on posts and rendered on the post detail page. Configure moderation before publishing the site, or remove `commentsEnabled` and the comments UI together.
+- Don't write UI copy in English; this theme targets Japanese bloggers.
+- Don't add monetization blocks (speech bubbles, boxes, rankings, comparison tables, ad slots) here; they belong to the paid Pro extension.
+- Don't enable `worker_loaders` or anything that requires the Workers Paid plan.
+- Don't hard-code colours or sizes in components; use tokens.
+- Comments are enabled on posts. Configure moderation before publishing, or remove `commentsEnabled` and the comments UI together.

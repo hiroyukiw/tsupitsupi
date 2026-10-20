@@ -74,6 +74,7 @@
 	.ec-form-input,
 	.ec-form select,
 	.ec-form textarea {
+		box-sizing: border-box;
 		width: 100%;
 		min-height: 44px;
 		padding: 0.6rem 0.85rem;

@@ -6,11 +6,13 @@ import { Font } from "astro:assets";
 import SiteHeader from "../components/core/SiteHeader.astro";
 import SiteDrawer from "../components/core/SiteDrawer.astro";
 import SiteFooter from "../components/core/SiteFooter.astro";
+import FormLabelsJa from "../components/core/FormLabelsJa.astro";
 import MobileBar from "../components/core/MobileBar.astro";
 import { getSiteLocale } from "../utils/locale";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
 import "../styles/tokens.css";
 import "../styles/site.css";
+import "../styles/forms.css";
 import "../styles/theme.css";
 
 interface Props {
@@ -158,5 +160,6 @@ const lang = getSiteLocale() ?? "ja";
 		/>
 		<MobileBar items={mobileBarItems} />
 		<EmDashBodyEnd page={pageCtx} />
+		<FormLabelsJa />
 	</body>
 </html>

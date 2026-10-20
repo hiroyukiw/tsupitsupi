@@ -21,6 +21,7 @@ EmDash の基本ルール・コマンド・スキルは @AGENTS.md を参照し�
 | `src/components/widgets/` | ウィジェットエリアの描画。標準ウィジェットとテーマ独自ウィジェット（`tsupitsupi:popular-posts`） |
 | `src/styles/tokens.css` | デザイントークンの既定値（`@layer base`）。見た目の変更では編集しない |
 | `src/styles/site.css` | 全ページ共通の土台と部品（`.container` `.btn` `.chip` `.layout` `.widget` など） |
+| `src/styles/forms.css` | EmDash 公式のフォームプラグイン（`.ec-form`）をテーマの見た目に合わせるスタイル |
 | `src/styles/theme.css` | ツピツピとしてのトークン上書き（配色など）。色や数値はトークン経由で使う |
 | `src/utils/` | 表示ロジックの小さな関数（読了時間、日付書式、レイアウト値の正規化など） |
 

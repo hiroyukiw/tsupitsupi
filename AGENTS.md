@@ -81,4 +81,4 @@ Override tokens in `src/styles/theme.css` (unlayered, so it beats `@layer base` 
 - Don't write UI copy in English; this theme targets Japanese bloggers.
 - Don't enable `worker_loaders` or anything that requires the Workers Paid plan.
 - Don't hard-code colours or sizes in components; use tokens.
-- Comments are enabled on posts. Configure moderation before publishing, or remove `commentsEnabled` and the comments UI together.
+- Comments are enabled on posts. Configure moderation before publishing, or set `commentsEnabled` to false on the posts collection (the post page then hides the comments panel).

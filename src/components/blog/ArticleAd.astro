@@ -1,0 +1,38 @@
+---
+/**
+ * 記事内ブロック「広告枠」。AdSense などで発行された HTML をそのまま出す。
+ * コードは管理画面で記事を編集できる人が入れるものなので、そのまま信頼して表示する。
+ * コードが空のときは何も出さない。
+ */
+const node = Astro.props.node ?? {};
+
+const code = typeof node.code === "string" ? node.code.trim() : "";
+const label = typeof node.label === "string" ? node.label.trim() : "";
+---
+
+{
+	code && (
+		<aside class="article-ad" aria-label={label || "広告"}>
+			{label && <p class="article-ad__label">{label}</p>}
+			<div class="article-ad__slot" set:html={code} />
+		</aside>
+	)
+}
+
+<style>
+	.article-ad {
+		text-align: center;
+	}
+
+	.article-ad__label {
+		margin: 0 0 0.4em;
+		color: var(--color-muted);
+		font-size: 0.75em;
+		letter-spacing: 0.05em;
+	}
+
+	.article-ad__slot {
+		min-height: 1px;
+		overflow: hidden;
+	}
+</style>

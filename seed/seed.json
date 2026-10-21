@@ -402,6 +402,31 @@
 					}
 				}
 			]
+		},
+		{
+			"slug": "links",
+			"label": "アフィリエイトリンク",
+			"labelSingular": "アフィリエイトリンク",
+			"supports": [],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "管理用の名前",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "url",
+					"label": "リンク先（アフィリエイトリンク）",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "memo",
+					"label": "メモ（サイトには出ません）",
+					"type": "text"
+				}
+			]
 		}
 	],
 	"taxonomies": [
@@ -2079,6 +2104,15 @@
 							"button_url": "https://example.com/"
 						},
 						{
+							"_type": "tsupitsupi-button",
+							"_key": "kbtn1",
+							"label": "公式サイトで詳しく見る",
+							"link": "sample",
+							"url": "",
+							"style": "main",
+							"note": "リンクは管理画面の「アフィリエイトリンク」でまとめて変えられます"
+						},
+						{
 							"_type": "block",
 							"_key": "k135",
 							"style": "h3",
@@ -2138,6 +2172,18 @@
 						"samples"
 					],
 					"tag": []
+				}
+			}
+		],
+		"links": [
+			{
+				"id": "link-sample",
+				"slug": "sample",
+				"status": "published",
+				"data": {
+					"title": "サンプルのリンク",
+					"url": "https://example.com/",
+					"memo": "記事には /go/sample と書くと、このリンク先に飛びます。リンク先を変えると、全部の記事のボタンがまとめて変わります。"
 				}
 			}
 		]

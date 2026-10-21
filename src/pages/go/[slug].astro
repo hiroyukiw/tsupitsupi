@@ -1,0 +1,25 @@
+---
+/**
+ * アフィリエイトリンクの転送。/go/<スラッグ> を、管理画面の「アフィリエイトリンク」に
+ * 登録したリンク先へ 302 で飛ばす。検索結果に出ないよう noindex を付ける。
+ */
+import { getEmDashEntry } from "emdash";
+import { isExternalUrl } from "../../utils/affiliate";
+
+const { slug } = Astro.params;
+const { entry } = slug ? await getEmDashEntry("links", slug) : { entry: null };
+const target = entry?.data?.url;
+
+if (!isExternalUrl(target)) {
+	return Astro.rewrite("/404");
+}
+
+return new Response(null, {
+	status: 302,
+	headers: {
+		Location: target.trim(),
+		"X-Robots-Tag": "noindex, nofollow",
+		"Cache-Control": "no-store",
+	},
+});
+---

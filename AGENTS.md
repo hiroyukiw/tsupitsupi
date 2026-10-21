@@ -64,7 +64,8 @@ This is the ツピツピ (tsupitsupi) theme: a Japanese blog theme built from th
 - `posts`: `title`, `featured_image`, `content`, `excerpt`, `layout` (select).
 - `pages`: `title`, `content`, `page_layout` (select), `top_blocks` / `main_blocks` / `bottom_blocks` (blocks).
 - Block types: `hero`, `features`, `post_list`, `cta`, `rich_text`.
-- Article body blocks (Portable Text, from the theme plugin in `src/plugins/tsupitsupi-blocks/`): `tsupitsupi-box`, `tsupitsupi-balloon`, `tsupitsupi-ranking`, `tsupitsupi-compare`.
+- Article body blocks (Portable Text, from the theme plugin in `src/plugins/tsupitsupi-blocks/`): `tsupitsupi-box`, `tsupitsupi-balloon`, `tsupitsupi-ranking`, `tsupitsupi-compare`, `tsupitsupi-button`, `tsupitsupi-ad`.
+- `links` (アフィリエイトリンク): `title`, `url`, `memo`. Not routable; `/go/[slug]` redirects to `url` (302, noindex).
 - Taxonomies: `category`, `tag` (the `popular` tag feeds the 人気の投稿 widget, `pickup` is for pick-up lists).
 - Menus: `primary`, `mobile`, `cta`, `mobile-bar`, `footer`.
 - Widget areas: `sidebar`, `main-top`, `main-bottom`, `home-after-posts`, `post-bottom`, `drawer`, `footer`.

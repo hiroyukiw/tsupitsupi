@@ -5,6 +5,21 @@
 
 import type { BylineSummary, ContentBylineCredit, TaxonomyTerm, PortableTextBlock } from "emdash";
 
+export interface Link {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  url: string;
+  memo?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  byline?: BylineSummary | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
 export interface PageTopBlocksHeroV1Block {
   _type: "hero";
   _version: 1;
@@ -252,6 +267,7 @@ export interface Post {
 
 declare module "emdash" {
   interface EmDashCollections {
+    links: Link;
     pages: Page;
     posts: Post;
   }

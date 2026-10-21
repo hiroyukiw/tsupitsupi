@@ -1,0 +1,55 @@
+---
+/** 記事内ブロック「アフィリエイトボタン」。リンクは「アフィリエイトリンク」のスラッグか、直接のアドレス */
+import { affiliatePath, safeHref } from "../../utils/affiliate";
+
+const node = Astro.props.node ?? {};
+
+const label = (typeof node.label === "string" && node.label.trim()) || "詳しく見る";
+const href = (typeof node.link === "string" && affiliatePath(node.link)) || safeHref(node.url);
+const style = node.style === "sub" ? "sub" : "main";
+const note = typeof node.note === "string" ? node.note.trim() : "";
+---
+
+{
+	href && (
+		<p class="article-button">
+			<a
+				class:list={["btn", "article-button__link", style === "sub" && "btn--outline"]}
+				href={href}
+				target="_blank"
+				rel="sponsored nofollow noopener"
+			>
+				{label}
+			</a>
+			{note && <small class="article-button__note">{note}</small>}
+		</p>
+	)
+}
+
+<style>
+	.article-button {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.4em;
+		text-align: center;
+	}
+
+	/* 本文のリンク色（.prose a）に負けないように、ボタンの文字色をここで決める */
+	.article-button__link,
+	.article-button__link:hover {
+		min-width: min(100%, 20em);
+		color: var(--color-on-brand);
+		text-decoration: none;
+	}
+
+	.article-button__link.btn--outline,
+	.article-button__link.btn--outline:hover {
+		color: var(--color-text);
+	}
+
+	.article-button__note {
+		color: var(--color-muted);
+		font-size: 0.8em;
+	}
+</style>

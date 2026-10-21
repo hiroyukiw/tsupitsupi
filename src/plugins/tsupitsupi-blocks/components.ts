@@ -1,5 +1,7 @@
+import ArticleAd from "../../components/blog/ArticleAd.astro";
 import ArticleBalloon from "../../components/blog/ArticleBalloon.astro";
 import ArticleBox from "../../components/blog/ArticleBox.astro";
+import ArticleButton from "../../components/blog/ArticleButton.astro";
 import ArticleRanking from "../../components/blog/ArticleRanking.astro";
 import ArticleCompare from "../../components/blog/ArticleCompare.astro";
 
@@ -9,4 +11,6 @@ export const blockComponents = {
 	"tsupitsupi-balloon": ArticleBalloon,
 	"tsupitsupi-ranking": ArticleRanking,
 	"tsupitsupi-compare": ArticleCompare,
+	"tsupitsupi-button": ArticleButton,
+	"tsupitsupi-ad": ArticleAd,
 };

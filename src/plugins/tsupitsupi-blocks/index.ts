@@ -1,5 +1,5 @@
 /**
- * ツピツピの記事用ブロック（ボックス・吹き出し・ランキング・比較表）。
+ * ツピツピの記事用ブロック（ボックス・吹き出し・ランキング・比較表・アフィリエイトボタン・広告枠）。
  *
  * 本文（Portable Text）のエディターで「/」を押すと候補に出る。表示は
  * components.ts の Astro 部品が担当する。テーマに組み込む信頼済みの
@@ -96,7 +96,7 @@ export function createPlugin(): ResolvedPlugin {
 						},
 						{ type: "text_input", action_id: "text", label: "説明", multiline: true },
 						{ type: "text_input", action_id: "button_label", label: "ボタンの文字（例：公式サイトを見る）" },
-						{ type: "text_input", action_id: "button_url", label: "ボタンのリンク先（アフィリエイトリンクも可）", placeholder: "https://..." },
+						{ type: "text_input", action_id: "button_url", label: "ボタンのリンク先（https://… か /go/スラッグ）", placeholder: "https://..." },
 					],
 				},
 				{
@@ -137,6 +137,44 @@ export function createPlugin(): ResolvedPlugin {
 							],
 						},
 						{ type: "text_input", action_id: "note", label: "表の下の注記（任意）" },
+					],
+				},
+				{
+					type: "tsupitsupi-button",
+					label: "アフィリエイトボタン",
+					description: "購入・申し込みのボタン。リンクは「アフィリエイトリンク」でまとめて管理できる",
+					fields: [
+						{ type: "text_input", action_id: "label", label: "ボタンの文字（例：Amazonで見る）" },
+						{ type: "text_input", action_id: "link", label: "アフィリエイトリンクのスラッグ（管理画面の「アフィリエイトリンク」で作ったもの）" },
+						{ type: "text_input", action_id: "url", label: "または、リンク先を直接入れる", placeholder: "https://..." },
+						{
+							type: "select",
+							action_id: "style",
+							label: "見た目",
+							options: [
+								{ label: "目立つ（緑）", value: "main" },
+								{ label: "控えめ（白）", value: "sub" },
+							],
+						},
+						{ type: "text_input", action_id: "note", label: "ボタンの下の小さな文字（任意）" },
+					],
+				},
+				{
+					type: "tsupitsupi-ad",
+					label: "広告枠",
+					description: "AdSense などの広告コードを貼る場所",
+					fields: [
+						{
+							type: "select",
+							action_id: "label",
+							label: "上に出す表示",
+							options: [
+								{ label: "スポンサーリンク", value: "スポンサーリンク" },
+								{ label: "広告", value: "広告" },
+								{ label: "なし", value: "" },
+							],
+						},
+						{ type: "text_input", action_id: "code", label: "広告のコード（AdSense などで発行された HTML）", multiline: true },
 					],
 				},
 			],

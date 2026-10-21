@@ -23,10 +23,13 @@
 		padding: 0;
 	}
 
-	@supports (color: light-dark(#000, #fff)) {
-		:root.light { color-scheme: light; }
-		:root.dark { color-scheme: dark; }
-	}
+	/*
+	  フッターの切り替えボタンで選んだ表示モード。@supports の中に置くと、
+	  ビルド時に light-dark() を古いブラウザ向けに変換した部分（端末の設定だけを
+	  見る）に届かず、ボタンを押しても色が変わらないため、外に置く。
+	*/
+	:root.light { color-scheme: light; }
+	:root.dark { color-scheme: dark; }
 
 	html {
 		scroll-behavior: smooth;

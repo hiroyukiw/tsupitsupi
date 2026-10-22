@@ -105,6 +105,8 @@ const pageCtx = createPublicPageContext({
 	siteName: siteTitle,
 });
 
+// 管理画面でファビコンを設定していなければ、テーマのロゴマークを使う
+const hasFavicon = !!(settings as { favicon?: { url?: string } }).favicon?.url;
 const isLoggedIn = !!Astro.locals.user;
 const lang = getSiteLocale() ?? "ja";
 ---
@@ -118,6 +120,7 @@ const lang = getSiteLocale() ?? "ja";
 		<Font cssVariable="--font-mono" />
 		<title>{fullTitle}</title>
 		<EmDashHead page={pageCtx} />
+		{!hasFavicon && <link rel="icon" href="/favicon.svg" type="image/svg+xml" />}
 		<link rel="alternate" type="application/rss+xml" title={`${siteTitle} RSS`} href="/rss.xml" />
 		<script is:inline>
 			// 保存された表示モードを先に当てて、ちらつきを防ぐ

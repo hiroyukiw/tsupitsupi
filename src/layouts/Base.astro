@@ -120,7 +120,16 @@ const lang = getSiteLocale() ?? "ja";
 		<Font cssVariable="--font-mono" />
 		<title>{fullTitle}</title>
 		<EmDashHead page={pageCtx} />
-		{!hasFavicon && <link rel="icon" href="/favicon.svg" type="image/svg+xml" />}
+		{
+			!hasFavicon && (
+				<>
+					{/* SVG に対応していないブラウザや検索エンジン向けに .ico、iPhone のホーム画面用に PNG も出す */}
+					<link rel="icon" href="/favicon.ico" sizes="48x48" />
+					<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+					<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+				</>
+			)
+		}
 		<link rel="alternate" type="application/rss+xml" title={`${siteTitle} RSS`} href="/rss.xml" />
 		<script is:inline>
 			// 保存された表示モードを先に当てて、ちらつきを防ぐ

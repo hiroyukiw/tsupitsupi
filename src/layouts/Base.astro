@@ -71,6 +71,7 @@ const settings = settingsResult.data;
 const { siteTitle, siteTagline, siteLogo } = resolveBlogSiteIdentity(settings);
 const titleIncludesSiteName =
 	title === siteTitle ||
+	title.startsWith(`${siteTitle} | `) ||
 	title.endsWith(` | ${siteTitle}`) ||
 	title.endsWith(` — ${siteTitle}`);
 const fullTitle = titleIncludesSiteName ? title : `${title} | ${siteTitle}`;
@@ -88,6 +89,11 @@ const socialLinks = Object.entries(SOCIAL_LABELS)
 	.filter(([key]) => social[key])
 	.map(([key, label]) => ({ label, url: social[key] as string }));
 
+// 正規の URL（canonical / og:url）。ページ側で決めていなければ、今のページのアドレス（? 以降を除く）にする。
+// noindex のページ（検索結果、404 など）には付けない
+const resolvedCanonical =
+	canonical ?? (robots?.includes("noindex") ? null : new URL(Astro.url.pathname, Astro.url.origin).href);
+
 // Build public page context for plugin contributions
 // SEO data is passed here and rendered securely by EmDashHead
 const pageCtx = createPublicPageContext({
@@ -97,7 +103,7 @@ const pageCtx = createPublicPageContext({
 	title: fullTitle,
 	pageTitle: pageTitle ?? title,
 	description,
-	canonical,
+	canonical: resolvedCanonical,
 	image,
 	content,
 	seo: { ogImage: image, robots },
@@ -120,6 +126,7 @@ const lang = getSiteLocale() ?? "ja";
 		<Font cssVariable="--font-mono" />
 		<title>{fullTitle}</title>
 		<EmDashHead page={pageCtx} />
+		<meta property="og:locale" content="ja_JP" />
 		{
 			!hasFavicon && (
 				<>

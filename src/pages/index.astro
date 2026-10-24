@@ -25,7 +25,7 @@ const fallbackPosts = home
 	: (await getEmDashCollection("posts", { orderBy: { published_at: "desc" }, limit: 12 })).entries;
 ---
 
-<Base title={siteTitle} description={siteTagline}>
+<Base title={siteTagline ? `${siteTitle} | ${siteTagline}` : siteTitle} description={siteTagline}>
 	{
 		home ? (
 			<PageView data={home.data} isHome>

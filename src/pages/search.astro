@@ -38,7 +38,7 @@ const rows = results.map((result) => {
 const countLabel = nextCursor ? `上位 ${rows.length} 件` : `${rows.length} 件`;
 ---
 
-<Base title={query ? `「${query}」の検索結果` : "サイト内検索"} description="サイト内の記事を検索します">
+<Base title={query ? `「${query}」の検索結果` : "サイト内検索"} description="サイト内の記事を検索します" robots="noindex, follow">
 	<div class="container">
 		<Breadcrumbs items={[{ label: "サイト内検索" }]} />
 	</div>

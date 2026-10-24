@@ -5,13 +5,14 @@
  * 固定ページ「home」（スラッグ home）の内容を表示する。ブロックの追加・並べ替えは
  * 管理画面の 固定ページ > ホーム で行う。home がない場合は新着記事を表示する。
  */
-import { getEmDashEntry, getEmDashCollection, getSiteSettings } from "emdash";
+import { getEmDashEntry, getEmDashCollection, getSeoMeta, getSiteSettings } from "emdash";
 import Base from "../layouts/Base.astro";
 import PageView from "../components/core/PageView.astro";
 import Columns from "../components/core/Columns.astro";
 import PostGrid from "../components/blog/PostGrid.astro";
 import WidgetArea from "../components/widgets/WidgetArea.astro";
 import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import { descriptionFromContent } from "../utils/description";
 
 const [{ entry: home, cacheHint }, settings] = await Promise.all([
 	getEmDashEntry("pages", "home"),
@@ -20,12 +21,30 @@ const [{ entry: home, cacheHint }, settings] = await Promise.all([
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 const { siteTitle, siteTagline } = resolveBlogSiteIdentity(settings);
 
+// 固定ページ「ホーム」の SEO 欄があればそれを使う。空ならサイト名とキャッチフレーズ
+const seo = home
+	? getSeoMeta(home, {
+			siteUrl: Astro.url.origin,
+			path: "/",
+			defaultTitle: siteTitle,
+			defaultDescription: siteTagline || descriptionFromContent(home.data.content),
+		})
+	: null;
+const description = seo?.description ?? siteTagline;
+
 const fallbackPosts = home
 	? []
 	: (await getEmDashCollection("posts", { orderBy: { published_at: "desc" }, limit: 12 })).entries;
 ---
 
-<Base title={siteTitle} description={siteTagline}>
+<Base
+	title={seo?.title || siteTitle}
+	description={description}
+	image={seo?.ogImage}
+	canonical={seo?.canonical ?? `${Astro.url.origin}/`}
+	robots={seo?.robots}
+	content={home ? { collection: "pages", id: home.data.id, slug: "home" } : undefined}
+>
 	{
 		home ? (
 			<PageView data={home.data} isHome>

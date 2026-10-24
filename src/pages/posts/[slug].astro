@@ -19,6 +19,7 @@ import Toc from "../../components/blog/Toc.astro";
 import WidgetArea from "../../components/widgets/WidgetArea.astro";
 import { formatDate } from "../../utils/locale";
 import { getReadingTime } from "../../utils/reading-time";
+import { descriptionFromContent } from "../../utils/description";
 import { resolveBlogSiteIdentity } from "../../utils/site-identity";
 import { normalizeLayout } from "../../utils/layout";
 import "../../styles/prose.css";
@@ -58,6 +59,7 @@ const seo = getSeoMeta(post, {
 	path: Astro.url.pathname.replace(/\/$/, ""),
 	defaultOgImage: getImageUrl(post.data.featured_image),
 });
+seo.description ??= descriptionFromContent(post.data.content) ?? null;
 
 const layout = normalizeLayout(post.data.layout);
 const bylines = post.data.bylines ?? [];

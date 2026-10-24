@@ -3,6 +3,7 @@ import { getEmDashEntry, getSeoMeta, decodeSlug, getSiteSettings } from "emdash"
 import Base from "../../layouts/Base.astro";
 import PageView from "../../components/core/PageView.astro";
 import { resolveBlogSiteIdentity } from "../../utils/site-identity";
+import { descriptionFromContent } from "../../utils/description";
 
 const slug = decodeSlug(Astro.params.slug);
 
@@ -28,6 +29,7 @@ const seo = getSeoMeta(page, {
 	siteUrl: Astro.url.origin,
 	path: Astro.url.pathname.replace(/\/$/, ""),
 });
+seo.description ??= descriptionFromContent(page.data.content) ?? null;
 ---
 
 <Base

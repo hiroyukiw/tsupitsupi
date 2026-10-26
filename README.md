@@ -2,7 +2,7 @@
 
 EmDash 用のブログテーマです。AI ツールを使って発信する収益ブロガー向けに作っています。
 
-- 公式サイト: https://tsupitsupi.com （準備中）
+- 公式サイト: https://tsupitsupi.com
 - ライセンス: MIT（無料コア）
 - 動作環境: EmDash 1.x / Astro / Cloudflare Workers（無料プランで動作）
 
@@ -65,7 +65,7 @@ Cloudflare Web Analytics（無料、Cookie なし）に対応しています。C
 テーマを入れたサイトを最新にするときは、テーマのリポジトリを `theme` という名前で登録して取り込みます（Claude Code に「ツピツピを最新に更新して」と頼めば、この手順で進めます）。
 
 ```bash
-git remote add theme https://github.com/hiroyukiw/tsupitsupi.git   # 最初の1回だけ
+git remote add theme https://github.com/hiroyukiw/tsupitsupi.git   # 最初の1回だけ（導入プロンプトで取得した場合は登録済み）
 git fetch theme --tags
 git merge v1.3.0   # 取り込みたいバージョン
 ```

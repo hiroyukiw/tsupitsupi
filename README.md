@@ -12,6 +12,8 @@ EmDash 用のブログテーマです。AI ツールを使って発信する収�
 [docs/ai-setup.md](docs/ai-setup.md) のプロンプトを Claude Code に貼り付けるだけで、
 インストールから Cloudflare への公開まで進められます。
 
+公開したあとの手入れ（配色の変更、記事へのランキングや比較表の追加、アフィリエイトリンクの登録、テーマの更新など）も、[docs/ai-prompts.md](docs/ai-prompts.md) の指示例を AI に貼れば進められます。
+
 ## 手動で始める場合
 
 ```bash
